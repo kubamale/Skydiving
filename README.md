@@ -27,4 +27,4 @@ Admin > Manifest > Tandem_Pilot > Instructor > User
   3. Read all departures
 ## Database
 
-![Alt text](Skydiving-2023-10-21_10-30.png?raw=true "Title")
+![Alt text](Skydiving-2023-10-21_10-39.png?raw=true "Title")
