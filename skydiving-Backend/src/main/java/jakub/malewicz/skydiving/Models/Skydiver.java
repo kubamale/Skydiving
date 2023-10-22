@@ -33,4 +33,11 @@ public class Skydiver extends BasicUser{
 
     @OneToMany(mappedBy = "skydiver")
     private Set<DepartureUser> departures;
+
+    public Skydiver(String firstName, String lastName, String email, String phone, String emergencyPhone, double weight, String password, String licence, Role role) {
+        super(firstName, lastName, email, phone, emergencyPhone, weight);
+        this.password = password;
+        this.licence = licence;
+        this.role = role;
+    }
 }

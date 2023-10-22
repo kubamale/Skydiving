@@ -23,4 +23,8 @@ public class Plane {
     @OneToMany(mappedBy = "plane")
     private Set<Departure> departures;
 
+    public Plane(String name, double maxWeight) {
+        this.name = name;
+        this.maxWeight = maxWeight;
+    }
 }

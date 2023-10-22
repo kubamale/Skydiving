@@ -21,4 +21,8 @@ public class Role {
 
     @OneToMany(mappedBy = "role")
     private Set<Skydiver> skydivers;
+
+    public Role(String name) {
+        this.name = name;
+    }
 }

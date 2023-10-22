@@ -28,4 +28,11 @@ public class Departure {
 
     @OneToMany(mappedBy = "departure")
     private Set<DepartureUser> departureUsers;
+
+    public Departure(Date date, boolean allowStudents, boolean allowAFF, Plane plane) {
+        this.date = date;
+        this.allowStudents = allowStudents;
+        this.allowAFF = allowAFF;
+        this.plane = plane;
+    }
 }

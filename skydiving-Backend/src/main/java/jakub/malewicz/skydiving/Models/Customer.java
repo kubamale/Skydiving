@@ -21,8 +21,14 @@ public class Customer extends BasicUser{
     @OneToMany(mappedBy = "customer")
     private Set<DepartureUser> departures;
 
-    public Customer(boolean signedForm) {
-        super("test", "test", "test", "test" , "test", 5.34);
+    public Customer(String firstName,
+                    String lastName,
+                    String email,
+                    String phone,
+                    String emergencyPhone,
+                    double weight,
+                    boolean signedForm) {
+        super(firstName, lastName, email, phone, emergencyPhone, weight);
         this.signedForm = signedForm;
     }
 }

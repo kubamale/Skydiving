@@ -29,4 +29,10 @@ public class DepartureUser {
     @JoinColumn(name = "departure_id", nullable = false)
     private Departure departure;
 
+    public DepartureUser(JumpType jumpType, Customer customer, Skydiver skydiver, Departure departure) {
+        this.jumpType = jumpType;
+        this.customer = customer;
+        this.skydiver = skydiver;
+        this.departure = departure;
+    }
 }
