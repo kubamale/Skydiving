@@ -40,7 +40,7 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private Departure createDeparture(Date date, boolean allowStudents, boolean allowAFF, Plane plane) {
-        return departureRepository.save(new Departure(date, allowStudents,allowAFF, plane));
+        return departureRepository.save(new Departure("2023-10-23", "14:30", allowStudents,allowAFF, plane));
     }
 
     private Customer createCustomer(

@@ -10,7 +10,7 @@ import java.util.Set;
 
 @NoArgsConstructor
 @Entity
-@Table(name = "Departure")
+@Table(name = "departure")
 @Getter
 @Setter
 public class Departure {
@@ -18,7 +18,8 @@ public class Departure {
     @Id
     @GeneratedValue
     private long id;
-    private Date date;
+    private String date;
+    private String time;
     private boolean allowStudents;
     private boolean allowAFF;
 
@@ -26,11 +27,12 @@ public class Departure {
     @JoinColumn(name = "plane_id", nullable = false)
     private Plane plane;
 
-    @OneToMany(mappedBy = "departure")
+    @OneToMany(mappedBy = "departure", cascade = CascadeType.ALL)
     private Set<DepartureUser> departureUsers;
 
-    public Departure(Date date, boolean allowStudents, boolean allowAFF, Plane plane) {
+    public Departure(String date, String time, boolean allowStudents, boolean allowAFF, Plane plane) {
         this.date = date;
+        this.time = time;
         this.allowStudents = allowStudents;
         this.allowAFF = allowAFF;
         this.plane = plane;
