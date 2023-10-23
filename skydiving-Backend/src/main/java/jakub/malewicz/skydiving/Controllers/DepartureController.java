@@ -2,6 +2,7 @@ package jakub.malewicz.skydiving.Controllers;
 
 import jakub.malewicz.skydiving.DTOs.DepartureCreateDTO;
 import jakub.malewicz.skydiving.DTOs.DepartureDTO;
+import jakub.malewicz.skydiving.DTOs.DepartureDetailsDTO;
 import jakub.malewicz.skydiving.Models.Departure;
 import jakub.malewicz.skydiving.Models.Plane;
 import jakub.malewicz.skydiving.Repositories.PlaneRepository;
@@ -23,7 +24,7 @@ public class DepartureController {
     private final PlaneRepository planeRepository;
 
     @GetMapping
-    public ResponseEntity<List<DepartureDTO>> getDepartures(@RequestParam String date) throws ParseException {
+    public ResponseEntity<List<DepartureDetailsDTO>> getDepartures(@RequestParam String date) throws ParseException {
             return departureService.getDepartures(date);
     }
 
@@ -41,5 +42,10 @@ public class DepartureController {
     public  ResponseEntity<DepartureDTO> updateDeparture(@RequestBody DepartureCreateDTO departure, @RequestParam long id){
         return departureService.updateDeparture(departure, id);
     }
+
+//    @GetMapping("/details")
+//    public ResponseEntity<DepartureDetailsDTO> getDeparturesDetails(@RequestParam long id){
+//        return departureService.getDeparturesDetails
+//    }
 
 }

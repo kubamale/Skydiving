@@ -2,18 +2,23 @@ package jakub.malewicz.skydiving.Services;
 
 import jakub.malewicz.skydiving.DTOs.DepartureCreateDTO;
 import jakub.malewicz.skydiving.DTOs.DepartureDTO;
+import jakub.malewicz.skydiving.DTOs.DepartureDetailsDTO;
 import jakub.malewicz.skydiving.DTOs.PlaneDTO;
 import jakub.malewicz.skydiving.Models.Departure;
+import jakub.malewicz.skydiving.Models.DepartureUser;
 import jakub.malewicz.skydiving.Models.Plane;
+import jakub.malewicz.skydiving.Models.Skydiver;
 import jakub.malewicz.skydiving.Repositories.DepartureRepository;
+import jakub.malewicz.skydiving.Repositories.DepartureUserRepository;
 import jakub.malewicz.skydiving.Repositories.PlaneRepository;
+import jakub.malewicz.skydiving.Repositories.SkydiverRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.spec.DESedeKeySpec;
 import java.text.ParseException;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -21,12 +26,43 @@ public class DepartureService {
 
     private final DepartureRepository departureRepository;
     private final PlaneRepository planeRepository;
+    private final DepartureUserRepository departureUserRepository;
+    private final SkydiverRepository skydiverRepository;
 
-    public ResponseEntity<List<DepartureDTO>> getDepartures(String date) throws ParseException {
+    public ResponseEntity<List<DepartureDetailsDTO>> getDepartures(String date) throws ParseException {
 
+        List<Departure> departures = departureRepository.getDepartures(date);
 
-        return ResponseEntity.ok(departureRepository.getDepartures(date).stream().map(d -> new DepartureDTO(d.getId(),d.getDate(), d.getTime(), d.isAllowStudents(), d.isAllowAFF(),
-                new PlaneDTO(d.getPlane().getName(), d.getPlane().getMaxWeight()))).toList());
+        Map<Departure,List<Skydiver>> departureSkydivers = new HashMap<>();
+
+        for (Departure departure : departures){
+            if (!departureSkydivers.containsKey(departure)){
+                departureSkydivers.put(departure,new ArrayList<>());
+            }
+
+            List<DepartureUser> departureUser = departureUserRepository.getByDepartureId(departure.getId());
+
+            departureSkydivers.put(departure,departureUser.stream().map(DepartureUser::getSkydiver).toList());
+        }
+
+        List<DepartureDetailsDTO> result = new ArrayList<>();
+        departureSkydivers.forEach((departure, skydivers) -> result.add(new DepartureDetailsDTO(
+                departure.getId(),
+                departure.getDate(),
+                departure.getTime(),
+                (int) departureSkydivers.get(departure).size(),
+                (int) departureSkydivers.get(departure).stream().filter(s -> s.getLicence().equals("Student")).count(),
+                (int) departureSkydivers.get(departure).stream().filter(s -> s.getLicence().equals("AFF")).count(),
+                departure.isAllowStudents(),
+                departure.isAllowAFF(),
+                new PlaneDTO(
+                        departure.getPlane().getName(),
+                        departure.getPlane().getMaxWeight()
+                )
+
+        )));
+
+        return ResponseEntity.ok(result);
     }
 
     ///TODO: Create logic to block adding new departure with the same plane earlier the 30 min after previous flight
