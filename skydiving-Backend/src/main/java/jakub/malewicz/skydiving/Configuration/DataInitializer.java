@@ -1,8 +1,10 @@
 package jakub.malewicz.skydiving.Configuration;
 
+import jakub.malewicz.skydiving.DTOs.RegisterDTO;
 import jakub.malewicz.skydiving.Models.*;
 import jakub.malewicz.skydiving.Models.enums.JumpType;
 import jakub.malewicz.skydiving.Repositories.*;
+import jakub.malewicz.skydiving.Services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -19,6 +21,7 @@ public class DataInitializer implements CommandLineRunner {
     private final PlaneRepository planeRepository;
     private final DepartureRepository departureRepository;
     private final DepartureUserRepository departureUserRepository;
+    private final AuthenticationService authenticationService;
 
     @Override
     public void run(String... args) {
@@ -28,7 +31,7 @@ public class DataInitializer implements CommandLineRunner {
         createRole("INSTRUCTOR");
         createRole("TANDEM_PILOT");
         Role userRole = createRole("USER");
-        Skydiver skydiver = createSkydiver("John", "Doe", "johndoe@ex.com", "000000000", "111111111", 76.0, "password", "Student", userRole);
+        Skydiver skydiver = createSkydiver("John", "Doe", "test@ex.com", "000000000", "111111111", 76.0, "password", "Student", userRole);
         Plane SPWAW = createPlane("SP-WAW", 1000);
         Departure departure = createDeparture(new Date(), true, true, SPWAW);
         addUserToDeparture(JumpType.STUDENT, null, skydiver, departure);
@@ -69,7 +72,7 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private Skydiver createSkydiver(String firstName, String lastName, String email, String phone, String emergencyPhone, double weight, String password, String licence, Role role){
-        return skydiverRepository.save(new Skydiver(
+        authenticationService.register(new RegisterDTO(
                 firstName,
                 lastName,
                 email,
@@ -78,8 +81,10 @@ public class DataInitializer implements CommandLineRunner {
                 weight,
                 password,
                 licence,
-                role
+                role.getName()
         ));
+
+        return skydiverRepository.findByEmail(email).get();
     }
 
     private Plane createPlane(String name, double maxWeight){
