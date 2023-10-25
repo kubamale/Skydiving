@@ -17,6 +17,7 @@ public class Plane {
     @Id
     @GeneratedValue
     private long id;
+    @Column(unique = true)
     private String name;
     private double maxWeight;
 

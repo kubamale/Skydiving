@@ -6,6 +6,7 @@ import jakub.malewicz.skydiving.DTOs.PlaneDTO;
 import jakub.malewicz.skydiving.DTOs.SkydiverDTO;
 import jakub.malewicz.skydiving.Models.Departure;
 import jakub.malewicz.skydiving.Models.DepartureUser;
+import jakub.malewicz.skydiving.Models.Plane;
 import jakub.malewicz.skydiving.Models.Skydiver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -45,11 +46,12 @@ public class Mappers {
                 departure.getTime(),
                 departure.isAllowStudents(),
                 departure.isAllowAFF(),
-                new PlaneDTO(
-                        departure.getPlane().getName(),
-                        departure.getPlane().getMaxWeight()
-                )
+                Mappers.mapToDTO(departure.getPlane())
         );
+    }
+
+    public static PlaneDTO mapToDTO(Plane plane){
+        return new PlaneDTO(plane.getName(), plane.getMaxWeight());
     }
 
 }
