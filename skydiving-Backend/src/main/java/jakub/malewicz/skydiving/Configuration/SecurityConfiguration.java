@@ -3,6 +3,7 @@ package jakub.malewicz.skydiving.Configuration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,9 +28,13 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
                         req
-                                .requestMatchers("/departures").hasRole("USER")
+                                .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/departures").hasAnyRole("ADMIN", "MANIFEST")
+                                .requestMatchers(HttpMethod.PUT, "/departures").hasAnyRole("ADMIN", "MANIFEST")
+                                .requestMatchers(HttpMethod.DELETE, "/departures").hasAnyRole("ADMIN", "MANIFEST")
+                                .requestMatchers(HttpMethod.GET, "/departures").authenticated()
+                                .requestMatchers("/departures/deleteUserFromDeparture").authenticated()
 
-                                .anyRequest().permitAll()
                 )
                 .sessionManagement(session ->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

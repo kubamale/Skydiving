@@ -3,20 +3,16 @@ package jakub.malewicz.skydiving.Services;
 import jakub.malewicz.skydiving.DTOs.DepartureCreateDTO;
 import jakub.malewicz.skydiving.DTOs.DepartureDTO;
 import jakub.malewicz.skydiving.DTOs.DepartureDetailsDTO;
-import jakub.malewicz.skydiving.DTOs.PlaneDTO;
 import jakub.malewicz.skydiving.Models.Departure;
 import jakub.malewicz.skydiving.Models.DepartureUser;
 import jakub.malewicz.skydiving.Models.Plane;
-import jakub.malewicz.skydiving.Models.Skydiver;
 import jakub.malewicz.skydiving.Repositories.DepartureRepository;
 import jakub.malewicz.skydiving.Repositories.DepartureUserRepository;
 import jakub.malewicz.skydiving.Repositories.PlaneRepository;
-import jakub.malewicz.skydiving.Repositories.SkydiverRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.spec.DESedeKeySpec;
 import java.text.ParseException;
 import java.util.*;
 
@@ -27,13 +23,12 @@ public class DepartureService {
     private final DepartureRepository departureRepository;
     private final PlaneRepository planeRepository;
     private final DepartureUserRepository departureUserRepository;
-    private final SkydiverRepository skydiverRepository;
 
     public ResponseEntity<List<DepartureDetailsDTO>> getDepartures(String date) throws ParseException {
 
         List<Departure> departures = departureRepository.getDepartures(date);
 
-        Map<Departure,List<Skydiver>> departureSkydivers = new HashMap<>();
+        Map<Departure,List<DepartureUser>> departureSkydivers = new HashMap<>();
 
         for (Departure departure : departures){
             if (!departureSkydivers.containsKey(departure)){
@@ -42,25 +37,11 @@ public class DepartureService {
 
             List<DepartureUser> departureUser = departureUserRepository.getByDepartureId(departure.getId());
 
-            departureSkydivers.put(departure,departureUser.stream().map(DepartureUser::getSkydiver).toList());
+            departureSkydivers.put(departure,departureUser);
         }
 
         List<DepartureDetailsDTO> result = new ArrayList<>();
-        departureSkydivers.forEach((departure, skydivers) -> result.add(new DepartureDetailsDTO(
-                departure.getId(),
-                departure.getDate(),
-                departure.getTime(),
-                (int) departureSkydivers.get(departure).size(),
-                (int) departureSkydivers.get(departure).stream().filter(s -> s.getLicence().equals("Student")).count(),
-                (int) departureSkydivers.get(departure).stream().filter(s -> s.getLicence().equals("AFF")).count(),
-                departure.isAllowStudents(),
-                departure.isAllowAFF(),
-                new PlaneDTO(
-                        departure.getPlane().getName(),
-                        departure.getPlane().getMaxWeight()
-                )
-
-        )));
+        departureSkydivers.forEach((departure, departureUserList) -> result.add(Mappers.mapToDTO(departure, departureUserList)));
 
         return ResponseEntity.ok(result);
     }
@@ -81,17 +62,7 @@ public class DepartureService {
                 plane.get()
         ));
 
-        return ResponseEntity.ok(new DepartureDTO(
-                createdDeparture.getId(),
-                createdDeparture.getDate(),
-                createdDeparture.getTime(),
-                createdDeparture.isAllowStudents(),
-                createdDeparture.isAllowAFF(),
-                new PlaneDTO(
-                        plane.get().getName(),
-                        plane.get().getMaxWeight()
-                )
-        ));
+        return ResponseEntity.ok(Mappers.mapToDTO(createdDeparture));
     }
 
     public ResponseEntity<String> deleteDeparture(long id) {
@@ -143,17 +114,24 @@ public class DepartureService {
 
         Departure updatedDeparture = departureRepository.save(savedDeparture.get());
 
-        return ResponseEntity.ok(new DepartureDTO(
-                updatedDeparture.getId(),
-                updatedDeparture.getDate(),
-                updatedDeparture.getTime(),
-                updatedDeparture.isAllowStudents(),
-                updatedDeparture.isAllowAFF(),
-                new PlaneDTO(
-                        savedDeparture.get().getPlane().getName(),
-                        savedDeparture.get().getPlane().getMaxWeight()
-                )
-        ));
+        return ResponseEntity.ok(Mappers.mapToDTO(updatedDeparture));
+
+    }
+
+    ///TODO: Check if request was not sent less then 1 hour before flight if its sent by USER
+    public ResponseEntity<DepartureDetailsDTO> deleteUserFromDeparture(long userId, long departureId) {
+
+        Optional<DepartureUser> departureUser = departureUserRepository.findByDepartureIdAndSkydiverId(userId, departureId);
+
+        if (departureUser.isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
+
+        departureUserRepository.delete(departureUser.get());
+        List<DepartureUser> departureUserList = departureUserRepository.getByDepartureId(departureId);
+        Optional<Departure> myDeparture = departureRepository.findById(departureId);
+
+        return myDeparture.map(departure -> ResponseEntity.ok(Mappers.mapToDTO(departure, departureUserList))).orElseGet(() -> ResponseEntity.badRequest().build());
 
     }
 }

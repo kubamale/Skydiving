@@ -43,9 +43,9 @@ public class DepartureController {
         return departureService.updateDeparture(departure, id);
     }
 
-//    @GetMapping("/details")
-//    public ResponseEntity<DepartureDetailsDTO> getDeparturesDetails(@RequestParam long id){
-//        return departureService.getDeparturesDetails
-//    }
+    @DeleteMapping("/deleteUserFromDeparture")
+    public ResponseEntity<DepartureDetailsDTO> deleteUserFromDeparture(@RequestParam long userId, @RequestParam long departureId){
+        return departureService.deleteUserFromDeparture(userId, departureId);
+    }
 
 }
