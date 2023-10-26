@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -8,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class RegistrationPageComponent implements OnInit{
   registrationForm!: FormGroup;
+  hide = true;
   constructor(private formBuilder: FormBuilder){}
   ngOnInit(): void {
     this.registrationForm = this.formBuilder.group({
@@ -22,5 +24,11 @@ export class RegistrationPageComponent implements OnInit{
       role: ['', ],
 
     });
+  }
+
+
+  register(){
+    console.log(this.registrationForm);
+
   }
 }

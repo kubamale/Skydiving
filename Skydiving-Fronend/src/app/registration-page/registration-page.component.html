@@ -1,1 +1,58 @@
-<p>registration-page works!</p>
+<div class="main">
+    <form [formGroup]="registrationForm" (ngSubmit)="register()">
+        <mat-form-field class="data">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="firstName">
+          </mat-form-field >
+          <mat-form-field class="data">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastName">
+          </mat-form-field>
+          <mat-form-field class="data">
+            <mat-label>Email</mat-label>
+            <input matInput  formControlName="email">
+          </mat-form-field>
+          <mat-form-field class="data">
+            <mat-label>Phone</mat-label>
+            <input matInput formControlName="phone">
+          </mat-form-field>
+          <mat-form-field id="password">
+            <mat-label>Password</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-form-field class="data">
+            <mat-label>Emergency Phone</mat-label>
+            <input matInput formControlName="emergencyPhone">
+          </mat-form-field>
+          <mat-form-field class="data">
+            <mat-label>Weight</mat-label>
+            <input matInput formControlName="weight" type="number">
+          </mat-form-field>
+          <mat-form-field class="data">
+            <mat-label>Licence</mat-label>
+            <mat-select formControlName="licence">
+              <mat-option value="AFF">AFF</mat-option>
+              <mat-option value="Student">Student</mat-option>
+              <mat-option value="A">A</mat-option>
+              <mat-option value="B">B</mat-option>
+              <mat-option value="C">C</mat-option>
+              <mat-option value="Coach">Coach</mat-option>
+              <mat-option value="D">D</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="data">
+            <mat-label>Role</mat-label>
+            <mat-select formControlName="role">
+              <mat-option value="ADMIN">Admin</mat-option>
+              <mat-option value="MANIFEST">Manifest</mat-option>
+              <mat-option value="INSTRUCTOR">Instructor</mat-option>
+              <mat-option value="TANDEM_PILOT">Tandem pilot</mat-option>
+              <mat-option value="USER">USER</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-raised-button type="submit">register</button>
+    </form>
+</div>
