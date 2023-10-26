@@ -1,0 +1,36 @@
+body{
+    display: flex;
+    align-items: center; /* Wyśrodkowanie w pionie */
+    justify-content: center; /* Wyśrodkowanie w poziomie */
+    height: 100vh;
+}
+.main{
+    max-width: 30%;
+    height: fit-content;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    padding: auto;
+    width: fit-content;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    border: solid 2px rgb(52, 52, 52);
+    border-radius: 10px;
+    background-color: rgb(49, 49, 49);
+    min-width: 250px;
+}
+
+
+
+#login-button, .data{
+    width: 96%;
+    margin-top: 0;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+
+#login-button{
+    background-color: rgb(52, 157, 223);
+}
+

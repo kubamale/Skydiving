@@ -1,5 +1,6 @@
-<div class="main">
-    <form [formGroup]="registrationForm" (ngSubmit)="register()">
+<body>
+  <div class="main">
+    <form class="myForm" [formGroup]="registrationForm" (ngSubmit)="register()">
         <mat-form-field class="data">
             <mat-label>First Name</mat-label>
             <input matInput formControlName="firstName">
@@ -53,6 +54,7 @@
               <mat-option value="USER">USER</mat-option>
             </mat-select>
           </mat-form-field>
-          <button mat-raised-button type="submit">register</button>
+          <button id="register-button" mat-raised-button type="submit">register</button>
     </form>
 </div>
+</body>

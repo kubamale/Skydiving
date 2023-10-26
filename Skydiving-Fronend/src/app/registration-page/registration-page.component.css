@@ -1,17 +1,45 @@
+body{
+    display: flex;
+    align-items: center; /* Wyśrodkowanie w pionie */
+    justify-content: center; /* Wyśrodkowanie w poziomie */
+    height: 100vh;
+}
 .main{
-    width: 30%;
+    max-width: 30%;
+    height: fit-content;
     margin: auto;
     display: flex;
-    border: 2px solid black;
+    flex-wrap: wrap;
     padding: auto;
+    width: fit-content;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    border: solid 2px rgb(52, 52, 52);
+    border-radius: 10px;
+    background-color: rgb(49, 49, 49);
+    min-width: 250px;
+   
 }
 
 
 .data{
-    margin: 5px;
+    width: 46%;
+    margin-top: 0;
 }
 
-#password{
-    width: 100%;
-    margin: 5px;
+#password, #register-button{
+    width: 96%;
+    margin-top: 0;
 }
+
+#password, #register-button, .data{
+    margin-left: 2%;
+    margin-right: 2%;
+
+}
+
+
+#register-button{
+    background-color: rgb(52, 157, 223);
+}
+
