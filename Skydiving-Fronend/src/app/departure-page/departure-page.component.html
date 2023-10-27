@@ -1,1 +1,5 @@
-<p>departure-page works!</p>
+<body>
+    <div class="main-continer">
+        <app-departure *ngFor="let dep of departures" [departure]="dep"></app-departure>
+    </div>
+</body>
