@@ -16,6 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MenuComponent } from './menu/menu.component';
 import { CallendarComponent } from './callendar/callendar.component';
+import { DepartureComponent } from './departure/departure.component';
+import { DeparturePageComponent } from './departure-page/departure-page.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { CallendarComponent } from './callendar/callendar.component';
     RegistrationPageComponent,
     WelcomePageComponent,
     MenuComponent,
-    CallendarComponent
+    CallendarComponent,
+    DepartureComponent,
+    DeparturePageComponent
   ],
   imports: [
     BrowserModule,
