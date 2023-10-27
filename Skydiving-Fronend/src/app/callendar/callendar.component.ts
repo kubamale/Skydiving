@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { CallendarDateModel } from 'src/shared/calendarDate';
+import { DepartureService } from '../departure.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-callendar',
@@ -9,7 +11,6 @@ import { CallendarDateModel } from 'src/shared/calendarDate';
 })
 export class CallendarComponent implements OnInit{
   callendarTile: CallendarDateModel[] = [];
-  daysToDisplay: number[] = [];
   curentDate: Date = new Date();
   weeksToDisplay!: number;
   startIndex!: number;
@@ -27,20 +28,40 @@ export class CallendarComponent implements OnInit{
     ["Sunday", 7]
   ]);
 
-  constructor(private router: Router){}
+  constructor(private router: Router, private departureService: DepartureService, private _snackBar: MatSnackBar){}
   
   ngOnInit(): void {
     this.setCallendar(this.curentDate);
+    this.updateCallendarTile();
+    console.log(this.callendarTile);
+  }
+
+  updateCallendarTile(): void{
+    this.departureService.getDeparturesDates(this.callendarTile[0].date, this.callendarTile[this.callendarTile.length-1].date)
+    .subscribe(data => {
+      var departureDates = data as string[];
+      console.log(departureDates);
+      for (let tile of this.callendarTile){
+        if(departureDates.indexOf(tile.date) !== -1){
+          tile.isDeparture = true;
+          console.log('test tile');
+        }
+        
+      }
+    });
+
   }
 
   prevMonth(): void {
     this.curentDate.setMonth(this.curentDate.getMonth() - 1);
     this.setCallendar(this.curentDate);
+    this.updateCallendarTile();
   }
 
   nextMonth(): void {
     this.curentDate.setMonth(this.curentDate.getMonth() + 1);
     this.setCallendar(this.curentDate);
+    this.updateCallendarTile();
   }
 
   setCallendar(date: Date): void {
@@ -55,7 +76,6 @@ export class CallendarComponent implements OnInit{
     this.setRows(this.weeksToDisplay);
 
     this.setDaysToDisplay(date);
-    console.log(this.daysToDisplay);
     this.curentMonth = date.toLocaleString('default', {'month' : 'long'});
     this.curentYear = date.toLocaleString('default', {'year' : 'numeric'});
   }
@@ -117,7 +137,8 @@ export class CallendarComponent implements OnInit{
         this.callendarTile.push({
           date: (prev - diff).toString() + '-' + (newDate.getMonth()+1).toString() + '-' + newDate.getFullYear().toString(),
           day: (prev - diff).toString(),
-          month: (newDate.getMonth()+1).toString()
+          month: (newDate.getMonth()+1).toString(),
+          isDeparture:false
         })
         
       }
@@ -127,7 +148,8 @@ export class CallendarComponent implements OnInit{
         this.callendarTile.push({
           date: (nowIndex).toString() + '-' +(date.getMonth()+1).toString() + '-' + date.getFullYear().toString(),
           day: (nowIndex).toString(),
-          month: (date.getMonth()+1).toString()
+          month: (date.getMonth()+1).toString(),
+          isDeparture:false
         })
         nowIndex++;
       }
@@ -137,21 +159,26 @@ export class CallendarComponent implements OnInit{
         this.callendarTile.push({
           date: (i-this.startDay - now +2).toString() + '-' + (newDate.getMonth()+1).toString() + '-' + newDate.getFullYear().toString(),
           day: (i-this.startDay - now +2).toString(),
-          month: (newDate.getMonth()+1).toString()
+          month: (newDate.getMonth()+1).toString(),
+          isDeparture:false
         })
       }
     }
     console.log(this.callendarTile);
-    this.daysToDisplay = res;
   }
 
-  test(col: number){
-    let extras: NavigationExtras = {
+  showDepartures(col: number){
+    if(!this.callendarTile[col].isDeparture){
+      this._snackBar.open('No departurea on that day!', 'close');
+      return;
+    }
+
+    var extras: NavigationExtras = {
      queryParams:{
       date: this.callendarTile[col].date
      }
-    }
+    };
 
-    this.router.navigate(['/departures', extras]);
+    this.router.navigate(['/departures'], extras);
   }
 }

@@ -18,6 +18,7 @@ import { MenuComponent } from './menu/menu.component';
 import { CallendarComponent } from './callendar/callendar.component';
 import { DepartureComponent } from './departure/departure.component';
 import { DeparturePageComponent } from './departure-page/departure-page.component';
+import { MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { DeparturePageComponent } from './departure-page/departure-page.componen
     MatIconModule,
     MatButtonModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatSnackBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

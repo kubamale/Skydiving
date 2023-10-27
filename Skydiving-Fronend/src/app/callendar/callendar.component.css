@@ -8,7 +8,7 @@ body{
 table{
     width: 100%;
     height: 100%;
-    background-color: rgb(92, 115, 194);
+    background-color: rgb(255, 255, 255);
     
 }
 
@@ -72,5 +72,9 @@ button:hover{
 
 td:hover{
     cursor: pointer;
-    background-color: rgb(206, 206, 206);
+    background-color: rgb(194, 194, 194);
+}
+
+.with-departure{
+    background-color: green;
 }
