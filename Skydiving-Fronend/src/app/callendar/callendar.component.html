@@ -1,1 +1,32 @@
-<p>callendar works!</p>
+<body>
+    <div class="main-container">
+        <div class="top">
+            <div class="navigations">
+                <a (click)="prevMonth()">&#10094;</a>
+                <div class="month">{{curentYear}} {{curentMonth}}</div>
+                <a (click)="nextMonth()">&#10095;</a>
+            </div>
+            
+        </div>
+        <table cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wdn</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                    <th>Sun</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of weeksRows; let i = index">
+                    <td *ngFor="let col of [0,1,2,3,4,5,6]" (click)="test(col + row*7)">
+                            {{callendarTile[col + row*7].day}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
