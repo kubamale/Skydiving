@@ -48,4 +48,9 @@ public class DepartureController {
         return departureService.deleteUserFromDeparture(userId, departureId);
     }
 
+    @GetMapping("/dates")
+    public ResponseEntity<List<String>> getDeparturesDates(@RequestParam String startDate, @RequestParam String endDate){
+        return departureService.getDeparturesDates(startDate, endDate);
+    }
+
 }

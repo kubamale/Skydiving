@@ -134,4 +134,8 @@ public class DepartureService {
         return myDeparture.map(departure -> ResponseEntity.ok(Mappers.mapToDTO(departure, departureUserList))).orElseGet(() -> ResponseEntity.badRequest().build());
 
     }
+
+    public ResponseEntity<List<String>> getDeparturesDates(String startDate, String endDate) {
+        return ResponseEntity.ok(departureRepository.getDates(startDate, endDate));
+    }
 }
