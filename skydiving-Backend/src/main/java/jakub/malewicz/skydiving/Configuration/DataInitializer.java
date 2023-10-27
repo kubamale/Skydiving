@@ -26,14 +26,14 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) {
         createCustomer("John", "Doe", "johndoe@ex.com", "000000000", "111111111", 76.0, true);
-        createRole("ADMIN");
+        Role adminRole = createRole("ADMIN");
         createRole("MANIFEST");
         createRole("INSTRUCTOR");
         createRole("TANDEM_PILOT");
         Role userRole = createRole("USER");
-        Skydiver skydiver = createSkydiver("John", "Doe", "test@ex.com", "000000000", "111111111", 76.0, "password", "Student", userRole);
+        Skydiver skydiver = createSkydiver("John", "Doe", "test@ex.com", "000000000", "111111111", 76.5, "password", "Student",adminRole );
         Plane SPWAW = createPlane("SP-WAW", 1000);
-        Departure departure = createDeparture(new Date(), true, true, SPWAW);
+        Departure departure = createDeparture( true, true, SPWAW);
         addUserToDeparture(JumpType.STUDENT, null, skydiver, departure);
 
     }
@@ -42,8 +42,8 @@ public class DataInitializer implements CommandLineRunner {
         return departureUserRepository.save(new DepartureUser(jumpType, customer, skydiver, departure));
     }
 
-    private Departure createDeparture(Date date, boolean allowStudents, boolean allowAFF, Plane plane) {
-        return departureRepository.save(new Departure("2023-10-23", "14:30", allowStudents,allowAFF, plane));
+    private Departure createDeparture( boolean allowStudents, boolean allowAFF, Plane plane) {
+        return departureRepository.save(new Departure("23-10-2023", "14:30", allowStudents,allowAFF, plane));
     }
 
     private Customer createCustomer(
