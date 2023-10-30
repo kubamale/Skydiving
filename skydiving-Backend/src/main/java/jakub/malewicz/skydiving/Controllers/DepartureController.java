@@ -1,8 +1,6 @@
 package jakub.malewicz.skydiving.Controllers;
 
-import jakub.malewicz.skydiving.DTOs.DepartureCreateDTO;
-import jakub.malewicz.skydiving.DTOs.DepartureDTO;
-import jakub.malewicz.skydiving.DTOs.DepartureDetailsDTO;
+import jakub.malewicz.skydiving.DTOs.*;
 import jakub.malewicz.skydiving.Models.Departure;
 import jakub.malewicz.skydiving.Models.Plane;
 import jakub.malewicz.skydiving.Repositories.PlaneRepository;
@@ -29,22 +27,22 @@ public class DepartureController {
     }
 
     @PostMapping
-    public ResponseEntity<DepartureDTO> createDeparture(@RequestBody DepartureCreateDTO departure){
+    public ResponseEntity<DepartureDetailsDTO> createDeparture(@RequestBody DepartureCreateDTO departure){
         return departureService.createDeparture(departure);
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteDeparture(@RequestParam long id){
+    public ResponseEntity deleteDeparture(@RequestParam long id){
         return departureService.deleteDeparture(id);
     }
 
     @PutMapping
-    public  ResponseEntity<DepartureDTO> updateDeparture(@RequestBody DepartureCreateDTO departure, @RequestParam long id){
-        return departureService.updateDeparture(departure, id);
+    public  ResponseEntity<DepartureDetailsDTO> updateDeparture(@RequestBody DepartureUpdateDTO departure){
+        return departureService.updateDeparture(departure);
     }
 
-    @DeleteMapping("/deleteUserFromDeparture")
-    public ResponseEntity<DepartureDetailsDTO> deleteUserFromDeparture(@RequestParam long userId, @RequestParam long departureId){
+    @PostMapping("/deleteUserFromDeparture")
+    public ResponseEntity<DepartureDetailsDTO> deleteUserFromDeparture(@RequestBody DeleteUsersDTO userId, @RequestParam long departureId){
         return departureService.deleteUserFromDeparture(userId, departureId);
     }
 

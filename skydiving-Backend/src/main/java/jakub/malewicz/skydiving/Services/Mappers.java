@@ -18,7 +18,7 @@ import java.util.List;
 public class Mappers {
 
     public static SkydiverDTO mapToDTO(Skydiver skydiver){
-        return new SkydiverDTO(skydiver.getFirstName(), skydiver.getLastName(), skydiver.getWeight(), skydiver.getLicence());
+        return new SkydiverDTO(skydiver.getId(), skydiver.getFirstName(), skydiver.getLastName(), skydiver.getWeight(), skydiver.getLicence());
     }
 
     public static DepartureDetailsDTO mapToDTO(Departure departure, List<DepartureUser> departureUserList){
@@ -32,6 +32,7 @@ public class Mappers {
                 departure.isAllowStudents(),
                 departure.isAllowAFF(),
                 new PlaneDTO(
+                        departure.getPlane().getId(),
                         departure.getPlane().getName(),
                         departure.getPlane().getMaxWeight()
                 ),
@@ -52,7 +53,7 @@ public class Mappers {
     }
 
     public static PlaneDTO mapToDTO(Plane plane){
-        return new PlaneDTO(plane.getName(), plane.getMaxWeight());
+        return new PlaneDTO(plane.getId(), plane.getName(), plane.getMaxWeight());
     }
 
 }

@@ -1,8 +1,6 @@
 package jakub.malewicz.skydiving.Services;
 
-import jakub.malewicz.skydiving.DTOs.DepartureCreateDTO;
-import jakub.malewicz.skydiving.DTOs.DepartureDTO;
-import jakub.malewicz.skydiving.DTOs.DepartureDetailsDTO;
+import jakub.malewicz.skydiving.DTOs.*;
 import jakub.malewicz.skydiving.Models.Departure;
 import jakub.malewicz.skydiving.Models.DepartureUser;
 import jakub.malewicz.skydiving.Models.Plane;
@@ -47,7 +45,7 @@ public class DepartureService {
     }
 
     ///TODO: Create logic to block adding new departure with the same plane earlier the 30 min after previous flight
-    public ResponseEntity<DepartureDTO> createDeparture(DepartureCreateDTO departure) {
+    public ResponseEntity<DepartureDetailsDTO> createDeparture(DepartureCreateDTO departure) {
         Optional<Plane> plane = planeRepository.findById(departure.planeId());
 
         if (plane.isEmpty()){
@@ -62,10 +60,11 @@ public class DepartureService {
                 plane.get()
         ));
 
-        return ResponseEntity.ok(Mappers.mapToDTO(createdDeparture));
+
+        return ResponseEntity.ok(Mappers.mapToDTO(createdDeparture, departureUserRepository.getByDepartureId(createdDeparture.getId())));
     }
 
-    public ResponseEntity<String> deleteDeparture(long id) {
+    public ResponseEntity deleteDeparture(long id) {
 
         Optional<Departure> departure = departureRepository.findById(id);
 
@@ -75,12 +74,12 @@ public class DepartureService {
 
         departureRepository.delete(departure.get());
 
-        return ResponseEntity.ok("deleted");
+        return ResponseEntity.ok().build();
 
     }
 
-    public ResponseEntity<DepartureDTO> updateDeparture(DepartureCreateDTO departure, long id) {
-        Optional<Departure> savedDeparture = departureRepository.findById(id);
+    public ResponseEntity<DepartureDetailsDTO> updateDeparture(DepartureUpdateDTO departure) {
+        Optional<Departure> savedDeparture = departureRepository.findById(departure.id());
 
         if (savedDeparture.isEmpty()){
             return ResponseEntity.badRequest().build();
@@ -114,20 +113,23 @@ public class DepartureService {
 
         Departure updatedDeparture = departureRepository.save(savedDeparture.get());
 
-        return ResponseEntity.ok(Mappers.mapToDTO(updatedDeparture));
+        List<DepartureUser> departureUser = departureUserRepository.findByDepartureIdWhereInSkydiverId(departure.id(),  departure.usersId());
+        departureUserRepository.deleteAll(departureUser);
+        departureUser = departureUserRepository.getByDepartureId(departure.id());
+        return ResponseEntity.ok(Mappers.mapToDTO(updatedDeparture, departureUser));
 
     }
 
     ///TODO: Check if request was not sent less then 1 hour before flight if its sent by USER
-    public ResponseEntity<DepartureDetailsDTO> deleteUserFromDeparture(long userId, long departureId) {
+    public ResponseEntity<DepartureDetailsDTO> deleteUserFromDeparture(DeleteUsersDTO userId, long departureId) {
 
-        Optional<DepartureUser> departureUser = departureUserRepository.findByDepartureIdAndSkydiverId(userId, departureId);
+        List<DepartureUser> departureUser = departureUserRepository.findByDepartureIdWhereInSkydiverId(departureId, userId.ids());
 
         if (departureUser.isEmpty()){
             return ResponseEntity.badRequest().build();
         }
 
-        departureUserRepository.delete(departureUser.get());
+        departureUserRepository.deleteAll(departureUser);
         List<DepartureUser> departureUserList = departureUserRepository.getByDepartureId(departureId);
         Optional<Departure> myDeparture = departureRepository.findById(departureId);
 

@@ -21,6 +21,7 @@ public class Plane {
     private String name;
     private double maxWeight;
 
+
     @OneToMany(mappedBy = "plane")
     private Set<Departure> departures;
 

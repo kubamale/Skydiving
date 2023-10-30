@@ -32,7 +32,7 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.POST, "/departures").hasAnyRole("ADMIN", "MANIFEST")
                                 .requestMatchers(HttpMethod.PUT, "/departures").hasAnyRole("ADMIN", "MANIFEST")
                                 .requestMatchers(HttpMethod.DELETE, "/departures").hasAnyRole("ADMIN", "MANIFEST")
-                                .requestMatchers(HttpMethod.GET, "/departures", "/departures/dates").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/departures", "/departures/dates", "/plane/all").authenticated()
                                 .requestMatchers("/departures/deleteUserFromDeparture").authenticated()
 
                 )
