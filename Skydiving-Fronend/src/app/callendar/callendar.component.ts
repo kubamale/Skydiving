@@ -33,18 +33,15 @@ export class CallendarComponent implements OnInit{
   ngOnInit(): void {
     this.setCallendar(this.curentDate);
     this.updateCallendarTile();
-    console.log(this.callendarTile);
   }
 
   updateCallendarTile(): void{
     this.departureService.getDeparturesDates(this.callendarTile[0].date, this.callendarTile[this.callendarTile.length-1].date)
     .subscribe(data => {
       var departureDates = data as string[];
-      console.log(departureDates);
       for (let tile of this.callendarTile){
         if(departureDates.indexOf(tile.date) !== -1){
           tile.isDeparture = true;
-          console.log('test tile');
         }
         
       }
@@ -71,8 +68,6 @@ export class CallendarComponent implements OnInit{
       this.startDay = daysToadd;
       this.weeksToDisplay = ((this.getDaysInMonth(date.getFullYear(), date.getMonth()) + daysToadd -1)/7);
     }
-
-    console.log(this.weeksToDisplay);
     this.setRows(this.weeksToDisplay);
 
     this.setDaysToDisplay(date);
@@ -125,7 +120,6 @@ export class CallendarComponent implements OnInit{
     let prev = this.getDaysInMonth(date.getFullYear(), date.getMonth() -1);
     let now = this.getDaysInMonth(date.getFullYear(), date.getMonth());
     let nowIndex = 1;
-    console.log(prev);
     for (let i = 0; i < Math.ceil(this.weeksToDisplay)*7; i++) {
       let newDate = new Date();
       newDate.setFullYear(date.getFullYear());
@@ -164,7 +158,6 @@ export class CallendarComponent implements OnInit{
         })
       }
     }
-    console.log(this.callendarTile);
   }
 
   showDepartures(col: number){

@@ -1,5 +1,23 @@
-<body>
-    <div class="main-continer">
-        <app-departure *ngFor="let dep of departures" [departure]="dep"></app-departure>
-    </div>
-</body>
+
+<div class="main-continer">
+        <button class="create-button" *ngIf="canCreate" (click)="showForm()">Create new departure</button>
+        <form class="create-form" *ngIf="createDeparture" [formGroup]="createForm">
+                <div class="form-row">
+                    <h1 class="data">{{date}}</h1>
+                    <input class="data" formControlName="time" class="time" matInput type="time" required>
+                </div>
+                <div class="form-row">
+                    <mat-checkbox class="data" formControlName="allowStudents">Allow Students</mat-checkbox>
+                    <mat-checkbox class="data" formControlName="allowAFF">Allow AFF</mat-checkbox>
+                    <mat-form-field class="data">
+                        <mat-label>Plane</mat-label>
+                        <mat-select matNativeControl required formControlName="planeId">
+                          <mat-option *ngFor="let plane of planes" [value]="plane.id">{{plane.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <button (click)="cancel()">Cancel</button>
+                <button (click)="submit()">Save</button>
+            </form>
+        <app-departure *ngFor="let dep of departures" [departure]="dep" (deleteDepartureEmiter)="deleteDeparture($event)"></app-departure>
+ </div>

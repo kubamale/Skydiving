@@ -19,6 +19,25 @@ import { CallendarComponent } from './callendar/callendar.component';
 import { DepartureComponent } from './departure/departure.component';
 import { DeparturePageComponent } from './departure-page/departure-page.component';
 import { MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {NativeDateModule} from '@angular/material/core';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {FormsModule} from '@angular/forms';
+import {MatTableModule} from '@angular/material/table';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'DD-MM-YYYY',
+  },
+  display: {
+    dateInput: 'DD-MM-YYYY',
+    monthYearLabel: 'MM-YYYY',
+    dateA11yLabel: 'DD-MM-YYYY',
+    monthYearA11yLabel: 'MM-YYYY',
+  },
+};
 
 @NgModule({
   declarations: [
@@ -43,8 +62,20 @@ import { MatSnackBarModule} from '@angular/material/snack-bar';
     ReactiveFormsModule,
     HttpClientModule,
     MatSnackBarModule,
+    MatDatepickerModule,
+    NativeDateModule,
+    MatCheckboxModule,
+    FormsModule,
+    MatTableModule
   ],
-  providers: [],
+  providers: [ 
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

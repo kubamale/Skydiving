@@ -1,5 +1,39 @@
-body{
-    height: 100vh;
-    display: flex;
+.main-continer{
+    display:flex;
+    flex-wrap:wrap;
     justify-content: center;
+    align-items: center;
+    max-width: 50%;
+    margin: auto;
+}
+
+.create-button {
+    width: 80%;
+    margin: auto;
+    margin-top: 50px;
+    height: 40px;
+}
+
+.time{
+    background-color: rgb(235, 235, 235);
+    width: 210px;
+    text-align: center;
+    height: 53px;
+    font-size: 30px;
+    border: 0;
+    border-bottom: 1px solid black;
+    border-radius: 8px 8px 0px 0px;
+}
+
+.create-form{
+    margin-top: 10px;
+    background-color: white;
+    width: 80%;
+}
+
+.form-row{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
 }

@@ -14,3 +14,14 @@ export interface DepartureDetailsModel{
     totalWeight: number,
     skydivers: SkydiverModel[]
 }
+
+
+export interface DepartureUpdateModel{
+    id: number,
+    date: string,
+    time: string,
+    allowStudents: boolean,
+    allowAFF: boolean,
+    planeId: number,
+    usersId: number[],
+}
