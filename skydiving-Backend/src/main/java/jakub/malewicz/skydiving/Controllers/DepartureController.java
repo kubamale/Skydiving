@@ -22,8 +22,8 @@ public class DepartureController {
     private final PlaneRepository planeRepository;
 
     @GetMapping
-    public ResponseEntity<List<DepartureDetailsDTO>> getDepartures(@RequestParam String date) throws ParseException {
-            return departureService.getDepartures(date);
+    public ResponseEntity<List<DepartureDetailsDTO>> getDepartures(@RequestParam String date, @RequestParam int page) throws ParseException {
+            return departureService.getDepartures(date, page);
     }
 
     @PostMapping

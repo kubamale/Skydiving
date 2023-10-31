@@ -8,6 +8,7 @@ import jakub.malewicz.skydiving.Repositories.DepartureRepository;
 import jakub.malewicz.skydiving.Repositories.DepartureUserRepository;
 import jakub.malewicz.skydiving.Repositories.PlaneRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +23,9 @@ public class DepartureService {
     private final PlaneRepository planeRepository;
     private final DepartureUserRepository departureUserRepository;
 
-    public ResponseEntity<List<DepartureDetailsDTO>> getDepartures(String date) throws ParseException {
+    public ResponseEntity<List<DepartureDetailsDTO>> getDepartures(String date, int page) throws ParseException {
 
-        List<Departure> departures = departureRepository.getDepartures(date);
+        List<Departure> departures = departureRepository.getDepartures(date, page);
 
         Map<Departure,List<DepartureUser>> departureSkydivers = new HashMap<>();
 
