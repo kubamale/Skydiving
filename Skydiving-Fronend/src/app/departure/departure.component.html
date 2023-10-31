@@ -112,8 +112,8 @@
         <ng-container matColumnDef="Delete">
             <th mat-header-cell *matHeaderCellDef>Delete?</th>
             <td mat-cell *matCellDef="let element">
-                <button *ngIf="!usersToDelete.has(element)" (click)="shouldDelete(element, element.id)">Delete</button>
-                <button *ngIf="usersToDelete.has(element)" (click)="shouldDelete(element, element.id)">Cancel</button>
+                <button *ngIf="!usersToDelete.has(element.id)" (click)="shouldDelete(element, element.id)">Delete</button>
+                <button *ngIf="usersToDelete.has(element.id)" (click)="shouldDelete(element, element.id)">Cancel</button>
             </td>
         </ng-container>
       

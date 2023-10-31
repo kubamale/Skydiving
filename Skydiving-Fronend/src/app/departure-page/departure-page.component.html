@@ -17,7 +17,8 @@
                     </mat-form-field>
                 </div>
                 <button (click)="cancel()">Cancel</button>
-                <button (click)="submit()">Save</button>
+                <button type="submit" (click)="submit()">Save</button>
             </form>
         <app-departure *ngFor="let dep of departures" [departure]="dep" (deleteDepartureEmiter)="deleteDeparture($event)"></app-departure>
+        <button class="create-button" *ngIf="canCreate" (click)="loadDepartures()">Show more departures</button>
  </div>

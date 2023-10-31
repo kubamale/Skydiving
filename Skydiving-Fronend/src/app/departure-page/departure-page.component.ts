@@ -12,6 +12,7 @@ import { PlaneService } from '../plane.service';
   styleUrls: ['./departure-page.component.css']
 })
 export class DeparturePageComponent implements OnInit {
+  page: number = 0;
   createForm!: FormGroup;
   planes: PlaneModel[] = [];
   date!: string;
@@ -31,9 +32,7 @@ export class DeparturePageComponent implements OnInit {
     })
   }
   ngOnInit(): void {
-    this.departureService.getDeparturesDetails(this.date).subscribe(data => {
-      this.departures = data as DepartureDetailsModel[];
-    });
+    this.loadDepartures();
     if(this.rolesAllowedToCreate.indexOf(window.localStorage.getItem('role') as string) !== -1) {
       this.canCreate = true;
     }
@@ -57,10 +56,28 @@ export class DeparturePageComponent implements OnInit {
     console.log('submit');
     if(this.createForm.valid){
       console.log('validating');
-      this.departureService.createDeparture(this.createForm.value).subscribe(dep => this.departures.push(dep as DepartureDetailsModel));
+      this.departureService.createDeparture(this.createForm.value).subscribe(dep => {
+        this.departures.push(dep as DepartureDetailsModel);
+        this.departures.sort((a, b) => {
+          const timeA = Number(a.time.replace(":", ""));
+          const timeB = Number(b.time.replace(":", ""));
+          return timeA - timeB;
+        });
+       });
     }
     this.cancel();
     
+  }
+
+  loadDepartures(){
+    this.departureService.getDeparturesDetails(this.date, this.page).subscribe(data => {
+      this.departures = this.departures.concat(data as DepartureDetailsModel[]).sort((a, b) => {
+        const timeA = Number(a.time.replace(":", ""));
+        const timeB = Number(b.time.replace(":", ""));
+        return timeA - timeB;
+      });
+      this.page++;
+    });
   }
 
 }
