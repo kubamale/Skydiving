@@ -37,6 +37,7 @@ public class DataInitializer implements CommandLineRunner {
         Skydiver skydiver4 =createSkydiver("John", "Doe", "tes@ex.com", "000000000", "111111111", 76.5, "password", "Student",adminRole );
 
         Plane SPWAW = createPlane("SP-WAW", 1000);
+        createPlane("D-FIDI", 800);
         Departure departure = createDeparture( true, true, SPWAW);
         createDeparture( true, true, SPWAW);
         createDeparture( true, true, SPWAW);
