@@ -36,14 +36,15 @@ export class CallendarComponent implements OnInit{
   }
 
   updateCallendarTile(): void{
+    console.log(this.callendarTile);
     this.departureService.getDeparturesDates(this.callendarTile[0].date, this.callendarTile[this.callendarTile.length-1].date)
+   
     .subscribe(data => {
       var departureDates = data as string[];
       for (let tile of this.callendarTile){
         if(departureDates.indexOf(tile.date) !== -1){
           tile.isDeparture = true;
         }
-        
       }
     });
 
@@ -129,9 +130,9 @@ export class CallendarComponent implements OnInit{
         diff--;
         newDate.setMonth(date.getMonth()-1);
         this.callendarTile.push({
-          date: (prev - diff).toString() + '-' + (newDate.getMonth()+1).toString() + '-' + newDate.getFullYear().toString(),
+          date: (prev - diff).toString() + '-' + (newDate.getMonth()).toString() + '-' + newDate.getFullYear().toString(),
           day: (prev - diff).toString(),
-          month: (newDate.getMonth()+1).toString(),
+          month: (newDate.getMonth()).toString(),
           isDeparture:false
         })
         
