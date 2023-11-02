@@ -3,6 +3,7 @@ import { Router, NavigationExtras } from '@angular/router';
 import { CallendarDateModel } from 'src/shared/calendarDate';
 import { DepartureService } from '../departure.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'app-callendar',
@@ -28,9 +29,10 @@ export class CallendarComponent implements OnInit{
     ["Sunday", 7]
   ]);
 
-  constructor(private router: Router, private departureService: DepartureService, private _snackBar: MatSnackBar){}
+  constructor(private router: Router, private departureService: DepartureService, private _snackBar: MatSnackBar, private translocoService: TranslocoService){}
   
   ngOnInit(): void {
+    this.curentDate.setMonth(this.curentDate.getMonth()-1)
     this.setCallendar(this.curentDate);
     this.updateCallendarTile();
   }
@@ -72,7 +74,7 @@ export class CallendarComponent implements OnInit{
     this.setRows(this.weeksToDisplay);
 
     this.setDaysToDisplay(date);
-    this.curentMonth = date.toLocaleString('default', {'month' : 'long'});
+    this.curentMonth = date.toLocaleString(this.translocoService.getActiveLang(), {'month' : 'long'});
     this.curentYear = date.toLocaleString('default', {'year' : 'numeric'});
   }
 
@@ -97,7 +99,7 @@ export class CallendarComponent implements OnInit{
   
     // Get the day of the week for the first day of the month and return it
     const dayOfWeek = weekdays[firstDay.getDay()];
-    
+    console.log("pierwszy dzien "+ dayOfWeek);
     return dayOfWeek;
   }
 
@@ -122,20 +124,15 @@ export class CallendarComponent implements OnInit{
     let now = this.getDaysInMonth(date.getFullYear(), date.getMonth());
     let nowIndex = 1;
     for (let i = 0; i < Math.ceil(this.weeksToDisplay)*7; i++) {
-      let newDate = new Date();
-      newDate.setFullYear(date.getFullYear());
-      newDate.setMonth(date.getMonth());
       if (i < this.startDay -1){
         res.push(prev - diff);
         diff--;
-        newDate.setMonth(date.getMonth()-1);
         this.callendarTile.push({
-          date: (prev - diff).toString() + '-' + (newDate.getMonth()).toString() + '-' + newDate.getFullYear().toString(),
+          date: (prev - diff).toString() + '-' + (date.getMonth()).toString() + '-' + date.getFullYear().toString(),
           day: (prev - diff).toString(),
-          month: (newDate.getMonth()).toString(),
+          month: (date.getMonth()).toString(),
           isDeparture:false
         })
-        
       }
       else if( i < this.startDay + now -1){
         res.push(nowIndex);
@@ -150,11 +147,10 @@ export class CallendarComponent implements OnInit{
       }
       else{
         res.push(i-this.startDay - now +2);
-        newDate.setMonth(date.getMonth() +1);
         this.callendarTile.push({
-          date: (i-this.startDay - now +2).toString() + '-' + (newDate.getMonth()+1).toString() + '-' + newDate.getFullYear().toString(),
+          date: (i-this.startDay - now +2).toString() + '-' + (date.getMonth()+2).toString() + '-' + date.getFullYear().toString(),
           day: (i-this.startDay - now +2).toString(),
-          month: (newDate.getMonth()+1).toString(),
+          month: (date.getMonth()+2).toString(),
           isDeparture:false
         })
       }
@@ -163,7 +159,7 @@ export class CallendarComponent implements OnInit{
 
   showDepartures(col: number){
     if(!this.callendarTile[col].isDeparture){
-      this._snackBar.open('No departurea on that day!', 'close');
+      this._snackBar.open(this.translocoService.translate('noDepMess'), this.translocoService.translate('close'));
       return;
     }
 

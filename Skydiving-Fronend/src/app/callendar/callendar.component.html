@@ -10,14 +10,14 @@
         </div>
         <table cellspacing="0">
             <thead>
-                <tr>
-                    <th>Mon</th>
-                    <th>Tue</th>
-                    <th>Wdn</th>
-                    <th>Thu</th>
-                    <th>Fri</th>
-                    <th>Sat</th>
-                    <th>Sun</th>
+                <tr *transloco="let t; read:'calendar'">
+                    <th>{{t("mon")}}</th>
+                    <th>{{t("tue")}}</th>
+                    <th>{{t("wed")}}</th>
+                    <th>{{t("thu")}}</th>
+                    <th>{{t("fri")}}</th>
+                    <th>{{t("sat")}}</th>
+                    <th>{{t("sun")}}</th>
                 </tr>
             </thead>
             <tbody>
