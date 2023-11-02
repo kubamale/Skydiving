@@ -28,7 +28,7 @@ export class CallendarComponent implements OnInit{
     ["Saturday", 6],
     ["Sunday", 7]
   ]);
-
+  rolesAllowedToCreate = ['ADMIN', 'MANIFEST'];
   constructor(private router: Router, private departureService: DepartureService, private _snackBar: MatSnackBar, private translocoService: TranslocoService){}
   
   ngOnInit(): void {
@@ -158,7 +158,7 @@ export class CallendarComponent implements OnInit{
   }
 
   showDepartures(col: number){
-    if(!this.callendarTile[col].isDeparture){
+    if(!this.callendarTile[col].isDeparture && this.rolesAllowedToCreate.indexOf(window.localStorage.getItem('role') as string) === -1){
       this._snackBar.open(this.translocoService.translate('noDepMess'), this.translocoService.translate('close'));
       return;
     }
