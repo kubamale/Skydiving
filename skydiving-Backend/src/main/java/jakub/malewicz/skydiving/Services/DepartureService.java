@@ -8,7 +8,6 @@ import jakub.malewicz.skydiving.Repositories.DepartureRepository;
 import jakub.malewicz.skydiving.Repositories.DepartureUserRepository;
 import jakub.malewicz.skydiving.Repositories.PlaneRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +16,13 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-public class DepartureService {
+public class DepartureService implements IDepartureService{
 
     private final DepartureRepository departureRepository;
     private final PlaneRepository planeRepository;
     private final DepartureUserRepository departureUserRepository;
 
-    public ResponseEntity<List<DepartureDetailsDTO>> getDepartures(String date, int page) throws ParseException {
+    public ResponseEntity<List<DepartureDetailsDTO>> getDepartures(String date, int page){
 
         List<Departure> departures = departureRepository.getDepartures(date, page);
 
@@ -65,7 +64,7 @@ public class DepartureService {
         return ResponseEntity.ok(Mappers.mapToDTO(createdDeparture, departureUserRepository.getByDepartureId(createdDeparture.getId())));
     }
 
-    public ResponseEntity deleteDeparture(long id) {
+    public ResponseEntity<String> deleteDeparture(long id) {
 
         Optional<Departure> departure = departureRepository.findById(id);
 

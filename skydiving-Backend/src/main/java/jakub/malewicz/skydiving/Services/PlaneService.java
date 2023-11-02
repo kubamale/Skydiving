@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class PlaneService {
+public class PlaneService implements IPlaneService{
 
     private final PlaneRepository planeRepository;
 

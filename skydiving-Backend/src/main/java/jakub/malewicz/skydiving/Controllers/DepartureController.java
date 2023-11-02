@@ -5,6 +5,7 @@ import jakub.malewicz.skydiving.Models.Departure;
 import jakub.malewicz.skydiving.Models.Plane;
 import jakub.malewicz.skydiving.Repositories.PlaneRepository;
 import jakub.malewicz.skydiving.Services.DepartureService;
+import jakub.malewicz.skydiving.Services.IDepartureService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DepartureController {
 
-    private final DepartureService departureService;
+    private final IDepartureService departureService;
     private final PlaneRepository planeRepository;
 
     @GetMapping
@@ -32,7 +33,7 @@ public class DepartureController {
     }
 
     @DeleteMapping
-    public ResponseEntity deleteDeparture(@RequestParam long id){
+    public ResponseEntity<String> deleteDeparture(@RequestParam long id){
         return departureService.deleteDeparture(id);
     }
 

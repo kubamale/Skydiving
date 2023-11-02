@@ -3,6 +3,7 @@ package jakub.malewicz.skydiving.Controllers;
 import jakub.malewicz.skydiving.DTOs.PlaneDTO;
 import jakub.malewicz.skydiving.Models.Plane;
 import jakub.malewicz.skydiving.Repositories.PlaneRepository;
+import jakub.malewicz.skydiving.Services.IPlaneService;
 import jakub.malewicz.skydiving.Services.PlaneService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import java.util.List;
 @RequestMapping("/plane")
 public class PlaneController {
 
-    private final PlaneService planeService;
+    private final IPlaneService planeService;
 
     @GetMapping
     public ResponseEntity<PlaneDTO> getPlane(@RequestParam String name){
