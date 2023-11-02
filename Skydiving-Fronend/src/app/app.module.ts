@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode, Injectable } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -13,7 +13,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MenuComponent } from './menu/menu.component';
 import { CallendarComponent } from './callendar/callendar.component';
 import { DepartureComponent } from './departure/departure.component';
@@ -26,6 +26,25 @@ import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/mater
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {FormsModule} from '@angular/forms';
 import {MatTableModule} from '@angular/material/table';
+import { TranslocoRootModule } from './transloco-root.module';
+import {
+  TRANSLOCO_LOADER,
+  Translation,
+  TranslocoLoader,
+  TRANSLOCO_CONFIG,
+  translocoConfig,
+  TranslocoModule,
+} from '@ngneat/transloco';
+import { TopbarComponent } from './topbar/topbar.component';
+
+@Injectable({ providedIn: 'root' })
+export class TranslocoHttpLoader implements TranslocoLoader {
+  constructor(private http: HttpClient) {}
+
+  getTranslation(lang: string) {
+    return this.http.get<Translation>(`/assets/i18n/${lang}.json`);
+  }
+}
 
 export const MY_FORMATS = {
   parse: {
@@ -48,7 +67,8 @@ export const MY_FORMATS = {
     MenuComponent,
     CallendarComponent,
     DepartureComponent,
-    DeparturePageComponent
+    DeparturePageComponent,
+    TopbarComponent
   ],
   imports: [
     BrowserModule,
@@ -66,9 +86,20 @@ export const MY_FORMATS = {
     NativeDateModule,
     MatCheckboxModule,
     FormsModule,
-    MatTableModule
+    MatTableModule,
+    TranslocoRootModule
   ],
   providers: [ 
+    {
+      provide: TRANSLOCO_CONFIG,
+      useValue: translocoConfig({
+        availableLangs: ['en', 'pl'],
+        defaultLang: 'pl',
+        reRenderOnLangChange: true,
+        prodMode: !isDevMode(),
+      }),
+    },
+    { provide: TRANSLOCO_LOADER, useClass: TranslocoHttpLoader }, 
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,

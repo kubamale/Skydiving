@@ -1,0 +1,47 @@
+{
+    "userData":{
+    "email":"Email",
+    "password": "Hasło",
+    "firstName":"Imie",
+    "lastName":"Nazwisko",
+    "phoneNumber":"Nr. Telefonu",
+    "emergencyContact":"Awaryjny Nr. Telefonu",
+    "weight": "Waga",
+    "license":"Licencja",
+    "role": "Rola"
+    },
+    "menu":{
+        "departures": "Wyloty",
+        "profile": "Profil"
+    },
+    "calendar":{
+        "mon": "Pon",
+        "tue": "Wt",
+        "wed": "Śr",
+        "thu": "Czw",
+        "fri": "Pt",
+        "sat": "Sob",
+        "sun": "Niedz"
+    },
+    "departure":{
+        "skydiversAmount": "Ilość skoczków",
+        "studentsAmount": "Ilość studentów",
+        "affAmount": "Ilość AFF",
+        "allowStudents": "Pozwolenie dla studentów",
+        "allowAFF": "Pozwolenie dla AFF",
+        "maxWeight": "Maksymalna waga",
+        "totalWeight": "Waga całkowita",
+        "plane": "Samolot"
+    },
+    "noDepMess":"Brak wylotów tego dnia!",
+    "close": "zamknij",
+    "login": "Zaloguj się",
+    "register": "Zarejestruj się",
+    "delete": "usuń",
+    "cancel": "cofnij",
+    "save": "zapisz",
+    "creatDeparture": "Utwór Wylot",
+    "showMoredepartures": "Pokaż Więcej Wylotów",
+    "edit": "Edytuj",
+    "jump": "Zarezerwuj Skok"
+}

@@ -1,39 +1,39 @@
 <body>
-  <div class="main">
+  <div class="main" *transloco="let t">
     <form class="myForm" [formGroup]="registrationForm" (ngSubmit)="register()">
         <mat-form-field class="data">
-            <mat-label>First Name</mat-label>
+            <mat-label>{{t("userData.firstName")}}</mat-label>
             <input matInput formControlName="firstName">
           </mat-form-field >
           <mat-form-field class="data">
-            <mat-label>Last Name</mat-label>
+            <mat-label>{{t("userData.lastName")}}</mat-label>
             <input matInput formControlName="lastName">
           </mat-form-field>
           <mat-form-field class="data">
-            <mat-label>Email</mat-label>
+            <mat-label>{{t("userData.email")}}</mat-label>
             <input matInput  formControlName="email">
           </mat-form-field>
           <mat-form-field class="data">
-            <mat-label>Phone</mat-label>
+            <mat-label>{{t("userData.phoneNumber")}}</mat-label>
             <input matInput formControlName="phone">
           </mat-form-field>
           <mat-form-field id="password">
-            <mat-label>Password</mat-label>
+            <mat-label>{{t("userData.password")}}</mat-label>
             <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
           </mat-form-field>
           <mat-form-field class="data">
-            <mat-label>Emergency Phone</mat-label>
+            <mat-label>{{t("userData.emergencyContact")}}</mat-label>
             <input matInput formControlName="emergencyPhone">
           </mat-form-field>
           <mat-form-field class="data">
-            <mat-label>Weight</mat-label>
+            <mat-label>{{t("userData.weight")}}</mat-label>
             <input matInput formControlName="weight" type="number">
           </mat-form-field>
           <mat-form-field class="data">
-            <mat-label>Licence</mat-label>
+            <mat-label>{{t("userData.license")}}</mat-label>
             <mat-select formControlName="licence">
               <mat-option value="AFF">AFF</mat-option>
               <mat-option value="Student">Student</mat-option>
@@ -45,7 +45,7 @@
             </mat-select>
           </mat-form-field>
           <mat-form-field class="data">
-            <mat-label>Role</mat-label>
+            <mat-label>{{t("userData.role")}}</mat-label>
             <mat-select formControlName="role">
               <mat-option value="ADMIN">Admin</mat-option>
               <mat-option value="MANIFEST">Manifest</mat-option>
@@ -54,7 +54,7 @@
               <mat-option value="USER">USER</mat-option>
             </mat-select>
           </mat-form-field>
-          <button id="register-button" mat-raised-button type="submit">register</button>
+          <button id="register-button" mat-raised-button type="submit">{{t("register")}}</button>
     </form>
 </div>
 </body>

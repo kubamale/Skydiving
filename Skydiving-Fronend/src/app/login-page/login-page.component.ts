@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'app-login-page',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 export class LoginPageComponent {
   loginForm!: FormGroup;
   hide = true;
-  constructor(private formBuilder: FormBuilder, private auth: AuthenticationService, private router: Router){}
+  constructor(private formBuilder: FormBuilder, private translocoService: TranslocoService, private auth: AuthenticationService, private router: Router){}
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       email: ['',[Validators.required, Validators.email]],

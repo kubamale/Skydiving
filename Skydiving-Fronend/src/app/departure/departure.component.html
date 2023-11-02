@@ -1,26 +1,28 @@
 
-
  <div class="main-container" (mouseenter)="showButtons()" (mouseleave)="hideButtons()" *ngIf="!editable">
+    <div *transloco="let t; read:'departure'">
         <div class="info">
             <h2>{{departure.date}} {{departure.time}}  {{departure.plane.name}}</h2>
         </div>
         <div class="info">
             <h3>
-                Skydivers amount: {{departure.skydiversAmount}} |  Students amount: {{departure.studentsAmount}} | AFF amount: {{departure.affAmount}}
+                {{t("skydiversAmount")}}: {{departure.skydiversAmount}} |  {{t("studentsAmount")}}: {{departure.studentsAmount}} | {{t("affAmount")}}: {{departure.affAmount}}
             </h3>
         </div>
         <div class="info">
             <h3>
-                Allow students: {{departure.allowStudents}}  |  Allow AFF: {{departure.allowAFF}}
+                {{t("allowStudents")}}: {{departure.allowStudents}}  |  {{t("allowAFF")}}: {{departure.allowAFF}}
             </h3>
         </div>
         <div class="info">
             <h3>
-                Max weight: {{departure.plane.maxWeight}}  |  Current totalWeight: {{departure.totalWeight}}
+                {{t("maxWeight")}}: {{departure.plane.maxWeight}}  |  {{t("totalWeight")}}: {{departure.totalWeight}}
             </h3>
         </div>
+    </div>
+        
         <div class="info">
-            <table mat-table [dataSource]="departure.skydivers" class="mat-elevation-z8 demo-table">
+            <table mat-table [dataSource]="departure.skydivers" class="mat-elevation-z8 demo-table" *transloco="let t; read: 'userData'">
                 <!-- Position Column -->
                 <ng-container matColumnDef="position">
                   <th mat-header-cell *matHeaderCellDef>No.</th>
@@ -29,24 +31,24 @@
               
                 <!-- Name Column -->
                 <ng-container matColumnDef="First Name">
-                  <th mat-header-cell *matHeaderCellDef>First Name</th>
+                  <th mat-header-cell *matHeaderCellDef>{{t("firstName")}}</th>
                   <td mat-cell *matCellDef="let element">{{element.firstName}}</td>
                 </ng-container>
               
                 <!-- Weight Column -->
                 <ng-container matColumnDef="Last Name">
-                  <th mat-header-cell *matHeaderCellDef>Last Name</th>
+                  <th mat-header-cell *matHeaderCellDef>{{t("lastName")}}</th>
                   <td mat-cell *matCellDef="let element">{{element.lastName}}</td>
                 </ng-container>
               
                 <!-- Symbol Column -->
-                <ng-container matColumnDef="Licence">
-                  <th mat-header-cell *matHeaderCellDef>Licence</th>
+                <ng-container matColumnDef="License">
+                  <th mat-header-cell *matHeaderCellDef>{{t("license")}}</th>
                   <td mat-cell *matCellDef="let element">{{element.licence}}</td>
                 </ng-container>
                 <!-- Symbol Column -->
                 <ng-container matColumnDef="Weight">
-                    <th mat-header-cell *matHeaderCellDef>Weight</th>
+                    <th mat-header-cell *matHeaderCellDef>{{t("weight")}}</th>
                     <td mat-cell *matCellDef="let element">{{element.weight}}</td>
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="nonEditColumns"></tr>
@@ -58,21 +60,21 @@
         </div>
        
     <div class="info" *ngIf="showButton">
-        <button>Jump</button>
-        <button (click)="editDeparture()">Edit</button>
+        <button *transloco="let t">{{t("jump")}}</button>
+        <button *transloco="let t" (click)="editDeparture()">{{t("edit")}}</button>
     </div>
 </div>
-<div class="main-container" *ngIf="editable">
+<div class="main-container" *ngIf="editable" >
     <form [formGroup]="editForm">
         <div class="form-row">
             <h1 class="data">{{departure.date}}</h1>
             <input class="data" formControlName="time" class="time" matInput type="time">
         </div>
-        <div class="form-row">
-            <mat-checkbox class="data" formControlName="allowStudents">Allow Students</mat-checkbox>
-            <mat-checkbox class="data" formControlName="allowAFF">Allow AFF</mat-checkbox>
+        <div class="form-row" *transloco="let t; read:'departure'">
+            <mat-checkbox class="data" formControlName="allowStudents">{{t("allowStudents")}}</mat-checkbox>
+            <mat-checkbox class="data" formControlName="allowAFF">{{t("allowAFF")}}</mat-checkbox>
             <mat-form-field class="data">
-                <mat-label>Plane</mat-label>
+                <mat-label>{{t("plane")}}</mat-label>
                 <mat-select matNativeControl required formControlName="planeId">
                   <mat-option *ngFor="let plane of planes" [value]="plane.id">{{plane.name}}</mat-option>
                 </mat-select>
@@ -80,7 +82,7 @@
         </div>
         
     </form>
-    <table mat-table [dataSource]="departure.skydivers" class="mat-elevation-z8 demo-table">
+    <table mat-table [dataSource]="departure.skydivers" class="mat-elevation-z8 demo-table" *transloco="let t">
         <!-- Position Column -->
         <ng-container matColumnDef="position">
           <th mat-header-cell *matHeaderCellDef>No.</th>
@@ -89,31 +91,31 @@
       
         <!-- Name Column -->
         <ng-container matColumnDef="First Name">
-          <th mat-header-cell *matHeaderCellDef>First Name</th>
+          <th mat-header-cell *matHeaderCellDef>{{t("userData.firstName")}}</th>
           <td mat-cell *matCellDef="let element">{{element.firstName}}</td>
         </ng-container>
       
         <!-- Weight Column -->
         <ng-container matColumnDef="Last Name">
-          <th mat-header-cell *matHeaderCellDef>Last Name</th>
+          <th mat-header-cell *matHeaderCellDef>{{t("userData.lastName")}}</th>
           <td mat-cell *matCellDef="let element">{{element.lastName}}</td>
         </ng-container>
       
         <!-- Symbol Column -->
-        <ng-container matColumnDef="Licence">
-          <th mat-header-cell *matHeaderCellDef>Licence</th>
+        <ng-container matColumnDef="License">
+          <th mat-header-cell *matHeaderCellDef>{{t("userData.license")}}</th>
           <td mat-cell *matCellDef="let element">{{element.licence}}</td>
         </ng-container>
         <!-- Symbol Column -->
         <ng-container matColumnDef="Weight">
-            <th mat-header-cell *matHeaderCellDef>Weight</th>
+            <th mat-header-cell *matHeaderCellDef>{{t("userData.weight")}}</th>
             <td mat-cell *matCellDef="let element">{{element.weight}}</td>
         </ng-container>
         <ng-container matColumnDef="Delete">
-            <th mat-header-cell *matHeaderCellDef>Delete?</th>
+            <th mat-header-cell *matHeaderCellDef>{{t("delete")}}?</th>
             <td mat-cell *matCellDef="let element">
-                <button *ngIf="!usersToDelete.has(element.id)" (click)="shouldDelete(element, element.id)">Delete</button>
-                <button *ngIf="usersToDelete.has(element.id)" (click)="shouldDelete(element, element.id)">Cancel</button>
+                <button *ngIf="!usersToDelete.has(element.id)" (click)="shouldDelete(element, element.id)">{{t("delete")}}</button>
+                <button *ngIf="usersToDelete.has(element.id)" (click)="shouldDelete(element, element.id)">{{t("cancel")}}</button>
             </td>
         </ng-container>
       
@@ -124,8 +126,8 @@
             *matRowDef="let row; columns: editColumns;"
         ></tr>
       </table>
-    <button (click)="cancelEditing()">Cancel</button>
-    <button (click)="deleteDeparture()">Delete</button>
-    <button (click)="save()">Save</button>
+    <button  *transloco="let t" (click)="cancelEditing()">{{t("cancel")}}</button>
+    <button  *transloco="let t" (click)="deleteDeparture()">{{t("delete")}}</button>
+    <button  *transloco="let t" (click)="save()">{{t("save")}}</button>
 </div>
 

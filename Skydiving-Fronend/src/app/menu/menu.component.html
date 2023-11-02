@@ -1,11 +1,11 @@
 <body>
-    <div class="main-container">
+    <div class="main-container" *transloco="let t">
         <button class="tile" (click)="navigateTo('/departure-callendar')">
-            <h2>Departures</h2>
+            <h2>{{t("menu.departures")}}</h2>
             <img src="/assets/icons/plane.png" alt="plane">
         </button>
         <button class="tile" (click)="navigateTo('/profile')">
-            <h2>Profile</h2>
+            <h2>{{t("menu.profile")}}</h2>
             <img src="/assets/icons/profile.png" alt="profile">
         </button>
         <button class="tile"></button>

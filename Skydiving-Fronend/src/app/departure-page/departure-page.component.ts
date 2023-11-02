@@ -23,13 +23,7 @@ export class DeparturePageComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private departureService: DepartureService,  private formBuilder: FormBuilder, private planeService: PlaneService){
     this.route.queryParams.subscribe(params => {this.date = params['date'] as string; console.log(params['date'] as string);});
-    this.createForm = formBuilder.group({
-      date: [this.date, [Validators.required]],
-      time: ['', [Validators.required]],
-      allowStudents: ['', ],
-      allowAFF: ['', ],
-      planeId: ['', [Validators.required]]
-    })
+    this.resetForm();
   }
   ngOnInit(): void {
     this.loadDepartures();
@@ -48,12 +42,13 @@ export class DeparturePageComponent implements OnInit {
   }
 
   cancel(){
-    this.createForm.reset();
+    this.resetForm();
     this.createDeparture = false;
   }
 
   submit(){
     console.log('submit');
+    console.log(this.createForm);
     if(this.createForm.valid){
       console.log('validating');
       this.departureService.createDeparture(this.createForm.value).subscribe(dep => {
@@ -78,6 +73,16 @@ export class DeparturePageComponent implements OnInit {
       });
       this.page++;
     });
+  }
+
+  private resetForm(){
+     this.createForm = this.formBuilder.group({
+      date: [this.date, [Validators.required]],
+      time: ['', [Validators.required]],
+      allowStudents: ['', ],
+      allowAFF: ['', ],
+      planeId: ['', [Validators.required]]
+    })
   }
 
 }

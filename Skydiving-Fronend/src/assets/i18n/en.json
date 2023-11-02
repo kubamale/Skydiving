@@ -1,0 +1,47 @@
+{
+    "userData":{
+        "email":"Email",
+        "password": "Password",
+        "firstName":"First Name",
+        "lastName":"Last Name",
+        "phoneNumber":"Phone Number",
+        "emergencyContact":"Emergency Contact",
+        "weight": "Weight",
+        "license":"License",
+        "role": "Role"
+    },
+    "menu":{
+        "departures": "Departures",
+        "profile": "Profile"
+    },
+    "calendar":{
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat",
+        "sun": "Sun"
+    },
+    "departure":{
+        "skydiversAmount": "Skydivers amount",
+        "studentsAmount": "Students amount",
+        "affAmount": "AFF amount",
+        "allowStudents": "Allow students",
+        "allowAFF": "Allow AFF",
+        "maxWeight": "Max weight",
+        "totalWeight": "Total weight",
+        "plane": "Plane"
+    },
+    "noDepMess":"No departures on that day!",
+    "close": "close",
+    "login": "login",
+    "register": "register",
+    "delete": "delete",
+    "cancel": "cancel",
+    "save": "save",
+    "creatDeparture": "Creature Departure",
+    "showMoredepartures": "Show More Departures",
+    "edit": "edit",
+    "jump": "Reserve Jump"
+}
