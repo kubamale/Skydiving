@@ -1,9 +1,12 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
-import { DepartureDetailsModel, DepartureUpdateModel } from 'src/shared/departure';
+import { Component, Input, Output, OnInit, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { DepartureCreateModel, DepartureDetailsModel, DepartureUpdateModel } from 'src/shared/departure';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PlaneModel } from 'src/shared/plane';
 import { PlaneService } from '../plane.service';
 import { DepartureService } from '../departure.service';
+import { ReserveJumpDialogComponent } from '../reserve-jump-dialog/reserve-jump-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { SkydiverModel } from 'src/shared/skydiver';
 
 @Component({
   selector: 'app-departure',
@@ -23,7 +26,7 @@ export class DepartureComponent implements OnInit{
   rolesAllowedToEdit = ['ADMIN', 'MANIFEST'];
   editable: boolean = false;
   editForm!: FormGroup;
-  constructor(private formBuilder: FormBuilder, private planeService: PlaneService, private departureService: DepartureService){
+  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private dialog: MatDialog, private planeService: PlaneService, private departureService: DepartureService){
     
   }
   ngOnInit(): void {
@@ -94,4 +97,27 @@ export class DepartureComponent implements OnInit{
     }
   }
 
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ReserveJumpDialogComponent, {
+      data:{
+        skydiverEmail:window.localStorage.getItem('email') as string,
+        departureId: this.departure.id,
+        jumpType: ''
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      let dep = result as DepartureCreateModel;
+
+      if (dep.jumpType !== '') {
+
+      this.departureService.bookJump(result as DepartureCreateModel).subscribe(res => { 
+      this.departure = res as DepartureDetailsModel;
+      console.log(this.departure.skydivers);
+      this.cdr.detectChanges();
+      });
+    }
+    });
+  }
 }

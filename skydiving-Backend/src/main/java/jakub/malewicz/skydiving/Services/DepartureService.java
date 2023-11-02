@@ -3,12 +3,9 @@ package jakub.malewicz.skydiving.Services;
 import jakub.malewicz.skydiving.DTOs.*;
 import jakub.malewicz.skydiving.Exceptions.BadRequestException;
 import jakub.malewicz.skydiving.Exceptions.ResourceNotFoundException;
-import jakub.malewicz.skydiving.Models.Departure;
-import jakub.malewicz.skydiving.Models.DepartureUser;
-import jakub.malewicz.skydiving.Models.Plane;
-import jakub.malewicz.skydiving.Repositories.DepartureRepository;
-import jakub.malewicz.skydiving.Repositories.DepartureUserRepository;
-import jakub.malewicz.skydiving.Repositories.PlaneRepository;
+import jakub.malewicz.skydiving.Models.*;
+import jakub.malewicz.skydiving.Models.enums.JumpType;
+import jakub.malewicz.skydiving.Repositories.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,6 +18,7 @@ public class DepartureService implements IDepartureService{
     private final DepartureRepository departureRepository;
     private final PlaneRepository planeRepository;
     private final DepartureUserRepository departureUserRepository;
+    private final SkydiverRepository skydiverRepository;
 
     public ResponseEntity<List<DepartureDetailsDTO>> getDepartures(String date, int page){
 
@@ -139,5 +137,28 @@ public class DepartureService implements IDepartureService{
 
     public ResponseEntity<List<String>> getDeparturesDates(String startDate, String endDate) {
         return ResponseEntity.ok(departureRepository.getDates(startDate, endDate));
+    }
+
+    @Override
+    public ResponseEntity<DepartureDetailsDTO> bookDeparture(BookDepartureDTO departureDTO) {
+        DepartureUser departureUser;
+        Optional<Skydiver> oUser = skydiverRepository.findByEmail(departureDTO.skydiverEmail());
+
+        if (oUser.isEmpty()){
+            throw new BadRequestException("No user with email " + departureDTO.skydiverEmail() + "was found");
+        }
+
+        Optional<Departure> oDeparture = departureRepository.findById(departureDTO.departureId());
+
+        if (oDeparture.isEmpty()){
+            throw new BadRequestException("No departure with that id");
+        }
+
+
+       departureUser = new DepartureUser(JumpType.valueOf(departureDTO.jumpType()), oUser.get(), oDeparture.get());
+
+        departureUserRepository.save(departureUser);
+
+        return ResponseEntity.ok(Mappers.mapToDTO(oDeparture.get(), departureUserRepository.getByDepartureId(oDeparture.get().getId())));
     }
 }

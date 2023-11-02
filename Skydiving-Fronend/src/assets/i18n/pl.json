@@ -44,5 +44,9 @@
     "creatDeparture": "Utwórz Wylot",
     "showMoredepartures": "Pokaż Więcej Wylotów",
     "edit": "Edytuj",
-    "jump": "Zarezerwuj Skok"
+    "jump": "Zarezerwuj Skok",
+    "reserveJump": "Reserve Jump",
+    "jumpDecision": "Skok Dla:",
+    "me": "Mnie",
+    "other": "Innej osoby"
 }

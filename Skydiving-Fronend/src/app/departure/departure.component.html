@@ -59,8 +59,11 @@
         </div>
        
     <div class="info" *ngIf="showButton">
-        <button *transloco="let t">{{t("jump")}}</button>
-        <button *transloco="let t" (click)="editDeparture()">{{t("edit")}}</button>
+        <div *transloco="let t">
+            <button  (click)="openDialog()">{{t("jump")}}</button>
+            <button  *ngIf="edit" (click)="editDeparture()">{{t("edit")}}</button>
+        </div>
+        
     </div>
 </div>
 <div class="main-container" *ngIf="editable" >

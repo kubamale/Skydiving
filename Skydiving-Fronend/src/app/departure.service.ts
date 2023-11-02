@@ -2,8 +2,9 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, catchError, throwError } from 'rxjs';
-import { DepartureDetailsModel, DepartureUpdateModel } from 'src/shared/departure';
+import { DepartureCreateModel, DepartureDetailsModel, DepartureUpdateModel } from 'src/shared/departure';
 import { ErrorService } from './error.service';
+import { SkydiverModel } from 'src/shared/skydiver';
 
 @Injectable({
   providedIn: 'root'
@@ -63,6 +64,15 @@ export class DepartureService {
   createDeparture(body: any): Observable<DepartureDetailsModel>{
     let headers = this.getHeaders();
     return this.http.post<DepartureDetailsModel>(this.baseUrl ,body, {headers}).pipe(
+      catchError((error) => {
+       return this.errorHandler.handleError(error);
+      })
+    );
+  }
+
+  bookJump(body: DepartureCreateModel): Observable<DepartureDetailsModel> {
+    let headers = this.getHeaders();
+    return this.http.post<DepartureDetailsModel>(this.baseUrl + '/book', body, {headers}).pipe(
       catchError((error) => {
        return this.errorHandler.handleError(error);
       })

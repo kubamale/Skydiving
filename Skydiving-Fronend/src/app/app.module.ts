@@ -1,6 +1,6 @@
 import { NgModule, isDevMode, Injectable } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import {MatDialogModule} from '@angular/material/dialog';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './login-page/login-page.component';
@@ -36,6 +36,7 @@ import {
   TranslocoModule,
 } from '@ngneat/transloco';
 import { TopbarComponent } from './topbar/topbar.component';
+import { ReserveJumpDialogComponent } from './reserve-jump-dialog/reserve-jump-dialog.component';
 
 @Injectable({ providedIn: 'root' })
 export class TranslocoHttpLoader implements TranslocoLoader {
@@ -68,7 +69,8 @@ export const MY_FORMATS = {
     CallendarComponent,
     DepartureComponent,
     DeparturePageComponent,
-    TopbarComponent
+    TopbarComponent,
+    ReserveJumpDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -87,7 +89,8 @@ export const MY_FORMATS = {
     MatCheckboxModule,
     FormsModule,
     MatTableModule,
-    TranslocoRootModule
+    TranslocoRootModule,
+    MatDialogModule
   ],
   providers: [ 
     {

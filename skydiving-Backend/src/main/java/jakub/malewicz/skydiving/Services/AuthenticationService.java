@@ -32,7 +32,7 @@ public class AuthenticationService implements IAuthenticationService{
                 .orElseThrow(() -> new ResourceNotFoundException("No user with that username!"));
 
         if (passwordEncoder.matches(CharBuffer.wrap(credentialsDTO.password()), user.getPassword())){
-            return ResponseEntity.ok(new CredentialsDTO(user.getRole().getName(), jwtService.generateToken(user)));
+            return ResponseEntity.ok(new CredentialsDTO(user.getRole().getName(), jwtService.generateToken(user), user.getEmail()));
 
         }
         throw new BadRequestException("Wrong password!");
@@ -64,6 +64,6 @@ public class AuthenticationService implements IAuthenticationService{
 
         skydiverRepository.save(skydiver);
 
-        return ResponseEntity.ok(new CredentialsDTO(skydiver.getRole().getName(), jwtService.generateToken(skydiver)));
+        return ResponseEntity.ok(new CredentialsDTO(skydiver.getRole().getName(), jwtService.generateToken(skydiver), skydiver.getEmail()));
     }
 }

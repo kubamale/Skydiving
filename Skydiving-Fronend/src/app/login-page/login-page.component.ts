@@ -28,6 +28,7 @@ export class LoginPageComponent {
         window.localStorage.clear();
         window.localStorage.setItem('role', data.role);
         window.localStorage.setItem('token', data.token);
+        window.localStorage.setItem('email', data.email);
         this.router.navigate(['/menu']);
       })
       

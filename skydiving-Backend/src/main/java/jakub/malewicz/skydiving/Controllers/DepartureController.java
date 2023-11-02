@@ -52,4 +52,9 @@ public class DepartureController {
         return departureService.getDeparturesDates(startDate, endDate);
     }
 
+    @PostMapping("/book")
+    public ResponseEntity<DepartureDetailsDTO> bookDeparture(@RequestBody BookDepartureDTO departureDTO){
+        return departureService.bookDeparture(departureDTO);
+    }
+
 }

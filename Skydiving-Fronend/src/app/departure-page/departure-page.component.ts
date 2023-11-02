@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DepartureService } from '../departure.service';
 import { DepartureDetailsModel } from 'src/shared/departure';
@@ -84,5 +84,6 @@ export class DeparturePageComponent implements OnInit {
       planeId: ['', [Validators.required]]
     })
   }
+
 
 }

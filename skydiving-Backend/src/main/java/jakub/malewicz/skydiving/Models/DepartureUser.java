@@ -35,4 +35,10 @@ public class DepartureUser {
         this.skydiver = skydiver;
         this.departure = departure;
     }
+
+    public DepartureUser(JumpType jumpType, Skydiver skydiver, Departure departure) {
+        this.jumpType = jumpType;
+        this.skydiver = skydiver;
+        this.departure = departure;
+    }
 }

@@ -1,0 +1,20 @@
+<h1 mat-dialog-title *transloco="let t">{{t("reserveJump")}}</h1>
+<div mat-dialog-content>
+      <div *transloco="let t">
+        <mat-form-field>
+            <mat-label>{{t("userData.jumpType")}}</mat-label>
+            <mat-select [(ngModel)]="data.jumpType" required>
+              <mat-option value="SOLO">Solo</mat-option>
+              <mat-option value="STUDENT">Student</mat-option>
+              <mat-option *ngIf="allowAffBook.indexOf(role) !== -1" value="AFF">AFF</mat-option>
+              <mat-option *ngIf="allowTandemBook.indexOf(role) !== -1" value="TANDEM">Tandem</mat-option>
+              <mat-option value="WINGSUIT">Wingsuit</mat-option>
+            </mat-select>
+        </mat-form-field>
+      </div>
+    
+</div>
+<div mat-dialog-actions *transloco="let t">
+  <button mat-button (click)="onNoClick()">{{t("cancel")}}</button>
+  <button *ngIf="data.jumpType !== ''" mat-button [mat-dialog-close]="data" cdkFocusInitial>{{t("save")}}</button>
+</div>

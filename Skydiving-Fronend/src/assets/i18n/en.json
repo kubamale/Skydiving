@@ -44,5 +44,10 @@
     "creatDeparture": "Creature Departure",
     "showMoredepartures": "Show More Departures",
     "edit": "edit",
-    "jump": "Reserve Jump"
+    "jump": "Reserve Jump",
+    "reserveJump": "Reserve Jump",
+    "jumpDecision": "Jump For:",
+    "me": "Me",
+    "other": "Other Person"
+
 }

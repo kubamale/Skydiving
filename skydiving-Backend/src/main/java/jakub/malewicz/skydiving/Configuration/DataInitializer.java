@@ -27,14 +27,15 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) {
         createCustomer("John", "Doe", "johndoe@ex.com", "000000000", "111111111", 76.0, true);
         Role adminRole = createRole("ADMIN");
-        createRole("MANIFEST");
-        createRole("INSTRUCTOR");
-        createRole("TANDEM_PILOT");
+        Role manifest =createRole("MANIFEST");
+        Role instructor = createRole("INSTRUCTOR");
+        Role tandem = createRole("TANDEM_PILOT");
         Role userRole = createRole("USER");
-        Skydiver skydiver = createSkydiver("John", "Doe", "test@ex.com", "000000000", "111111111", 76.5, "password", "Student",adminRole );
-        Skydiver skydiver2 = createSkydiver("John", "Doe", "est@ex.com", "000000000", "111111111", 76.5, "password", "Student",adminRole );
-        Skydiver skydiver3 =createSkydiver("John", "Doe", "tet@ex.com", "000000000", "111111111", 76.5, "password", "Student",adminRole );
-        Skydiver skydiver4 =createSkydiver("John", "Doe", "tes@ex.com", "000000000", "111111111", 76.5, "password", "Student",adminRole );
+        Skydiver skydiver = createSkydiver("John", "Doe", "admin@ex.com", "000000000", "111111111", 76.5, "password", "Student",adminRole );
+        Skydiver skydiver2 = createSkydiver("John", "Doe", "manifest@ex.com", "000000000", "111111111", 76.5, "password", "Student",manifest );
+        Skydiver skydiver3 =createSkydiver("John", "Doe", "instructor@ex.com", "000000000", "111111111", 76.5, "password", "Student",instructor );
+        Skydiver skydiver4 =createSkydiver("John", "Doe", "tandem@ex.com", "000000000", "111111111", 76.5, "password", "Student",tandem );
+        Skydiver skydiver5 =createSkydiver("John", "Doe", "user@ex.com", "000000000", "111111111", 76.5, "password", "Student",userRole );
 
         Plane SPWAW = createPlane("SP-WAW", 1000);
         createPlane("D-FIDI", 800);
