@@ -36,7 +36,7 @@ th, td{
     justify-content: center;
     width: 99%;
     margin-top: 10px;
-    background-color: rgb(52, 26, 221);
+    background-color: rgb(92, 92, 92);
     border-radius: 4px 4px 0% 0%;
     padding: 8px;
 }
@@ -45,7 +45,8 @@ th, td{
   width: 70%;
   display: flex;
   align-items: center;
-  justify-content: space-between
+  justify-content: space-between;
+  color: white;
 
 }
 
