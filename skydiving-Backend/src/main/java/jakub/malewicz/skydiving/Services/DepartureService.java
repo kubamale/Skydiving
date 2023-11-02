@@ -1,6 +1,8 @@
 package jakub.malewicz.skydiving.Services;
 
 import jakub.malewicz.skydiving.DTOs.*;
+import jakub.malewicz.skydiving.Exceptions.BadRequestException;
+import jakub.malewicz.skydiving.Exceptions.ResourceNotFoundException;
 import jakub.malewicz.skydiving.Models.Departure;
 import jakub.malewicz.skydiving.Models.DepartureUser;
 import jakub.malewicz.skydiving.Models.Plane;
@@ -10,8 +12,6 @@ import jakub.malewicz.skydiving.Repositories.PlaneRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.text.ParseException;
 import java.util.*;
 
 @Service
@@ -49,7 +49,7 @@ public class DepartureService implements IDepartureService{
         Optional<Plane> plane = planeRepository.findById(departure.planeId());
 
         if (plane.isEmpty()){
-            return ResponseEntity.notFound().build();
+            throw new BadRequestException("No plane with id " + departure.planeId());
         }
 
         Departure createdDeparture = departureRepository.save(new Departure(
@@ -69,7 +69,7 @@ public class DepartureService implements IDepartureService{
         Optional<Departure> departure = departureRepository.findById(id);
 
         if (departure.isEmpty()){
-            return ResponseEntity.badRequest().build();
+            throw new ResourceNotFoundException("No departure with id: " + id);
         }
 
         departureRepository.delete(departure.get());
@@ -105,7 +105,7 @@ public class DepartureService implements IDepartureService{
         if (departure.planeId() != savedDeparture.get().getPlane().getId()){
             Optional<Plane> plane = planeRepository.findById(departure.planeId());
             if (plane.isEmpty()){
-                return ResponseEntity.badRequest().build();
+                throw new BadRequestException("No plane with id: " + departure.planeId());
             }
 
             savedDeparture.get().setPlane(plane.get());
@@ -126,14 +126,14 @@ public class DepartureService implements IDepartureService{
         List<DepartureUser> departureUser = departureUserRepository.findByDepartureIdWhereInSkydiverId(departureId, userId.ids());
 
         if (departureUser.isEmpty()){
-            return ResponseEntity.badRequest().build();
+            throw new BadRequestException("This departure with that user does not exist!");
         }
 
         departureUserRepository.deleteAll(departureUser);
         List<DepartureUser> departureUserList = departureUserRepository.getByDepartureId(departureId);
         Optional<Departure> myDeparture = departureRepository.findById(departureId);
 
-        return myDeparture.map(departure -> ResponseEntity.ok(Mappers.mapToDTO(departure, departureUserList))).orElseGet(() -> ResponseEntity.badRequest().build());
+        return myDeparture.map(departure -> ResponseEntity.ok(Mappers.mapToDTO(departure, departureUserList))).orElseThrow(() -> new BadRequestException("No departure"));
 
     }
 

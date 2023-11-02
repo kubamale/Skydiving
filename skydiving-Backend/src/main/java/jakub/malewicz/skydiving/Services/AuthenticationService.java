@@ -4,16 +4,16 @@ import jakub.malewicz.skydiving.Configuration.JwtService;
 import jakub.malewicz.skydiving.DTOs.LoginDTO;
 import jakub.malewicz.skydiving.DTOs.CredentialsDTO;
 import jakub.malewicz.skydiving.DTOs.RegisterDTO;
+import jakub.malewicz.skydiving.Exceptions.BadRequestException;
+import jakub.malewicz.skydiving.Exceptions.ResourceNotFoundException;
 import jakub.malewicz.skydiving.Models.Role;
 import jakub.malewicz.skydiving.Models.Skydiver;
 import jakub.malewicz.skydiving.Repositories.RoleRepository;
 import jakub.malewicz.skydiving.Repositories.SkydiverRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.nio.CharBuffer;
 import java.util.Optional;
@@ -29,25 +29,25 @@ public class AuthenticationService implements IAuthenticationService{
 
     public ResponseEntity<CredentialsDTO> login(LoginDTO credentialsDTO) throws RuntimeException {
         Skydiver user = skydiverRepository.findByEmail(credentialsDTO.email())
-                .orElseThrow(() -> new HttpClientErrorException(HttpStatus.BAD_REQUEST, "no user with that email"));
+                .orElseThrow(() -> new ResourceNotFoundException("No user with that username!"));
 
         if (passwordEncoder.matches(CharBuffer.wrap(credentialsDTO.password()), user.getPassword())){
             return ResponseEntity.ok(new CredentialsDTO(user.getRole().getName(), jwtService.generateToken(user)));
 
         }
-        throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "wrong password");
+        throw new BadRequestException("Wrong password!");
     }
 
     public ResponseEntity<CredentialsDTO> register(RegisterDTO registerDTO){
         Optional<Skydiver> oSkydiver = skydiverRepository.findByEmail(registerDTO.email());
         if(oSkydiver.isPresent()){
-            throw  new HttpClientErrorException(HttpStatus.BAD_REQUEST, "user with that email already exists");
+            throw  new BadRequestException("User with that email already exists");
         }
 
         Optional<Role> role = roleRepository.findByName(registerDTO.role());
 
         if (role.isEmpty()){
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "no role was found");
+            throw new BadRequestException("No role was found");
         }
 
         Skydiver skydiver = new Skydiver(
