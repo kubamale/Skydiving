@@ -1,8 +1,6 @@
 package jakub.malewicz.skydiving.Models;
 
 import jakarta.persistence.*;
-import jakub.malewicz.skydiving.DTOs.SkydiverDTO;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

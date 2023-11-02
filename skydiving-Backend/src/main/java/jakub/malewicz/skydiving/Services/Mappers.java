@@ -17,8 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class Mappers {
 
-    public static SkydiverDTO mapToDTO(Skydiver skydiver){
-        return new SkydiverDTO(skydiver.getId(), skydiver.getFirstName(), skydiver.getLastName(), skydiver.getWeight(), skydiver.getLicence());
+    public static SkydiverDTO mapToDTO(Skydiver skydiver, String jumpType){
+        return new SkydiverDTO(skydiver.getId(), skydiver.getFirstName(), skydiver.getLastName(), skydiver.getWeight(), skydiver.getLicence(), jumpType);
     }
 
     public static DepartureDetailsDTO mapToDTO(Departure departure, List<DepartureUser> departureUserList){
@@ -37,7 +37,7 @@ public class Mappers {
                         departure.getPlane().getMaxWeight()
                 ),
                 departureUserList.stream().map(DepartureUser::getSkydiver).mapToDouble(Skydiver::getWeight).sum(),
-                departureUserList.stream().map(DepartureUser::getSkydiver).map(Mappers::mapToDTO).toList()
+                departureUserList.stream().map(dep -> mapToDTO(dep.getSkydiver(), dep.getJumpType().name())).toList()
         );
     }
 

@@ -11,8 +11,8 @@ import { DepartureService } from '../departure.service';
   styleUrls: ['./departure.component.css']
 })
 export class DepartureComponent implements OnInit{
-  editColumns: string[] = ['position', 'First Name', 'Last Name', 'License', 'Weight', 'Delete'];
-  nonEditColumns: string[] =['position', 'First Name', 'Last Name', 'License', 'Weight'];
+  editColumns: string[] = ['First Name', 'Last Name', 'License', 'Weight', 'Jump Type', 'Delete'];
+  nonEditColumns: string[] =['First Name', 'Last Name', 'License', 'Weight', 'Jump Type'];
   usersToDelete = new Set<number>();
   @Output() deleteDepartureEmiter = new EventEmitter<DepartureDetailsModel>();
   @Input()
