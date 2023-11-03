@@ -168,6 +168,10 @@ public class DepartureService implements IDepartureService{
                 if (aff.isEmpty()){
                     throw new BadRequestException("No skydiver with that email");
                 }
+                existingDepUser = departureUserRepository.findByDepartureIdWhereInSkydiverId(departureDTO.departureId(), Arrays.asList(aff.get().getId()));
+                if (!existingDepUser.isEmpty()){
+                    throw new BadRequestException("User is already assigned for that departure");
+                }
 
                 departureUserRepository.save(new DepartureUser(JumpType.AFF, oUser.get(), oDeparture.get()));
                 departureUserRepository.save(new DepartureUser(JumpType.AFF, aff.get(), oDeparture.get()));

@@ -19,6 +19,6 @@
             <button (click)="cancel()">{{t("cancel")}}</button>
             <button type="submit" (click)="submit()" [disabled]="!createForm.valid">{{t("save")}}</button>
         </form>
-    <app-departure *ngFor="let dep of departures" [departure]="dep" (deleteDepartureEmiter)="deleteDeparture($event)"></app-departure>
+    <app-departure class="test" *ngFor="let dep of departures" [departure]="dep" (deleteDepartureEmiter)="deleteDeparture($event)"></app-departure>
     <button class="create-button" *ngIf="canCreate" (click)="loadDepartures()">{{t("showMoredepartures")}}</button>
 </div>
