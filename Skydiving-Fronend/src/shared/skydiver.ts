@@ -6,3 +6,9 @@ export interface SkydiverModel{
     licence: string,
     jumpType: string
 }
+
+export interface SkydiverInfoModel{
+    email: string,
+    firstName: string,
+    lastName: string
+}

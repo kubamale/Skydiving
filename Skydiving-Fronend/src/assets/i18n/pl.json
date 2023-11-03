@@ -48,5 +48,8 @@
     "reserveJump": "Reserve Jump",
     "jumpDecision": "Skok Dla:",
     "me": "Mnie",
-    "other": "Innej osoby"
+    "other": "Innej osoby",
+    "selectInstructor":"Wybierz Instruktora",
+    "selectSkydiver": "Wybierz Skoczka",
+    "selectCustomer": "Wybierz Klienta"
 }

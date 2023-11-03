@@ -19,6 +19,7 @@ public class DepartureService implements IDepartureService{
     private final PlaneRepository planeRepository;
     private final DepartureUserRepository departureUserRepository;
     private final SkydiverRepository skydiverRepository;
+    private final CustomerRepository customerRepository;
 
     public ResponseEntity<List<DepartureDetailsDTO>> getDepartures(String date, int page){
 
@@ -80,7 +81,7 @@ public class DepartureService implements IDepartureService{
         Optional<Departure> savedDeparture = departureRepository.findById(departure.id());
 
         if (savedDeparture.isEmpty()){
-            return ResponseEntity.badRequest().build();
+            throw new BadRequestException("No departure with that id");
         }
 
         if (departure.date() != null){
@@ -141,7 +142,6 @@ public class DepartureService implements IDepartureService{
 
     @Override
     public ResponseEntity<DepartureDetailsDTO> bookDeparture(BookDepartureDTO departureDTO) {
-        DepartureUser departureUser;
         Optional<Skydiver> oUser = skydiverRepository.findByEmail(departureDTO.skydiverEmail());
 
         if (oUser.isEmpty()){
@@ -154,10 +154,45 @@ public class DepartureService implements IDepartureService{
             throw new BadRequestException("No departure with that id");
         }
 
+        List<DepartureUser> existingDepUser = departureUserRepository.findByDepartureIdWhereInSkydiverId(departureDTO.departureId(), Arrays.asList(oUser.get().getId()));
 
-       departureUser = new DepartureUser(JumpType.valueOf(departureDTO.jumpType()), oUser.get(), oDeparture.get());
+        if (!existingDepUser.isEmpty()){
+            throw new BadRequestException("User is already assigned for that departure");
+        }
 
-        departureUserRepository.save(departureUser);
+
+        switch (JumpType.valueOf(departureDTO.jumpType())){
+            case AFF -> {
+                departureDTO.secondJumperEmail().orElseThrow(() ->new BadRequestException("To book aff jump you need to specify aff student"));
+                Optional<Skydiver> aff = skydiverRepository.findByEmail(departureDTO.secondJumperEmail().get());
+                if (aff.isEmpty()){
+                    throw new BadRequestException("No skydiver with that email");
+                }
+
+                departureUserRepository.save(new DepartureUser(JumpType.AFF, oUser.get(), oDeparture.get()));
+                departureUserRepository.save(new DepartureUser(JumpType.AFF, aff.get(), oDeparture.get()));
+
+            }
+            case TANDEM -> {
+                departureDTO.secondJumperEmail().orElseThrow(() ->new BadRequestException("To book tandem jump you need to specify customer"));
+                Optional<Customer> customer = customerRepository.findByEmail(departureDTO.secondJumperEmail().get());
+
+                if (customer.isEmpty()){
+                    throw new BadRequestException("No customer with that email");
+                }
+
+
+                departureUserRepository.save(new DepartureUser(JumpType.TANDEM, customer.get(), oUser.get(), oDeparture.get()));
+
+            }
+            default ->
+                departureUserRepository.save(new DepartureUser(JumpType.valueOf(departureDTO.jumpType()), oUser.get(), oDeparture.get()));
+
+
+        }
+
+
+
 
         return ResponseEntity.ok(Mappers.mapToDTO(oDeparture.get(), departureUserRepository.getByDepartureId(oDeparture.get().getId())));
     }

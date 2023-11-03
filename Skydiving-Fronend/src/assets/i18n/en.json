@@ -48,6 +48,9 @@
     "reserveJump": "Reserve Jump",
     "jumpDecision": "Jump For:",
     "me": "Me",
-    "other": "Other Person"
+    "other": "Other Person",
+    "selectInstructor": "Select Instructor",
+    "selectSkydiver": "Select Skydiver",
+    "selectCustomer": "Select Customer"
 
 }

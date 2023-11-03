@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
 
@@ -8,7 +9,7 @@ import { throwError } from 'rxjs';
 })
 export class ErrorService {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private snackBar: MatSnackBar) { }
 
   public handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
@@ -17,9 +18,11 @@ export class ErrorService {
     } else if (error.status === 401){
       this.router.navigate(['']);
     }
-    // Return an observable with a user-facing error message.
-   // return throwError(() => new Error('Something bad happened; please try again later.'));
+    else if (error.status === 400){
+      console.log(error);
+      this.snackBar.open(error.error.message, "close");
+    }
 
-   return throwError('Tou are not authorized to perform this action')
+   return throwError('Tou are not authorized to perform this action');
   }
 }

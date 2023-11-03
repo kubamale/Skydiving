@@ -3,7 +3,7 @@
       <div *transloco="let t">
         <mat-form-field>
             <mat-label>{{t("userData.jumpType")}}</mat-label>
-            <mat-select [(ngModel)]="data.jumpType" required>
+            <mat-select [(ngModel)]="data.jumpType" required (selectionChange)="jumpTypeSelected()">
               <mat-option value="SOLO">Solo</mat-option>
               <mat-option value="STUDENT">Student</mat-option>
               <mat-option *ngIf="allowAffBook.indexOf(role) !== -1" value="AFF">AFF</mat-option>
@@ -11,6 +11,44 @@
               <mat-option value="WINGSUIT">Wingsuit</mat-option>
             </mat-select>
         </mat-form-field>
+      </div>
+      <div *ngIf="role !== 'USER' && data.jumpType !== ''">
+        <div *ngIf="data.jumpType === 'AFF' || data.jumpType === 'TANDEM'">
+          <mat-form-field *transloco="let t">
+            <mat-label>{{t("selectInstructor")}}</mat-label>
+            <mat-select [(ngModel)]="data.skydiverEmail" required>
+              <mat-option *ngFor="let ins of instructors" [value]="ins.email">{{ins.firstName}} {{ins.lastName}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div *ngIf="data.jumpType === 'AFF'">
+            <mat-form-field>
+              <mat-label  *transloco="let t">{{t("selectSkydiver")}}</mat-label>
+              <mat-select [(ngModel)]="data.secondJumperEmail" required>
+                <mat-option *ngFor="let aff of affSkydivers" [value]="aff.email">{{aff.firstName}} {{aff.lastName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          
+          <div *ngIf="data.jumpType === 'TANDEM'">
+            <mat-form-field *transloco="let t">
+              <mat-label>{{t("selectCustomer")}}</mat-label>
+              <mat-select [(ngModel)]="data.secondJumperEmail" required>
+                <mat-option *ngFor="let cus of customers" [value]="cus.email">{{cus.firstName}} {{cus.lastName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+        </div>
+        <div *ngIf="data.jumpType !== 'AFF' && data.jumpType !== 'TANDEM'">
+          <mat-form-field *transloco="let t">
+            <mat-label>{{t("selectSkydiver")}}</mat-label>
+            <mat-select [(ngModel)]="data.skydiverEmail" required>
+              <mat-option *ngFor="let sky of skydivers" [value]="sky.email">{{sky.firstName}} {{sky.lastName}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        </div>
+        
       </div>
     
 </div>

@@ -34,7 +34,7 @@ export class RegistrationPageComponent implements OnInit{
     if(this.registrationForm.valid){
       this.auth.register(this.registrationForm.value).subscribe(data => {
         window.localStorage.setItem('role', data.role);
-        window.localStorage.setItem('token', data.toke);
+        window.localStorage.setItem('token', data.token);
         window.localStorage.setItem('email', data.email);
         this.router.navigate(['/menu']);
       })

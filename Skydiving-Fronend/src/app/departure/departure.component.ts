@@ -108,14 +108,12 @@ export class DepartureComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      let dep = result as DepartureCreateModel;
 
-      if (dep.jumpType !== '') {
-
+      if (result !== undefined) {
+        console.log(result);
       this.departureService.bookJump(result as DepartureCreateModel).subscribe(res => { 
       this.departure = res as DepartureDetailsModel;
       console.log(this.departure.skydivers);
-      this.cdr.detectChanges();
       });
     }
     });

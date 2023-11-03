@@ -6,5 +6,5 @@ public record BookDepartureDTO(
         String skydiverEmail,
         long departureId,
         String jumpType,
-        Optional<Long> secondJumperId
+        Optional<String> secondJumperEmail
 ){}

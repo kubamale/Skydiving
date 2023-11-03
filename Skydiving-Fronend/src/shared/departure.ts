@@ -30,6 +30,5 @@ export interface DepartureCreateModel{
     skydiverEmail: string,
     departureId: number,
     jumpType: string,
-    customerId?: number,
     secondJumperEmail?: string,
 }
