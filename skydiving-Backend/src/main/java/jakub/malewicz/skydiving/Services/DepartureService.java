@@ -8,8 +8,6 @@ import jakub.malewicz.skydiving.Models.enums.JumpType;
 import jakub.malewicz.skydiving.Repositories.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -24,7 +22,6 @@ public class DepartureService implements IDepartureService{
     private final DepartureUserRepository departureUserRepository;
     private final SkydiverRepository skydiverRepository;
     private final CustomerRepository customerRepository;
-    private final AuthenticationProvider authenticationProvider;
 
     public ResponseEntity<List<DepartureDetailsDTO>> getDepartures(String date, int page){
 
@@ -252,12 +249,12 @@ public class DepartureService implements IDepartureService{
     }
 
     private void deleteAllStudentsFromDeparture(long departureId){
-        List<DepartureUser> students = departureUserRepository.findByDepartureIdAndSkydiverLicence( departureId, "Student");
+        List<DepartureUser> students = departureUserRepository.findByDepartureIdAndJumpType( departureId, JumpType.STUDENT);
         departureUserRepository.deleteAll(students);
     }
 
     private void deleteAllAffSkydiversFromDeparture(long departureId){
-        List<DepartureUser> AFF = departureUserRepository.findByDepartureIdAndSkydiverLicence( departureId, "AFF");
+        List<DepartureUser> AFF = departureUserRepository.findByDepartureIdAndJumpType( departureId, JumpType.AFF);
         departureUserRepository.deleteAll(AFF);
     }
 
