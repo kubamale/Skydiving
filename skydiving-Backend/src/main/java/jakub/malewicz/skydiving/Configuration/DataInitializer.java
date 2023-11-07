@@ -31,15 +31,19 @@ public class DataInitializer implements CommandLineRunner {
         Role instructor = createRole("INSTRUCTOR");
         Role tandem = createRole("TANDEM_PILOT");
         Role userRole = createRole("USER");
-        Skydiver skydiver = createSkydiver("John", "Doe", "admin@ex.com", "000000000", "111111111", 76.5, "password", "Student",adminRole );
-        Skydiver skydiver2 = createSkydiver("John", "Doe", "manifest@ex.com", "000000000", "111111111", 76.5, "password", "Student",manifest );
-        Skydiver skydiver3 =createSkydiver("John", "Doe", "instructor@ex.com", "000000000", "111111111", 76.5, "password", "Student",instructor );
-        Skydiver skydiver4 =createSkydiver("John", "Doe", "tandem@ex.com", "000000000", "111111111", 76.5, "password", "Student",tandem );
-        Skydiver skydiver5 =createSkydiver("John", "Doe", "user@ex.com", "000000000", "111111111", 76.5, "password", "AFF",userRole );
-
+        Skydiver skydiver = createSkydiver("Jakub", "Malewicz", "admin@ex.com", "000000000", "111111111", 76.5, "password", "C",adminRole );
+        Skydiver skydiver2 = createSkydiver("Antoni", "Siek", "manifest@ex.com", "000000000", "111111111", 76.5, "password", "C",manifest );
+        Skydiver skydiver3 =createSkydiver("Mikołaj", "Kowaszewicz", "instructor@ex.com", "000000000", "111111111", 76.5, "password", "C",instructor );
+        Skydiver skydiver4 =createSkydiver("Maks", "Zawiła", "tandem@ex.com", "000000000", "111111111", 76.5, "password", "D",tandem );
+        createSkydiver("Bartosz", "Darłak", "aff@ex.com", "000000000", "111111111", 76.5, "password", "AFF",userRole );
+        createSkydiver("Dominik", "Kwiecień", "student@ex.com", "000000000", "111111111", 76.5, "password", "Student",userRole );
+        createSkydiver("Michał", "Żurawski", "LicenceB@ex.com", "000000000", "111111111", 76.5, "password", "B",userRole );
         Plane SPWAW = createPlane("SP-WAW", 1000);
         createPlane("D-FIDI", 800);
         Departure departure = createDeparture( true, true, SPWAW);
+        for (int i = 0; i < 20; i++) {
+            createDeparture( true, true, SPWAW);
+        }
         createDeparture( true, true, SPWAW);
         createDeparture( true, true, SPWAW);
         addUserToDeparture(JumpType.STUDENT, null, skydiver2, departure);
