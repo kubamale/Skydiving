@@ -1,4 +1,4 @@
-<body>
+<div class="main">
     <div class="main-container">
         <div class="top">
             <div class="navigations">
@@ -20,13 +20,13 @@
                     <th>{{t("sun")}}</th>
                 </tr>
             </thead>
-            <tbody>
+         <tbody>
                 <tr *ngFor="let row of weeksRows; let i = index">
                     <td *ngFor="let col of [0,1,2,3,4,5,6]" (click)="showDepartures(col + row*7)" [ngClass]="{'with-departure': callendarTile[col + row*7].isDeparture}">
                             {{callendarTile[col + row*7].day}}
                     </td>
                 </tr>
             </tbody>
-        </table>
-    </div>
-</body>
+    </table>
+</div>
+</div>

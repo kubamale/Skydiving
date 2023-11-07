@@ -128,8 +128,8 @@ export class CallendarComponent implements OnInit{
         res.push(prev - diff);
         diff--;
         this.callendarTile.push({
-          date: (prev - diff).toString() + '-' + (date.getMonth()).toString() + '-' + date.getFullYear().toString(),
-          day: (prev - diff).toString(),
+          date: (prev - diff-1).toString() + '-' + (date.getMonth()).toString() + '-' + date.getFullYear().toString(),
+          day: (prev - diff-1).toString(),
           month: (date.getMonth()).toString(),
           isDeparture:false
         })

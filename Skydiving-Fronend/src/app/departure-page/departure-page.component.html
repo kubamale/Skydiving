@@ -1,5 +1,5 @@
-
-<div class="main-continer" *transloco="let t">
+<div class="main">
+    <div class="main-continer" *transloco="let t">
         <button class="create-button" *ngIf="canCreate" (click)="showForm()">{{t("creatDeparture")}}</button>
         <form class="create-form" *ngIf="createDeparture" [formGroup]="createForm">
                 <div class="form-row">
@@ -20,5 +20,6 @@
             <button type="submit" (click)="submit()" [disabled]="!createForm.valid">{{t("save")}}</button>
         </form>
     <app-departure class="test" *ngFor="let dep of departures" [departure]="dep" (deleteDepartureEmiter)="deleteDeparture($event)"></app-departure>
-    <button class="create-button" *ngIf="canCreate" (click)="loadDepartures()">{{t("showMoredepartures")}}</button>
+    <button class="create-button" (click)="loadDepartures()">{{t("showMoredepartures")}}</button>
+</div>
 </div>

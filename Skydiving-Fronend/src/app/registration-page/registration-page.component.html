@@ -1,5 +1,5 @@
-<body>
-  <div class="main" *transloco="let t">
+<div class="main">
+  <div class="main-container" *transloco="let t">
     <form class="myForm" [formGroup]="registrationForm" (ngSubmit)="register()">
         <mat-form-field class="data">
             <mat-label>{{t("userData.firstName")}}</mat-label>
@@ -55,6 +55,6 @@
             </mat-select>
           </mat-form-field>
           <button id="register-button" mat-raised-button type="submit">{{t("register")}}</button>
-    </form>
+      </form>
+  </div>
 </div>
-</body>

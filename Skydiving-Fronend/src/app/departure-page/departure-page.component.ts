@@ -58,9 +58,11 @@ export class DeparturePageComponent implements OnInit {
           const timeB = Number(b.time.replace(":", ""));
           return timeA - timeB;
         });
+        this.cancel();
        });
+
     }
-    this.cancel();
+
     
   }
 
