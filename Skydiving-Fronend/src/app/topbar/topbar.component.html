@@ -1,4 +1,7 @@
-<select [(ngModel)]="currentLanguage" (change)="changeLanguage($event)">
-    <option value="en">en</option>
-    <option value="pl">pl</option>
-</select>
+<div class="main-container">
+    <select [(ngModel)]="currentLanguage" (change)="changeLanguage($event)">
+        <option value="en">en</option>
+        <option value="pl">pl</option>
+    </select>
+    <button (click)="logout()">logout</button>
+</div>

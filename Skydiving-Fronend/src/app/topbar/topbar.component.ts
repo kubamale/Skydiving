@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
@@ -9,11 +10,16 @@ import { TranslocoService } from '@ngneat/transloco';
 export class TopbarComponent {
   currentLanguage!: string
 
-  constructor(private translocoService: TranslocoService) {
+  constructor(private translocoService: TranslocoService, private router: Router) {
     this.currentLanguage = this.translocoService.getActiveLang();
   }
  
   public changeLanguage(languageCode: any): void {
     this.translocoService.setActiveLang(languageCode.target.value);
+  }
+
+  logout(){
+    window.localStorage.clear();
+    this.router.navigate(['']);
   }
 }
