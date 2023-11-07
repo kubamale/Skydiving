@@ -36,7 +36,14 @@ public class Mappers {
                         departure.getPlane().getName(),
                         departure.getPlane().getMaxWeight()
                 ),
-                departureUserList.stream().map(DepartureUser::getSkydiver).mapToDouble(Skydiver::getWeight).sum(),
+                departureUserList.stream().mapToDouble(dep -> {
+                    if (dep.getCustomer() != null){
+                        return dep.getSkydiver().getWeight() + dep.getCustomer().getWeight();
+                    }
+                    else {
+                        return dep.getSkydiver().getWeight();
+                    }
+                }).sum(),
                 departureUserList.stream().map(dep -> mapToDTO(dep.getSkydiver(), dep.getJumpType().name())).toList()
         );
     }
