@@ -11,6 +11,6 @@ public interface IUserService {
     ResponseEntity<List<UserInfoDTO>> getTandemPilots();
     ResponseEntity<List<UserInfoDTO>> getCustomers();
     ResponseEntity<List<UserInfoDTO>> getSkydivers();
-
     ResponseEntity<List<UserInfoDTO>> getAffSkydivers();
+    ResponseEntity<List<UserInfoDTO>> getApprovers();
 }

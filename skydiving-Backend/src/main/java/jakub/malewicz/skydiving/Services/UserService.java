@@ -57,4 +57,16 @@ public class UserService implements IUserService{
                         skydiver.getLastName()
                 )).toList());
     }
+
+    @Override
+    public ResponseEntity<List<UserInfoDTO>> getApprovers() {
+            return ResponseEntity.ok(skydiverRepository.findApprovers().stream()
+                    .map(skydiver -> new UserInfoDTO(
+
+                                    skydiver.getEmail(),
+                                    skydiver.getFirstName(),
+                                    skydiver.getLastName()
+                            )
+                    ).toList());
+    }
 }

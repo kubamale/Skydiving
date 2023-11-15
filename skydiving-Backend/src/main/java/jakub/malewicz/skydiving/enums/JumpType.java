@@ -1,4 +1,4 @@
-package jakub.malewicz.skydiving.Models.enums;
+package jakub.malewicz.skydiving.enums;
 
 import lombok.Getter;
 

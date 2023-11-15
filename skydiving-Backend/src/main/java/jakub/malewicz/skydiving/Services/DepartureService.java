@@ -4,7 +4,7 @@ import jakub.malewicz.skydiving.DTOs.*;
 import jakub.malewicz.skydiving.Exceptions.BadRequestException;
 import jakub.malewicz.skydiving.Exceptions.ResourceNotFoundException;
 import jakub.malewicz.skydiving.Models.*;
-import jakub.malewicz.skydiving.Models.enums.JumpType;
+import jakub.malewicz.skydiving.enums.JumpType;
 import jakub.malewicz.skydiving.Repositories.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

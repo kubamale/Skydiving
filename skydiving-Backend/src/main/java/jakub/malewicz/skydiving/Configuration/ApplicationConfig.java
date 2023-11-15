@@ -74,6 +74,7 @@ public class ApplicationConfig {
 
         // should be set order to -100 because we need to CorsFilter before SpringSecurityFilter
         bean.setOrder(-100);
+
         return bean;
     }
 }

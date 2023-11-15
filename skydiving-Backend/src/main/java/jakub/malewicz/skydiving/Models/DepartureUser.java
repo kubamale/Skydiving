@@ -1,7 +1,7 @@
 package jakub.malewicz.skydiving.Models;
 
 import jakarta.persistence.*;
-import jakub.malewicz.skydiving.Models.enums.JumpType;
+import jakub.malewicz.skydiving.enums.JumpType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

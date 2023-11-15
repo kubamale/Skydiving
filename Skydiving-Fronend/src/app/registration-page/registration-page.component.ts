@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../authentication.service';
 import { Router} from '@angular/router';
+import { SkydiverInfoModel } from 'src/shared/skydiver';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-registration-page',
@@ -12,8 +14,11 @@ import { Router} from '@angular/router';
 export class RegistrationPageComponent implements OnInit{
   registrationForm!: FormGroup;
   hide = true;
-  constructor(private formBuilder: FormBuilder, private auth: AuthenticationService, private router: Router){}
+  approvers: SkydiverInfoModel[] = []; 
+  constructor(private formBuilder: FormBuilder, private auth: AuthenticationService, private router: Router, private userService: UserService){}
   ngOnInit(): void {
+    
+
     this.registrationForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -23,9 +28,10 @@ export class RegistrationPageComponent implements OnInit{
       weight: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(8)]],
       licence: ['', Validators.required],
-      role: ['', Validators.required],
-
+      approversEmail: ['', Validators.required]
     });
+
+    this.userService.getApprovers().subscribe(data => this.approvers = data as SkydiverInfoModel []);
   }
 
 

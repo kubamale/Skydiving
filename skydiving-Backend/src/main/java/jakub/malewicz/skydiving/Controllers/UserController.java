@@ -42,4 +42,7 @@ public class UserController {
         return userService.getAffSkydivers();
     }
 
+    @GetMapping("/approvers")
+    public ResponseEntity<List<UserInfoDTO>> getApprovers() {return userService.getApprovers();}
+
 }

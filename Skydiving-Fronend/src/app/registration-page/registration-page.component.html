@@ -45,13 +45,9 @@
             </mat-select>
           </mat-form-field>
           <mat-form-field class="data">
-            <mat-label>{{t("userData.role")}}</mat-label>
-            <mat-select formControlName="role">
-              <mat-option value="ADMIN">Admin</mat-option>
-              <mat-option value="MANIFEST">Manifest</mat-option>
-              <mat-option value="INSTRUCTOR">Instructor</mat-option>
-              <mat-option value="TANDEM_PILOT">Tandem pilot</mat-option>
-              <mat-option value="USER">USER</mat-option>
+            <mat-label>{{t("userData.approver")}}</mat-label>
+            <mat-select formControlName="approversEmail">
+              <mat-option *ngFor="let app of approvers" [value]="app.email">{{app.firstName}} {{app.lastName}}</mat-option>
             </mat-select>
           </mat-form-field>
           <button id="register-button" mat-raised-button type="submit">{{t("register")}}</button>

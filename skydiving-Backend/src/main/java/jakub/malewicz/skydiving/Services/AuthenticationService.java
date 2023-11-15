@@ -6,8 +6,9 @@ import jakub.malewicz.skydiving.DTOs.CredentialsDTO;
 import jakub.malewicz.skydiving.DTOs.RegisterDTO;
 import jakub.malewicz.skydiving.Exceptions.BadRequestException;
 import jakub.malewicz.skydiving.Exceptions.ResourceNotFoundException;
-import jakub.malewicz.skydiving.Models.Role;
+import jakub.malewicz.skydiving.Models.ApproveRequest;
 import jakub.malewicz.skydiving.Models.Skydiver;
+import jakub.malewicz.skydiving.Repositories.ApprovalRepository;
 import jakub.malewicz.skydiving.Repositories.RoleRepository;
 import jakub.malewicz.skydiving.Repositories.SkydiverRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class AuthenticationService implements IAuthenticationService{
     private final SkydiverRepository skydiverRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
+    private final ApprovalRepository approvalRepository;
     private final RoleRepository roleRepository;
 
     public ResponseEntity<CredentialsDTO> login(LoginDTO credentialsDTO) throws RuntimeException {
@@ -44,10 +46,10 @@ public class AuthenticationService implements IAuthenticationService{
             throw  new BadRequestException("User with that email already exists");
         }
 
-        Optional<Role> role = roleRepository.findByName(registerDTO.role());
+        Optional<Skydiver> oApprover = skydiverRepository.findByEmail(registerDTO.approversEmail());
 
-        if (role.isEmpty()){
-            throw new BadRequestException("No role was found");
+        if (oApprover.isEmpty() || (!oApprover.get().getRole().getName().equals("MANIFEST") && !oApprover.get().getRole().getName().equals("ADMIN"))){
+            throw new BadRequestException("No Approver with that email");
         }
 
         Skydiver skydiver = new Skydiver(
@@ -59,11 +61,12 @@ public class AuthenticationService implements IAuthenticationService{
                 registerDTO.weight(),
                 passwordEncoder.encode(CharBuffer.wrap(registerDTO.password())),
                 registerDTO.licence(),
-                role.get()
+                roleRepository.findByName("AWAITING_APPROVAL").orElseThrow(()-> new BadRequestException("Bad role"))
         );
 
         skydiverRepository.save(skydiver);
+        approvalRepository.save(new ApproveRequest(oApprover.get(), skydiver));
 
-        return ResponseEntity.ok(new CredentialsDTO(skydiver.getRole().getName(), jwtService.generateToken(skydiver), skydiver.getEmail()));
+        return ResponseEntity.ok(new CredentialsDTO(skydiver.getRole().getName() , jwtService.generateToken(skydiver), skydiver.getEmail()));
     }
 }

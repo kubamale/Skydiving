@@ -20,8 +20,17 @@ export class UserService {
       catchError((error) => {
        return this.errorHandler.handleError(error);
       })
-    );;
+    );
   }
+
+  getApprovers(): Observable<SkydiverInfoModel[]>{
+    return this.http.get<SkydiverInfoModel[]>(this.bsaicUrl + 'approvers').pipe(
+      catchError((error) => {
+       return this.errorHandler.handleError(error);
+      })
+    );
+  }
+
 
 
   private getHeaders(): HttpHeaders{
@@ -32,4 +41,6 @@ export class UserService {
     return new HttpHeaders()
     .set("Authorization", "Bearer " + token);
   }
+
+
 }

@@ -1,11 +1,13 @@
 package jakub.malewicz.skydiving.Models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "approval_request")
 @NoArgsConstructor
+@AllArgsConstructor
 public class ApproveRequest {
 
     @Id
@@ -19,4 +21,8 @@ public class ApproveRequest {
     @JoinColumn(name = "requester_id")
     private Skydiver requester;
 
+    public ApproveRequest(Skydiver approver, Skydiver requester) {
+        this.approver = approver;
+        this.requester = requester;
+    }
 }

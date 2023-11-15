@@ -1,7 +1,7 @@
 package jakub.malewicz.skydiving.Repositories;
 
 import jakub.malewicz.skydiving.Models.DepartureUser;
-import jakub.malewicz.skydiving.Models.enums.JumpType;
+import jakub.malewicz.skydiving.enums.JumpType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

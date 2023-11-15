@@ -10,5 +10,5 @@ public record RegisterDTO(
         double weight,
         String password,
         String licence,
-        String role
+        String approversEmail
 ){}
