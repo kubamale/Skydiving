@@ -3,12 +3,14 @@ package jakub.malewicz.skydiving.Configuration;
 import jakub.malewicz.skydiving.Models.*;
 import jakub.malewicz.skydiving.enums.JumpType;
 import jakub.malewicz.skydiving.Repositories.*;
+import jakub.malewicz.skydiving.enums.Privilege;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.nio.CharBuffer;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
@@ -30,12 +32,12 @@ public class DataInitializer implements CommandLineRunner {
         Role instructor = createRole("INSTRUCTOR");
         Role userRole = createRole("USER");
         createRole("AWAITING_APPROVAL");
-        Skydiver skydiver = createSkydiver("Jakub", "Malewicz", "admin@ex.com", "000000000", "111111111", 76.5, "password", "C",adminRole );
-        Skydiver skydiver2 = createSkydiver("Antoni", "Siek", "manifest@ex.com", "000000000", "111111111", 76.5, "password", "C",manifest );
-        Skydiver skydiver3 = createSkydiver("Mikołaj", "Kowaszewicz", "instructor@ex.com", "000000000", "111111111", 76.5, "password", "C", instructor );
-        createSkydiver("Bartosz", "Darłak", "aff@ex.com", "000000000", "111111111", 76.5, "password", "AFF",userRole );
-        createSkydiver("Dominik", "Kwiecień", "student@ex.com", "000000000", "111111111", 76.5, "password", "Student",userRole );
-        createSkydiver("Michał", "Żurawski", "LicenceB@ex.com", "000000000", "111111111", 76.5, "password", "B",userRole );
+        Skydiver skydiver = createSkydiver("Jakub", "Malewicz", "admin@ex.com", "000000000", "111111111", 76.5, "password", "C",adminRole, Set.of(Privilege.COACH));
+        Skydiver skydiver2 = createSkydiver("Antoni", "Siek", "manifest@ex.com", "000000000", "111111111", 76.5, "password", "C",manifest, Set.of(Privilege.AFF_INSTRUCTOR, Privilege.TANDEM_PILOT) );
+        Skydiver skydiver3 = createSkydiver("Mikołaj", "Kowaszewicz", "instructor@ex.com", "000000000", "111111111", 76.5, "password", "C", instructor,  Set.of(Privilege.TANDEM_PILOT) );
+        createSkydiver("Bartosz", "Darłak", "aff@ex.com", "000000000", "111111111", 76.5, "password", "AFF",userRole, Set.of() );
+        createSkydiver("Dominik", "Kwiecień", "student@ex.com", "000000000", "111111111", 76.5, "password", "Student",userRole, Set.of() );
+        createSkydiver("Michał", "Żurawski", "LicenceB@ex.com", "000000000", "111111111", 76.5, "password", "B",userRole,  Set.of(Privilege.COACH) );
         Plane SPWAW = createPlane("SP-WAW", 1000);
         createPlane("D-FIDI", 800);
         Departure departure = createDeparture( true, true, SPWAW);
@@ -55,7 +57,7 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private Departure createDeparture( boolean allowStudents, boolean allowAFF, Plane plane) {
-        return departureRepository.save(new Departure("23-10-2023", "14:30", allowStudents,allowAFF, plane));
+        return departureRepository.save(new Departure("23-11-2023", "14:30", allowStudents,allowAFF, plane));
     }
 
     private Customer createCustomer(
@@ -83,7 +85,7 @@ public class DataInitializer implements CommandLineRunner {
         return roleRepository.save(new Role(name));
     }
 
-    private Skydiver createSkydiver(String firstName, String lastName, String email, String phone, String emergencyPhone, double weight, String password, String licence, Role role){
+    private Skydiver createSkydiver(String firstName, String lastName, String email, String phone, String emergencyPhone, double weight, String password, String licence, Role role, Set<Privilege> privileges){
 
         skydiverRepository.save(new Skydiver(
                 firstName,
@@ -94,7 +96,8 @@ public class DataInitializer implements CommandLineRunner {
                 weight,
                 passwordEncoder.encode(CharBuffer.wrap(password)),
                 licence,
-                role
+                role,
+                privileges
         ));
         return skydiverRepository.findByEmail(email).get();
     }

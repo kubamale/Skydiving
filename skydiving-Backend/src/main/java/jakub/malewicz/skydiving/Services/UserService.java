@@ -3,6 +3,7 @@ package jakub.malewicz.skydiving.Services;
 import jakub.malewicz.skydiving.DTOs.UserInfoDTO;
 import jakub.malewicz.skydiving.Repositories.CustomerRepository;
 import jakub.malewicz.skydiving.Repositories.SkydiverRepository;
+import jakub.malewicz.skydiving.enums.Privilege;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class UserService implements IUserService{
 
     @Override
     public ResponseEntity<List<UserInfoDTO>> getInstructors() {
-        return ResponseEntity.ok(skydiverRepository.findAll().stream().filter(skydiver -> skydiver.getRole().getName().equals("INSTRUCTOR"))
+        return ResponseEntity.ok(skydiverRepository.findAll().stream().filter(skydiver -> skydiver.getPrivileges().contains(Privilege.AFF_INSTRUCTOR))
                 .map(skydiver -> new UserInfoDTO(
                         skydiver.getEmail(),
                         skydiver.getFirstName(),
@@ -30,7 +31,7 @@ public class UserService implements IUserService{
 
     @Override
     public ResponseEntity<List<UserInfoDTO>> getTandemPilots() {
-        return ResponseEntity.ok(skydiverRepository.findAll().stream().filter(skydiver -> skydiver.getRole().getName().equals("TANDEM_PILOT"))
+        return ResponseEntity.ok(skydiverRepository.findAll().stream().filter(skydiver -> skydiver.getPrivileges().contains(Privilege.TANDEM_PILOT))
                 .map(skydiver -> new UserInfoDTO(
                         skydiver.getEmail(),
                         skydiver.getFirstName(),

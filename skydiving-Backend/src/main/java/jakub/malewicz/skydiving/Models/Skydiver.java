@@ -1,6 +1,7 @@
 package jakub.malewicz.skydiving.Models;
 
 import jakarta.persistence.*;
+import jakub.malewicz.skydiving.enums.Privilege;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +25,8 @@ public class Skydiver extends BasicUser implements UserDetails {
     private String password;
     private String licence;
     private boolean active;
+    @Enumerated(EnumType.STRING)
+    private Set<Privilege> privileges;
     @OneToMany(mappedBy = "instructor")
     private List<Skydiver> pupils;
     @ManyToOne
@@ -46,6 +49,14 @@ public class Skydiver extends BasicUser implements UserDetails {
         this.password = password;
         this.licence = licence;
         this.role = role;
+    }
+
+    public Skydiver(String firstName, String lastName, String email, String phone, String emergencyPhone, double weight, String password, String licence, Role role, Set<Privilege> privileges) {
+        super(firstName, lastName, email, phone, emergencyPhone, weight);
+        this.password = password;
+        this.licence = licence;
+        this.role = role;
+        this.privileges = privileges;
     }
 
     @Override
