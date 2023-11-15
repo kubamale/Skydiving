@@ -9,7 +9,8 @@
         "weight": "Weight",
         "license":"License",
         "role": "Role",
-        "jumpType":"Jump Type"
+        "jumpType":"Jump Type",
+        "approver": "Approver"
     },
     "menu":{
         "departures": "Departures",

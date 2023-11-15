@@ -9,7 +9,8 @@
     "weight": "Waga",
     "license":"Licencja",
     "role": "Rola",
-    "jumpType": "Typ Skoku"
+    "jumpType": "Typ Skoku",
+    "approver": "Osoba zatwierdzająca"
     },
     "menu":{
         "departures": "Wyloty",
