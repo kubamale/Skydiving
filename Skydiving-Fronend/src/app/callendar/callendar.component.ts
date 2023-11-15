@@ -32,7 +32,7 @@ export class CallendarComponent implements OnInit{
   constructor(private router: Router, private departureService: DepartureService, private _snackBar: MatSnackBar, private translocoService: TranslocoService){}
   
   ngOnInit(): void {
-    this.curentDate.setMonth(this.curentDate.getMonth()-1)
+    this.curentDate.setMonth(this.curentDate.getMonth())
     this.setCallendar(this.curentDate);
     this.updateCallendarTile();
   }
