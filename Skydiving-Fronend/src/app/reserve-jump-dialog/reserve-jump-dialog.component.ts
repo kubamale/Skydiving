@@ -11,8 +11,8 @@ import { UserService } from '../user.service';
 })
 export class ReserveJumpDialogComponent implements OnInit {
   role!: string;
-  allowAffBook = ['ADMIN', 'MANIFEST', 'INSTRUCTOR'];
-  allowTandemBook = ['ADMIN', 'MANIFEST', 'TANDEM_PILOT'];
+  allowToBookAll = ['ADMIN', 'MANIFEST'];
+  privileges: string[] = [];
   instructors: SkydiverInfoModel[] = [];
   affSkydivers: SkydiverInfoModel[] = [];
   customers: SkydiverInfoModel[] = [];
@@ -28,6 +28,7 @@ export class ReserveJumpDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DepartureCreateModel,
   ) {
     this.role = window.localStorage.getItem('role') as string;
+    this.privileges = (window.localStorage.getItem('privileges') as string).split(',');
   }
 
   ngOnInit(): void {

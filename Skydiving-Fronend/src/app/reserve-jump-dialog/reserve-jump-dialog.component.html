@@ -6,8 +6,8 @@
             <mat-select [(ngModel)]="data.jumpType" required (selectionChange)="jumpTypeSelected()">
               <mat-option value="SOLO">Solo</mat-option>
               <mat-option value="STUDENT">Student</mat-option>
-              <mat-option *ngIf="allowAffBook.indexOf(role) !== -1" value="AFF">AFF</mat-option>
-              <mat-option *ngIf="allowTandemBook.indexOf(role) !== -1" value="TANDEM">Tandem</mat-option>
+              <mat-option *ngIf="allowToBookAll.indexOf(role) !== -1 || privileges.indexOf('AFF_INSTRUCTOR') !== -1" value="AFF">AFF</mat-option>
+              <mat-option *ngIf="allowToBookAll.indexOf(role) !== -1 || privileges.indexOf('TANDEM_PILOT') !== -1" value="TANDEM">Tandem</mat-option>
               <mat-option value="WINGSUIT">Wingsuit</mat-option>
             </mat-select>
         </mat-form-field>

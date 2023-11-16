@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.nio.CharBuffer;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +35,8 @@ public class AuthenticationService implements IAuthenticationService{
                 .orElseThrow(() -> new ResourceNotFoundException("No user with that username!"));
 
         if (passwordEncoder.matches(CharBuffer.wrap(credentialsDTO.password()), user.getPassword())){
-            return ResponseEntity.ok(new CredentialsDTO(user.getRole().getName(), jwtService.generateToken(user), user.getEmail()));
+            return ResponseEntity.ok(new CredentialsDTO(user.getRole().getName(), jwtService.generateToken(user), user.getEmail(), user.getPrivileges().stream()
+                    .map(Enum::name).collect(Collectors.toSet())));
 
         }
         throw new BadRequestException("Wrong password!");
@@ -67,6 +69,8 @@ public class AuthenticationService implements IAuthenticationService{
         skydiverRepository.save(skydiver);
         approvalRepository.save(new ApproveRequest(oApprover.get(), skydiver));
 
-        return ResponseEntity.ok(new CredentialsDTO(skydiver.getRole().getName() , jwtService.generateToken(skydiver), skydiver.getEmail()));
+        return ResponseEntity.ok(new CredentialsDTO(skydiver.getRole().getName() , jwtService.generateToken(skydiver), skydiver.getEmail(), skydiver.getPrivileges().stream()
+                .map(Enum::name).collect(Collectors.toSet())
+        ));
     }
 }

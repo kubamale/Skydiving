@@ -1,4 +1,6 @@
 package jakub.malewicz.skydiving.DTOs;
 
-public record CredentialsDTO(String role, String token, String email) {
+import java.util.Set;
+
+public record CredentialsDTO(String role, String token, String email, Set<String> privileges) {
 }
