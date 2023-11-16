@@ -2,12 +2,14 @@ package jakub.malewicz.skydiving.Models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "approval_request")
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class ApproveRequest {
 
     @Id
