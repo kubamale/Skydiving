@@ -6,6 +6,7 @@ import { RegistrationPageComponent } from './registration-page/registration-page
 import { MenuComponent } from './menu/menu.component';
 import { CallendarComponent } from './callendar/callendar.component';
 import { DeparturePageComponent } from './departure-page/departure-page.component';
+import { ApprovalsPageComponent } from './approvals-page/approvals-page.component';
 
 const routes: Routes = [
   {path: '', component: WelcomePageComponent},
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path: 'register', component: RegistrationPageComponent},
   {path: 'menu', component: MenuComponent},
   {path: 'departure-callendar', component: CallendarComponent},
-  {path: 'departures', component: DeparturePageComponent}
+  {path: 'departures', component: DeparturePageComponent},
+  {path: 'approvals', component: ApprovalsPageComponent}
 ];
 
 @NgModule({

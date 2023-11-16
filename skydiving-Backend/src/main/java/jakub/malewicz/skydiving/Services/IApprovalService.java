@@ -8,6 +8,6 @@ import java.util.List;
 public interface IApprovalService {
 
     ResponseEntity<List<ApprovalDTO>> getUsersApprovalRequests(String email);
-    ResponseEntity<String> rejectApprovalRequest(String email);
+    ResponseEntity<ApprovalDTO> rejectApprovalRequest(String email);
 
 }

@@ -37,6 +37,7 @@ import {
 } from '@ngneat/transloco';
 import { TopbarComponent } from './topbar/topbar.component';
 import { ReserveJumpDialogComponent } from './reserve-jump-dialog/reserve-jump-dialog.component';
+import { ApprovalsPageComponent } from './approvals-page/approvals-page.component';
 
 @Injectable({ providedIn: 'root' })
 export class TranslocoHttpLoader implements TranslocoLoader {
@@ -70,7 +71,8 @@ export const MY_FORMATS = {
     DepartureComponent,
     DeparturePageComponent,
     TopbarComponent,
-    ReserveJumpDialogComponent
+    ReserveJumpDialogComponent,
+    ApprovalsPageComponent
   ],
   imports: [
     BrowserModule,

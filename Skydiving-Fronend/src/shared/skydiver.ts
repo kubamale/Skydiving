@@ -12,3 +12,10 @@ export interface SkydiverInfoModel{
     firstName: string,
     lastName: string
 }
+
+export interface SkydiverApprovalModel{
+    firstName: string,
+    lastName: string,
+    email: string,
+    licence: string,
+}

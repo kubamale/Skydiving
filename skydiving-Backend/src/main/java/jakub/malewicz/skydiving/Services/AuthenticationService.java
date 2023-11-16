@@ -69,8 +69,6 @@ public class AuthenticationService implements IAuthenticationService{
         skydiverRepository.save(skydiver);
         approvalRepository.save(new ApproveRequest(oApprover.get(), skydiver));
 
-        return ResponseEntity.ok(new CredentialsDTO(skydiver.getRole().getName() , jwtService.generateToken(skydiver), skydiver.getEmail(), skydiver.getPrivileges().stream()
-                .map(Enum::name).collect(Collectors.toSet())
-        ));
+        return ResponseEntity.ok(new CredentialsDTO(skydiver.getRole().getName() , jwtService.generateToken(skydiver), skydiver.getEmail(), null));
     }
 }

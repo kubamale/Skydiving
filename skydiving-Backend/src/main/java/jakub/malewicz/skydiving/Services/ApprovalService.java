@@ -36,7 +36,7 @@ public class ApprovalService implements IApprovalService{
     }
 
     @Override
-    public ResponseEntity<String> rejectApprovalRequest(String email) {
+    public ResponseEntity<ApprovalDTO> rejectApprovalRequest(String email) {
         Skydiver skydiver = skydiverRepository.findByEmail(email)
                 .orElseThrow(() -> new BadRequestException("No user with email: " + email));
 
@@ -45,6 +45,13 @@ public class ApprovalService implements IApprovalService{
         approvalRepository.deleteAll(approveRequests);
         skydiverRepository.delete(skydiver);
 
-        return ResponseEntity.ok("Deleted user with email: " + email);
+        return ResponseEntity.ok(
+                approveRequests.stream().findFirst().map(request -> new ApprovalDTO(
+                        request.getRequester().getFirstName(),
+                        request.getRequester().getLastName(),
+                        request.getRequester().getEmail(),
+                        request.getRequester().getLicence()
+                )).orElseThrow(() -> new BadRequestException("Something went wrong please refresh your page"))
+        );
     }
 }

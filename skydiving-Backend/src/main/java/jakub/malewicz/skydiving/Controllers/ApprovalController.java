@@ -20,7 +20,7 @@ public class ApprovalController {
     }
 
     @DeleteMapping
-    public ResponseEntity<String> rejectApprovalRequest(@RequestParam String email){
+    public ResponseEntity<ApprovalDTO> rejectApprovalRequest(@RequestParam String email){
         return approvalService.rejectApprovalRequest(email);
     }
 
