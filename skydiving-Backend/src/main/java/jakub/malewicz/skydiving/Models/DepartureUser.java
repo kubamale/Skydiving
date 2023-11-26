@@ -26,8 +26,24 @@ public class DepartureUser {
     private Skydiver skydiver;
 
     @ManyToOne
+    @JoinColumn(name = "AFF_Student")
+    private Skydiver affStudent;
+    @ManyToOne
     @JoinColumn(name = "departure_id", nullable = false)
     private Departure departure;
+
+
+    public static DepartureUser createAFFJump(Skydiver instructor, Skydiver aff, Departure departure){
+        return new DepartureUser(instructor, aff, departure, JumpType.AFF);
+    }
+
+    public static DepartureUser createTandemJump(Skydiver instructor, Customer customer, Departure departure){
+        return new DepartureUser(JumpType.TANDEM, customer, instructor, departure);
+    }
+
+    public static DepartureUser createNormalJump(Skydiver skydiver, Departure departure, JumpType jumpType){
+        return  new DepartureUser(jumpType, skydiver, departure);
+    }
 
     public DepartureUser(JumpType jumpType, Customer customer, Skydiver skydiver, Departure departure) {
         this.jumpType = jumpType;
@@ -41,4 +57,11 @@ public class DepartureUser {
         this.skydiver = skydiver;
         this.departure = departure;
     }
+    public DepartureUser(Skydiver instructor, Skydiver aff, Departure departure, JumpType jumpType) {
+        this.skydiver = instructor;
+        this.affStudent = aff;
+        this.departure = departure;
+        this.jumpType = jumpType;
+    }
+
 }

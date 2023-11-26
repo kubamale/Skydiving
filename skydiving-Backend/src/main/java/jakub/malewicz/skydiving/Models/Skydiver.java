@@ -39,6 +39,8 @@ public class Skydiver extends BasicUser implements UserDetails {
 
     @OneToMany(mappedBy = "skydiver")
     private Set<DepartureUser> departures;
+    @OneToMany(mappedBy = "affStudent")
+    private Set<DepartureUser> AffJumps;
 
     @OneToMany(mappedBy = "approver")
     private Set<ApproveRequest> receivedApprovedRequests;
