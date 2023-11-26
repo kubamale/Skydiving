@@ -10,7 +10,7 @@ public interface IDepartureService {
     ResponseEntity<DepartureDetailsDTO> createDeparture(DepartureCreateDTO departure);
     ResponseEntity<String> deleteDeparture(long id);
     ResponseEntity<DepartureDetailsDTO> updateDeparture(DepartureUpdateDTO departure);
-    ResponseEntity<DepartureDetailsDTO> deleteUserFromDeparture(DeleteUsersDTO userId, long departureId);
+    ResponseEntity<DepartureDetailsDTO> deleteUserFromDeparture(String userId, long departureId);
     ResponseEntity<List<String>> getDeparturesDates(String startDate, String endDate);
     ResponseEntity<DepartureDetailsDTO> bookDeparture(BookDepartureDTO departureDTO);
 }

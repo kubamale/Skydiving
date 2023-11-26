@@ -14,4 +14,5 @@ public interface DepartureRepository extends JpaRepository<Departure, Long> {
 
     @Query(value = "SELECT d.date FROM departure d WHERE DATE(d.date) >= DATE(:startDate) AND DATE(d.date) <= DATE(:endDate) ", nativeQuery = true)
     List<String> getDates(@Param("startDate")String startDate, @Param("endDate")String endDate);
+
 }

@@ -1,17 +1,10 @@
 package jakub.malewicz.skydiving.Controllers;
 
 import jakub.malewicz.skydiving.DTOs.*;
-import jakub.malewicz.skydiving.Models.Departure;
-import jakub.malewicz.skydiving.Models.Plane;
-import jakub.malewicz.skydiving.Repositories.PlaneRepository;
-import jakub.malewicz.skydiving.Services.DepartureService;
 import jakub.malewicz.skydiving.Services.IDepartureService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -20,10 +13,9 @@ import java.util.List;
 public class DepartureController {
 
     private final IDepartureService departureService;
-    private final PlaneRepository planeRepository;
 
     @GetMapping
-    public ResponseEntity<List<DepartureDetailsDTO>> getDepartures(@RequestParam String date, @RequestParam int page) throws ParseException {
+    public ResponseEntity<List<DepartureDetailsDTO>> getDepartures(@RequestParam String date, @RequestParam int page){
             return departureService.getDepartures(date, page);
     }
 
@@ -43,7 +35,7 @@ public class DepartureController {
     }
 
     @PostMapping("/deleteUserFromDeparture")
-    public ResponseEntity<DepartureDetailsDTO> deleteUserFromDeparture(@RequestBody DeleteUsersDTO userId, @RequestParam long departureId){
+    public ResponseEntity<DepartureDetailsDTO> deleteUserFromDeparture(@RequestParam String userId, @RequestParam long departureId){
         return departureService.deleteUserFromDeparture(userId, departureId);
     }
 

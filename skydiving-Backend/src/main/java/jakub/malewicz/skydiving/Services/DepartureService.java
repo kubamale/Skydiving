@@ -72,53 +72,49 @@ public class DepartureService implements IDepartureService {
     }
 
     public ResponseEntity<DepartureDetailsDTO> updateDeparture(DepartureUpdateDTO departure) {
-        Optional<Departure> savedDeparture = departureRepository.findById(departure.id());
+        Departure savedDeparture = departureRepository.findById(departure.id())
+                .orElseThrow(() -> new BadRequestException("No departure with that id"));
 
-        if (savedDeparture.isEmpty()) {
-            throw new BadRequestException("No departure with that id");
-        }
 
         if (departure.allowAFF() && !departure.allowStudents()) {
             throw new BadRequestException("To make AFF jumps available you need to also make students jumps available");
         }
 
         if (departure.date() != null) {
-            savedDeparture.get().setDate(departure.date());
+            savedDeparture.setDate(departure.date());
         }
 
         if (departure.time() != null) {
-            savedDeparture.get().setTime(departure.time());
+            savedDeparture.setTime(departure.time());
         }
 
-        if (departure.allowStudents() != savedDeparture.get().isAllowStudents()) {
-            savedDeparture.get().setAllowStudents(departure.allowStudents());
-            if (!savedDeparture.get().isAllowStudents()) {
-                deleteAllStudentsFromDeparture(savedDeparture.get().getId());
-                deleteAllAffSkydiversFromDeparture(savedDeparture.get().getId());
-                savedDeparture.get().setAllowAFF(false);
+        if (departure.allowStudents() != savedDeparture.isAllowStudents()) {
+            savedDeparture.setAllowStudents(departure.allowStudents());
+            if (!savedDeparture.isAllowStudents()) {
+                deleteAllStudentsFromDeparture(savedDeparture.getId());
+                deleteAllAffSkydiversFromDeparture(savedDeparture.getId());
+                savedDeparture.setAllowAFF(false);
             }
         }
 
-        if (departure.allowAFF() != savedDeparture.get().isAllowAFF()) {
-            savedDeparture.get().setAllowAFF(departure.allowAFF());
-            if (!savedDeparture.get().isAllowAFF() || !savedDeparture.get().isAllowStudents()) {
-                deleteAllAffSkydiversFromDeparture(savedDeparture.get().getId());
+        if (departure.allowAFF() != savedDeparture.isAllowAFF()) {
+            savedDeparture.setAllowAFF(departure.allowAFF());
+            if (!savedDeparture.isAllowAFF() || !savedDeparture.isAllowStudents()) {
+                deleteAllAffSkydiversFromDeparture(savedDeparture.getId());
             }
         }
 
         ///TODO: Don't allow to change planes if its already used on that time
-        if (departure.planeId() != savedDeparture.get().getPlane().getId()) {
-            Optional<Plane> plane = planeRepository.findById(departure.planeId());
-            if (plane.isEmpty()) {
-                throw new BadRequestException("No plane with id: " + departure.planeId());
-            }
+        if (departure.planeId() != savedDeparture.getPlane().getId()) {
+            Plane plane = planeRepository.findById(departure.planeId())
+                    .orElseThrow(() -> new BadRequestException("No plane with id: " + departure.planeId()));
 
-            savedDeparture.get().setPlane(plane.get());
+            savedDeparture.setPlane(plane);
         }
 
         List<DepartureUser> departureUser = departureUserRepository.findByDepartureIdWhereInSkydiverId(departure.id(), departure.usersId());
         departureUserRepository.deleteAll(departureUser);
-        Departure updatedDeparture = departureRepository.save(savedDeparture.get());
+        Departure updatedDeparture = departureRepository.save(savedDeparture);
 
         updatedDeparture.fillData();
         return ResponseEntity.ok(departureMapper.mapToDepartureDetailsDTO(updatedDeparture));
@@ -126,18 +122,26 @@ public class DepartureService implements IDepartureService {
     }
 
     ///TODO: Check if request was not sent less then 1 hour before flight if its sent by USER
-    public ResponseEntity<DepartureDetailsDTO> deleteUserFromDeparture(DeleteUsersDTO userId, long departureId) {
-
-        List<DepartureUser> departureUser = departureUserRepository.findByDepartureIdWhereInSkydiverId(departureId, userId.ids());
-
-        if (departureUser.isEmpty()) {
-            throw new BadRequestException("This departure with that user does not exist!");
+    public ResponseEntity<DepartureDetailsDTO> deleteUserFromDeparture(String userEmail, long departureId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!authentication.getName().equals(userEmail)){
+            throw new BadRequestException("You can only cancel flights for yourself");
         }
 
-        departureUserRepository.deleteAll(departureUser);
-        Departure myDeparture = departureUser.get(0).getDeparture();
+        Skydiver skydiver = skydiverRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new BadRequestException("No account with email " + userEmail));
 
-        return ResponseEntity.ok(departureMapper.mapToDepartureDetailsDTO(myDeparture));
+
+        Departure departure = departureRepository.findById(departureId)
+                .orElseThrow(() -> new BadRequestException("No departure with that Id"));
+
+        DepartureUser departureUser = departureUserRepository.findByDepartureIdAndSkydiverId(departureId, skydiver.getId())
+                .orElseThrow(() -> new BadRequestException("User is not assigned to that departure") );
+
+        departure.getDepartureUsers().remove(departureUser);
+        departureUserRepository.delete(departureUser);
+
+        return ResponseEntity.ok(departureMapper.mapToDepartureDetailsDTO(departure));
     }
 
     public ResponseEntity<List<String>> getDeparturesDates(String startDate, String endDate) {
@@ -147,50 +151,47 @@ public class DepartureService implements IDepartureService {
     @Override
     public ResponseEntity<DepartureDetailsDTO> bookDeparture(BookDepartureDTO departureDTO) {
         double currentWeight;
-        Optional<Skydiver> oUser = skydiverRepository.findByEmail(departureDTO.skydiverEmail());
+        Skydiver user = skydiverRepository.findByEmail(departureDTO.skydiverEmail())
+                .orElseThrow(() -> new BadRequestException("No user with email " + departureDTO.skydiverEmail() + "was found"));
 
-
-        if (oUser.isEmpty()) {
-            throw new BadRequestException("No user with email " + departureDTO.skydiverEmail() + "was found");
-        }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Optional<Skydiver> caller = skydiverRepository.findByEmail(authentication.getName());
+        Skydiver caller = skydiverRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new BadRequestException("Please login"));
 
-        if (caller.isEmpty()) {
-            throw new BadRequestException("Please login");
-        }
-        Optional<Departure> oDeparture = departureRepository.findById(departureDTO.departureId());
-
-        if (oDeparture.isEmpty()) {
-            throw new BadRequestException("No departure with that id");
+        if ((caller.getRole().getName().equals("USER") || caller.getRole().getName().equals("AWAITING_APPROVAL")) && (departureDTO.jumpType().equals("AFF") || departureDTO.jumpType().equals("TANDEM"))){
+            throw new BadRequestException("You are not authorized to perform this action");
         }
 
 
-        if (oUser.get().getLicence().equals("AFF")) {
+        Departure departure = departureRepository.findById(departureDTO.departureId())
+                .orElseThrow(() -> new BadRequestException("No departure with that id"));
+
+
+        if (user.getLicence().equals("AFF") && caller.getRole().getName().equals("USER")) {
             throw new BadRequestException("You have to be at least student to book your own fights");
         }
 
-        if (oUser.get().getLicence().equals("Student") && !departureDTO.jumpType().equals(JumpType.STUDENT.name())) {
+        if (user.getLicence().equals("Student") && !departureDTO.jumpType().equals(JumpType.STUDENT.name()) && caller.getRole().getName().equals("USER")) {
             throw new BadRequestException("You can only book Student flights");
         }
 
 
-        if ((departureDTO.jumpType().equals(JumpType.AFF.name()) && !oDeparture.get().isAllowAFF()) || (departureDTO.jumpType().equals(JumpType.STUDENT.name()) && !oDeparture.get().isAllowStudents())) {
+        if ((departureDTO.jumpType().equals(JumpType.AFF.name()) && (!departure.isAllowAFF() || !departure.isAllowStudents())) || (departureDTO.jumpType().equals(JumpType.STUDENT.name()) && !departure.isAllowStudents())) {
             throw new BadRequestException("Cant add to this departure because AFF or Student is not allowed");
         }
 
 
-        List<DepartureUser> existingDepUser = departureUserRepository.findByDepartureIdWhereInSkydiverId(departureDTO.departureId(), Arrays.asList(oUser.get().getId()));
+        List<DepartureUser> existingDepUser = departureUserRepository.findByDepartureIdWhereInSkydiverId(departureDTO.departureId(), Arrays.asList(user.getId()));
 
         if (!existingDepUser.isEmpty()) {
             throw new BadRequestException("User is already assigned for that departure");
         }
 
-        currentWeight = calculateCurrentWeight(oDeparture.get());
+        currentWeight = calculateCurrentWeight(departure);
 
-        if (oDeparture.get().getPlane().getMaxWeight() < currentWeight + oUser.get().getWeight()) {
-            throw new BadRequestException("Can't book this departure weight is too high" + oDeparture.get().getPlane().getMaxWeight() + oUser.get().getWeight());
+        if (departure.getPlane().getMaxWeight() < currentWeight + user.getWeight()) {
+            throw new BadRequestException("Can't book this departure weight is too high" + departure.getPlane().getMaxWeight() + user.getWeight());
         }
 
 
@@ -205,10 +206,10 @@ public class DepartureService implements IDepartureService {
                 if (!existingDepUser.isEmpty()) {
                     throw new BadRequestException("User is already assigned for that departure");
                 }
-                if (oDeparture.get().getPlane().getMaxWeight() < currentWeight + oUser.get().getWeight() + aff.get().getWeight()) {
+                if (departure.getPlane().getMaxWeight() < currentWeight + user.getWeight() + aff.get().getWeight()) {
                     throw new BadRequestException("Can't book this departure weight is too high");
                 }
-                oDeparture.get().getDepartureUsers().add(departureUserRepository.save(DepartureUser.createAFFJump(oUser.get(),aff.get(), oDeparture.get() )));
+                departure.getDepartureUsers().add(departureUserRepository.save(DepartureUser.createAFFJump(user,aff.get(), departure )));
             }
             case TANDEM -> {
                 departureDTO.secondJumperEmail().orElseThrow(() -> new BadRequestException("To book tandem jump you need to specify customer"));
@@ -217,18 +218,18 @@ public class DepartureService implements IDepartureService {
                 if (customer.isEmpty()) {
                     throw new BadRequestException("No customer with that email");
                 }
-                if (oDeparture.get().getPlane().getMaxWeight() < currentWeight + oUser.get().getWeight() + customer.get().getWeight()) {
+                if (departure.getPlane().getMaxWeight() < currentWeight + user.getWeight() + customer.get().getWeight()) {
                     throw new BadRequestException("Can't book this departure weight is too high");
                 }
 
-                oDeparture.get().getDepartureUsers().add(departureUserRepository.save(DepartureUser.createTandemJump(oUser.get(), customer.get(),  oDeparture.get())));
+                departure.getDepartureUsers().add(departureUserRepository.save(DepartureUser.createTandemJump(user, customer.get(),  departure)));
             }
             default ->
-                    oDeparture.get().getDepartureUsers().add(departureUserRepository.save(DepartureUser.createNormalJump(oUser.get(), oDeparture.get(), JumpType.valueOf(departureDTO.jumpType()))));
+                    departure.getDepartureUsers().add(departureUserRepository.save(DepartureUser.createNormalJump(user, departure, JumpType.valueOf(departureDTO.jumpType()))));
         }
 
-        oDeparture.get().fillData();
-        return ResponseEntity.ok(departureMapper.mapToDepartureDetailsDTO(oDeparture.get()));
+        departure.fillData();
+        return ResponseEntity.ok(departureMapper.mapToDepartureDetailsDTO(departure));
     }
 
     private void deleteAllStudentsFromDeparture(long departureId) {
