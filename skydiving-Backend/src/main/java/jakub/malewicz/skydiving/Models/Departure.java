@@ -1,7 +1,6 @@
 package jakub.malewicz.skydiving.Models;
 
 import jakarta.persistence.*;
-import jakub.malewicz.skydiving.DTOs.PlaneDTO;
 import jakub.malewicz.skydiving.DTOs.SkydiverDTO;
 import jakub.malewicz.skydiving.Services.Mappers;
 import jakub.malewicz.skydiving.enums.JumpType;
@@ -39,8 +38,6 @@ public class Departure {
     private int studentsAmount;
     @Transient
     List<SkydiverDTO> skydivers;
-    @Transient
-    PlaneDTO planeDTO;
 
     @ManyToOne
     @JoinColumn(name = "plane_id", nullable = false)
@@ -84,7 +81,7 @@ public class Departure {
                 skydivers.add(Mappers.mapToDTO(dep.getSkydiver(), dep.getJumpType().name()));
             }
         });
-        planeDTO = Mappers.mapToDTO(plane);
+
 
     }
 }
