@@ -38,6 +38,7 @@ import {
 import { TopbarComponent } from './topbar/topbar.component';
 import { ReserveJumpDialogComponent } from './reserve-jump-dialog/reserve-jump-dialog.component';
 import { ApprovalsPageComponent } from './approvals-page/approvals-page.component';
+import { ApprovalRequestComponent } from './approval-request/approval-request.component';
 
 @Injectable({ providedIn: 'root' })
 export class TranslocoHttpLoader implements TranslocoLoader {
@@ -72,7 +73,8 @@ export const MY_FORMATS = {
     DeparturePageComponent,
     TopbarComponent,
     ReserveJumpDialogComponent,
-    ApprovalsPageComponent
+    ApprovalsPageComponent,
+    ApprovalRequestComponent
   ],
   imports: [
     BrowserModule,

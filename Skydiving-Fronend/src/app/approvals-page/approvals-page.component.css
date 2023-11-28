@@ -4,24 +4,14 @@
     display: flex;
     justify-content: center;
 }
+
 .data-holder {
     width: 50%;
 }
+
 .user {
     width: 100%;
-    background-color: white;
-    border: 1px solid black;
     height: fit-content;
     padding: 3px;
     margin-bottom: 10px;
-}
-
-.user-data{
-    width: 100%;
-}
-
-td{
-    border: 1px solid black;
-    width: 16%;
-    text-align: center;
 }

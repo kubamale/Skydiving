@@ -11,19 +11,30 @@ export class ApprovalsPageComponent implements OnInit {
 
   approvalRequests: SkydiverApprovalModel[] = []; 
 
+
   constructor(private approvalService: ApprovalService){}
 
   ngOnInit(): void {
     this.approvalService.getMyApprovalReqests().subscribe(data => {
       this.approvalRequests = data as SkydiverApprovalModel[];
-      console.log(data);
     })
   }
 
-  reject(approval: SkydiverApprovalModel): void {
-    this.approvalService.rejectApprovalService(approval.email).subscribe(data => {
-      this.approvalRequests.splice(this.approvalRequests.indexOf(data as SkydiverApprovalModel), 1);
-    });
+  deleteApproval(approval: SkydiverApprovalModel): void {
+    let tmp: SkydiverApprovalModel[] = [];
+
+    for(let app of this.approvalRequests){
+      if(app.email !== approval.email){
+        tmp.push(app);
+      }
+      console.log(app.email);
+    }
+
+    console.log('deleting');
+
+    this.approvalRequests = tmp;
+
   }
+  
 
 }

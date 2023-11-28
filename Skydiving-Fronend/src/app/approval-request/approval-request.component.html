@@ -1,0 +1,89 @@
+    <div class="data" *transloco="let t">
+    <table class="user-data" [cellSpacing]="0">
+        <thead>
+            <tr>
+                <th>
+                    {{t("userData.firstName")}}
+                </th>
+                <th>
+                    {{t("userData.lastName")}}
+                </th>
+                <th>
+                    {{t("userData.email")}}
+                </th>
+                <th>
+                    {{t("userData.license")}}
+                </th>
+                <th>
+                    {{t("action")}}
+                </th>
+                <th>
+                    {{t("action")}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+                    <tr>
+                        <td>
+                            <h3>{{approval.firstName }}</h3> 
+                        </td>
+                        <td>
+                            <h3>{{approval.lastName}}</h3> 
+                        </td>
+                        <td>
+                            <h3>{{approval.email}}</h3> 
+                        </td>
+                        <td>
+                            <h3>{{approval.licence}}</h3>
+                        </td>
+                        <td>
+                            <button mat-button (click)="reject(approval)">
+                                <h3>
+                                    {{t("reject")}}
+                                </h3>
+                            </button>
+                        </td>
+                        <td>
+                            <button mat-button>
+                                <h3>
+                                   {{t("editToApprove")}} 
+                                </h3>
+                            </button>
+                        </td>
+                    </tr>
+        </tbody>
+        </table>
+            <form class="myForm" [formGroup]="approvalForm">
+                <mat-form-field>
+                    <mat-label>{{t("userData.license")}}</mat-label>
+                    <mat-select formControlName="licence">
+                      <mat-option value="AFF">AFF</mat-option>
+                      <mat-option value="Student">Student</mat-option>
+                      <mat-option value="A">A</mat-option>
+                      <mat-option value="B">B</mat-option>
+                      <mat-option value="C">C</mat-option>
+                      <mat-option value="Coach">Coach</mat-option>
+                      <mat-option value="D">D</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="data">
+                    <mat-label>{{t("userData.role")}}</mat-label>
+                    <mat-select formControlName="role">
+                      <mat-option value="ADMIN">ADMIN</mat-option>
+                      <mat-option value="MANIFEST">MANIFEST</mat-option>
+                      <mat-option value="INSTRUCTOR">INSTRUCTOR</mat-option>
+                      <mat-option value="USER">USER</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="data">
+                    <mat-label>{{t("privileges")}}</mat-label>
+                    <mat-select formControlName="privileges" multiple>
+                      <mat-option value="AFF_INSTRUCTOR">AFF_INSTRUCTOR</mat-option>
+                      <mat-option value="TANDEM_PILOT">TANDEM_PILOT</mat-option>
+                      <mat-option value="COACH">COACH</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <br/>
+                <button class="approve-button" (click)="approve()">{{t("approve")}}</button>
+            </form>
+        </div>

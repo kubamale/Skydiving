@@ -33,6 +33,7 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.PUT, "/departures").hasAnyRole("ADMIN", "MANIFEST")
                                 .requestMatchers(HttpMethod.DELETE, "/departures").hasAnyRole("ADMIN", "MANIFEST")
                                 .requestMatchers(HttpMethod.DELETE, "/approval").hasAnyRole("ADMIN", "MANIFEST", "INSTRUCTOR")
+                                .requestMatchers(HttpMethod.POST, "/approval").hasAnyRole("ADMIN", "MANIFEST", "INSTRUCTOR")
                                 .requestMatchers(HttpMethod.GET, "/users/instructors", "/users/tandempilots","/users/customers","/users/skydivers","/users/affSkydivers", "/approval").hasAnyRole("ADMIN", "MANIFEST", "INSTRUCTOR")
                                 .requestMatchers(HttpMethod.POST, "/departures/deleteUserFromDeparture").hasAnyRole("ADMIN", "MANIFEST", "INSTRUCTOR", "USER")
                                 .requestMatchers(HttpMethod.GET, "/departures", "/departures/dates", "/plane/all").authenticated()

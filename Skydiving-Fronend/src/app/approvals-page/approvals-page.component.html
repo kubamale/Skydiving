@@ -1,37 +1,7 @@
 <div class="main-container">
     <div class="data-holder">
-        <div *ngFor=" let approval of approvalRequests" class="user">
-            <table class="user-data" [cellSpacing]="0">
-                <tr>
-                    <td>
-                        <h3>{{approval.firstName }}</h3> 
-                    </td>
-                    <td>
-                        <h3>{{approval.lastName}}</h3> 
-                    </td>
-                    <td>
-                        <h3>{{approval.email}}</h3> 
-                    </td>
-                    <td>
-                        <h3>{{approval.licence}}</h3>
-                    </td>
-                    <td>
-                        <button mat-button (click)="reject(approval)">
-                            <h3>
-                                Reject
-                            </h3>
-                        </button>
-                    </td>
-                    <td>
-                        <button mat-button>
-                            <h3>
-                                Edit to approve
-                            </h3>
-                        </button>
-                    </td>
-                </tr>
-            </table>
-            
+        <div >
+           <app-approval-request *ngFor=" let approval of approvalRequests" class="user" [approval]="approval" (deleteApprovalEmiter)="deleteApproval($event)"></app-approval-request>
         </div>
     </div>
 </div>

@@ -1,6 +1,7 @@
 package jakub.malewicz.skydiving.Controllers;
 
 import jakub.malewicz.skydiving.DTOs.ApprovalDTO;
+import jakub.malewicz.skydiving.DTOs.ApprovedDTO;
 import jakub.malewicz.skydiving.Services.IApprovalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,11 @@ public class ApprovalController {
     @DeleteMapping
     public ResponseEntity<ApprovalDTO> rejectApprovalRequest(@RequestParam String email){
         return approvalService.rejectApprovalRequest(email);
+    }
+
+    @PostMapping
+    public ResponseEntity<ApprovalDTO> approveRequest(@RequestBody ApprovedDTO approvedDTO){
+        return approvalService.approveRequest(approvedDTO);
     }
 
 }

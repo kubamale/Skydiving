@@ -53,6 +53,10 @@
     "selectInstructor": "Select Instructor",
     "selectSkydiver": "Select Skydiver",
     "selectCustomer": "Select Customer",
-    "cancelJump": "Cancel Jump"
-
+    "cancelJump": "Cancel Jump",
+    "action": "Action",
+    "reject": "Reject",
+    "editToApprove": "Edit to Approve",
+    "approve": "Approve",
+    "privileges": "Privileges"
 }

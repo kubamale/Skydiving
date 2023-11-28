@@ -35,6 +35,15 @@ export class ApprovalService {
     );
   }
 
+  approve(body: any): Observable<SkydiverApprovalModel>{
+    let headers = this.getHeaders();
+    return this.http.post<SkydiverApprovalModel>(this.url, body, {headers}).pipe(
+      catchError((error) => {
+       return this.errorHandler.handleError(error);
+      })
+    );
+  }
+
   private getHeaders(): HttpHeaders{
     if (window.localStorage.getItem('role') == null || window.localStorage.getItem('token') == null){
       this.router.navigate(['']);

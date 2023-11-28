@@ -1,0 +1,28 @@
+.user-data{
+    width: 100%;
+}
+
+td{
+    border: 1px solid black;
+    width: 16%;
+    text-align: center;
+}
+
+.data{
+    background-color: white;
+    justify-content: center;
+}
+
+.myForm{
+    width: fit-content;
+    margin: auto;
+}
+
+.approve-button{
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+mat-form-field{
+    padding: 5px;
+}

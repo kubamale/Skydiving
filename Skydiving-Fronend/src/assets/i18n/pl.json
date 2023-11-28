@@ -53,5 +53,11 @@
     "selectInstructor":"Wybierz Instruktora",
     "selectSkydiver": "Wybierz Skoczka",
     "selectCustomer": "Wybierz Klienta",
-    "cancelJump": "Usuń rezerwację"
+    "cancelJump": "Usuń rezerwację",
+    "action": "Akcja",
+    "reject": "Odrzuć",
+    "editToApprove": "Edytuj aby akceptować",
+    "approve": "Akceptuj",
+    "privileges": "Uprawnienia"
+
 }
