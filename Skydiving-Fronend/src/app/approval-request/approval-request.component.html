@@ -69,8 +69,8 @@
                   <mat-form-field class="data">
                     <mat-label>{{t("userData.role")}}</mat-label>
                     <mat-select formControlName="role">
-                      <mat-option value="ADMIN">ADMIN</mat-option>
-                      <mat-option value="MANIFEST">MANIFEST</mat-option>
+                      <mat-option *ngIf="allOptions" value="ADMIN">ADMIN</mat-option>
+                      <mat-option *ngIf="allOptions" value="MANIFEST">MANIFEST</mat-option>
                       <mat-option value="INSTRUCTOR">INSTRUCTOR</mat-option>
                       <mat-option value="USER">USER</mat-option>
                     </mat-select>

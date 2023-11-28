@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SkydiverApprovalModel } from 'src/shared/skydiver';
 import { ApprovalService } from '../approval.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-approval-request',
@@ -16,12 +17,20 @@ export class ApprovalRequestComponent implements OnInit {
   @Input()
   approval!: SkydiverApprovalModel;
   @Output() deleteApprovalEmiter = new EventEmitter<SkydiverApprovalModel>();
+  allOptions: boolean = false;
   ngOnInit(): void {
     this.approvalForm = this.builder.group({
       licence:[this.approval.licence, Validators.required],
       role: ['', Validators.required],
-      privileges: ['', Validators.required]
+      privileges: ['', ]
     })
+
+    let role = window.localStorage.getItem('role') as string;
+
+    if (role === 'ADMIN' || role === 'MANIFEST'){
+      this.allOptions = true;
+    }
+
   }
 
   reject(approval: SkydiverApprovalModel): void {
