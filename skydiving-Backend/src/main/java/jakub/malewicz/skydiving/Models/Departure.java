@@ -58,11 +58,14 @@ public class Departure {
         affAmount = (int )departureUsers.stream().filter(departureUser -> departureUser.getJumpType().equals(JumpType.AFF)).count();
         studentsAmount = (int)departureUsers.stream().filter(departureUser -> departureUser.getJumpType().equals(JumpType.STUDENT)).count();
         totalWeight = departureUsers.stream().mapToDouble(dep -> {
-            if (dep.getCustomer() != null){
+            if (dep.getJumpType().equals(JumpType.TANDEM)){
                 return dep.getSkydiver().getWeight() + dep.getCustomer().getWeight();
             }
+            else if(dep.getJumpType().equals(JumpType.AFF)){
+                return dep.getSkydiver().getWeight() + dep.getAffStudent().getWeight();
+            }
             else {
-                return dep.getSkydiver().getWeight();
+                return  dep.getSkydiver().getWeight();
             }
         }).sum();
         skydiversAmount = departureUsers.stream().mapToInt(dep -> {
