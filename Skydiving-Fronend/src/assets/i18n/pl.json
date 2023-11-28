@@ -52,5 +52,6 @@
     "other": "Innej osoby",
     "selectInstructor":"Wybierz Instruktora",
     "selectSkydiver": "Wybierz Skoczka",
-    "selectCustomer": "Wybierz Klienta"
+    "selectCustomer": "Wybierz Klienta",
+    "cancelJump": "Usuń rezerwację"
 }

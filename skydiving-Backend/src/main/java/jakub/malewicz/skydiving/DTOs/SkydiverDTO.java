@@ -6,5 +6,6 @@ public record SkydiverDTO(
         String lastName,
         double weight,
         String licence,
-        String jumpType
+        String jumpType,
+        String email
 ){}

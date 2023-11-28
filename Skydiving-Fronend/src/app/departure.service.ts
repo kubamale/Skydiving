@@ -10,6 +10,7 @@ import { SkydiverModel } from 'src/shared/skydiver';
   providedIn: 'root'
 })
 export class DepartureService {
+  
 
   baseUrl: string = 'http://localhost:8080/departures';
 
@@ -28,12 +29,26 @@ export class DepartureService {
     );
   }
 
+  cancelJump(email: string, id: number): Observable<DepartureDetailsModel> {
+    let url = 'http://localhost:8080/departures/deleteUserFromDeparture';
+    let headers = this.getHeaders();
+    const params = new HttpParams()
+    .set('email', email)
+    .set('departureId', id);
+
+    return this.http.post<DepartureDetailsModel>(url, {}, {headers, params}).pipe(
+      catchError((error) => {
+       return this.errorHandler.handleError(error);
+      })
+    );
+  }
+
   getDeparturesDetails(date: string, page: number): Observable<DepartureDetailsModel[]> {
     let headers = this.getHeaders();
     const params = new HttpParams()
     .set('date', date)
     .set('page', page);
-
+    console.log(headers.get('Authorization'));
     return this.http.get<DepartureDetailsModel[]>(this.baseUrl, {headers, params}).pipe(
       catchError((error) => {
        return this.errorHandler.handleError(error);

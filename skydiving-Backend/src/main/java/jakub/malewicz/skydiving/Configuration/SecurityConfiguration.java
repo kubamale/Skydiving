@@ -34,15 +34,14 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.DELETE, "/departures").hasAnyRole("ADMIN", "MANIFEST")
                                 .requestMatchers(HttpMethod.DELETE, "/approval").hasAnyRole("ADMIN", "MANIFEST", "INSTRUCTOR")
                                 .requestMatchers(HttpMethod.GET, "/users/instructors", "/users/tandempilots","/users/customers","/users/skydivers","/users/affSkydivers", "/approval").hasAnyRole("ADMIN", "MANIFEST", "INSTRUCTOR")
+                                .requestMatchers(HttpMethod.POST, "/departures/deleteUserFromDeparture").hasAnyRole("ADMIN", "MANIFEST", "INSTRUCTOR", "USER")
                                 .requestMatchers(HttpMethod.GET, "/departures", "/departures/dates", "/plane/all").authenticated()
-                                .requestMatchers("/departures/deleteUserFromDeparture", "departures/book").authenticated()
+                                .requestMatchers( "departures/book").authenticated()
 
                 )
                 .sessionManagement(session ->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
-
         return http.build();
     }
 }

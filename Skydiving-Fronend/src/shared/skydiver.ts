@@ -4,7 +4,8 @@ export interface SkydiverModel{
     lastName: string,
     weight: number,
     licence: string,
-    jumpType: string
+    jumpType: string,
+    email: string,
 }
 
 export interface SkydiverInfoModel{

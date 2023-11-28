@@ -22,6 +22,8 @@ export class DepartureComponent implements OnInit{
   departure!: DepartureDetailsModel;
   planes: PlaneModel[] = [];
   showButton: boolean = false;
+  showCancelJumpButton: boolean = false;
+  email!: string;
   edit: boolean = false;
   rolesAllowedToEdit = ['ADMIN', 'MANIFEST'];
   editable: boolean = false;
@@ -38,7 +40,20 @@ export class DepartureComponent implements OnInit{
       planeId: [this.departure.plane.id, [Validators.required]],
     })
 
+    this.email = window.localStorage.getItem('email') as string;
+    this.showCancelJumpButtonCheck();
   }
+
+  private showCancelJumpButtonCheck(){
+    for (let sky of this.departure.skydivers){
+      console.log(sky.email);
+      if(sky.email === this.email){
+        this.showCancelJumpButton = true;
+        break; 
+      }
+    }
+  }
+
   showButtons(){
     this.showButton = true;
     if(this.rolesAllowedToEdit.indexOf(window.localStorage.getItem('role') as string) !== -1) {
@@ -114,8 +129,16 @@ export class DepartureComponent implements OnInit{
       this.departureService.bookJump(result as DepartureCreateModel).subscribe(res => { 
       this.departure = res as DepartureDetailsModel;
       console.log(this.departure.skydivers);
+      this.showCancelJumpButtonCheck();
       });
     }
     });
+  }
+
+  cancelJump(){
+    this.departureService.cancelJump(this.email, this.departure.id).subscribe(res => {
+      this.departure = res as DepartureDetailsModel;
+      this.showCancelJumpButton = false;
+    })
   }
 }

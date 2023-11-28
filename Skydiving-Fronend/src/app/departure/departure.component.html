@@ -55,13 +55,14 @@
                     mat-row
                     *matRowDef="let row; columns: nonEditColumns;"
                 ></tr>
-              </table>
+            </table>
         </div>
        
     <div class="info" *ngIf="showButton">
         <div *transloco="let t">
             <button  (click)="openDialog()">{{t("jump")}}</button>
             <button  *ngIf="edit" (click)="editDeparture()">{{t("edit")}}</button>
+            <button *ngIf="showCancelJumpButton" (click)="cancelJump()">{{t("cancelJump")}}</button>
         </div>
         
     </div>

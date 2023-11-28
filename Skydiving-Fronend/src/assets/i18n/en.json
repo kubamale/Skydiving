@@ -52,6 +52,7 @@
     "other": "Other Person",
     "selectInstructor": "Select Instructor",
     "selectSkydiver": "Select Skydiver",
-    "selectCustomer": "Select Customer"
+    "selectCustomer": "Select Customer",
+    "cancelJump": "Cancel Jump"
 
 }

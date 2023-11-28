@@ -10,6 +10,6 @@ import org.springframework.stereotype.Component;
 public class Mappers {
 
     public static SkydiverDTO mapToDTO(Skydiver skydiver, String jumpType){
-        return new SkydiverDTO(skydiver.getId(), skydiver.getFirstName(), skydiver.getLastName(), skydiver.getWeight(), skydiver.getLicence(), jumpType);
+        return new SkydiverDTO(skydiver.getId(), skydiver.getFirstName(), skydiver.getLastName(), skydiver.getWeight(), skydiver.getLicence(), jumpType, skydiver.getEmail());
     }
 }

@@ -35,8 +35,8 @@ public class DepartureController {
     }
 
     @PostMapping("/deleteUserFromDeparture")
-    public ResponseEntity<DepartureDetailsDTO> deleteUserFromDeparture(@RequestParam String userId, @RequestParam long departureId){
-        return departureService.deleteUserFromDeparture(userId, departureId);
+    public ResponseEntity<DepartureDetailsDTO> deleteUserFromDeparture(@RequestParam String email, @RequestParam long departureId){
+        return departureService.deleteUserFromDeparture(email, departureId);
     }
 
     @GetMapping("/dates")

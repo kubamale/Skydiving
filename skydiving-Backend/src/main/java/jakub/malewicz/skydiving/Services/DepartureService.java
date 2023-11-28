@@ -124,7 +124,7 @@ public class DepartureService implements IDepartureService {
     ///TODO: Check if request was not sent less then 1 hour before flight if its sent by USER
     public ResponseEntity<DepartureDetailsDTO> deleteUserFromDeparture(String userEmail, long departureId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!authentication.getName().equals(userEmail)){
+                if (!authentication.getName().equals(userEmail)){
             throw new BadRequestException("You can only cancel flights for yourself");
         }
 
