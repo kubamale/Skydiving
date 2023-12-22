@@ -10,7 +10,7 @@ import { takeUntil } from 'rxjs';
   styleUrls: ['./approval-request.component.css']
 })
 export class ApprovalRequestComponent implements OnInit {
-
+  editable: boolean = false;
   constructor(private approvalService: ApprovalService, private builder: FormBuilder){}
 
   approvalForm!: FormGroup;
@@ -22,7 +22,7 @@ export class ApprovalRequestComponent implements OnInit {
     this.approvalForm = this.builder.group({
       licence:[this.approval.licence, Validators.required],
       role: ['', Validators.required],
-      privileges: ['', ]
+      privileges: [null, ]
     })
 
     let role = window.localStorage.getItem('role') as string;
@@ -50,5 +50,9 @@ export class ApprovalRequestComponent implements OnInit {
     this.approvalService.approve(body).subscribe(data => {
       this.deleteApprovalEmiter.emit(data as SkydiverApprovalModel);
     });
+  }
+
+  edit(){
+    this.editable = !this.editable;
   }
 }

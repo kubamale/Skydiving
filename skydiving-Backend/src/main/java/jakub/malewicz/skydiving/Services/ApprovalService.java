@@ -74,7 +74,9 @@ public class ApprovalService implements IApprovalService{
         Role role = roleRepository.findByName(approvedDTO.role())
                         .orElseThrow(() -> new BadRequestException("No role "+ approvedDTO.role()));
         userToApprove.setRole(role);
-        userToApprove.setPrivileges(approvedDTO.privileges().stream().map(Privilege::valueOf).collect(Collectors.toSet()));
+        if (approvedDTO.privileges().isPresent()){
+            userToApprove.setPrivileges(approvedDTO.privileges().get().stream().map(Privilege::valueOf).collect(Collectors.toSet()));
+        }
 
         skydiverRepository.save(userToApprove);
         approvalRepository.delete(request);

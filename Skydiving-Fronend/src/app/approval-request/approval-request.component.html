@@ -44,7 +44,7 @@
                             </button>
                         </td>
                         <td>
-                            <button mat-button>
+                            <button mat-button (click)="edit()">
                                 <h3>
                                    {{t("editToApprove")}} 
                                 </h3>
@@ -53,7 +53,7 @@
                     </tr>
         </tbody>
         </table>
-            <form class="myForm" [formGroup]="approvalForm">
+            <form class="myForm" [formGroup]="approvalForm" *ngIf="editable">
                 <mat-form-field>
                     <mat-label>{{t("userData.license")}}</mat-label>
                     <mat-select formControlName="licence">
