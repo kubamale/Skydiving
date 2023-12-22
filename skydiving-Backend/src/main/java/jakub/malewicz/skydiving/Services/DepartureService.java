@@ -13,6 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -37,7 +39,7 @@ public class DepartureService implements IDepartureService {
         ).toList());
     }
 
-    ///TODO: Create logic to block adding new departure with the same plane earlier the 30 min after previous flight
+    ///TODO: Create logic to block adding new departure with the same plane earlier then 30 min after previous flight
     public ResponseEntity<DepartureDetailsDTO> createDeparture(DepartureCreateDTO departure) {
         Optional<Plane> plane = planeRepository.findById(departure.planeId());
 
@@ -121,7 +123,6 @@ public class DepartureService implements IDepartureService {
 
     }
 
-    ///TODO: Check if request was not sent less then 1 hour before flight if its sent by USER
     public ResponseEntity<DepartureDetailsDTO> deleteUserFromDeparture(String userEmail, long departureId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                 if (!authentication.getName().equals(userEmail)){
@@ -131,12 +132,26 @@ public class DepartureService implements IDepartureService {
         Skydiver skydiver = skydiverRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new BadRequestException("No account with email " + userEmail));
 
-
         Departure departure = departureRepository.findById(departureId)
                 .orElseThrow(() -> new BadRequestException("No departure with that Id"));
 
         DepartureUser departureUser = departureUserRepository.findByDepartureIdAndSkydiverId(departureId, skydiver.getId())
                 .orElseThrow(() -> new BadRequestException("User is not assigned to that departure") );
+
+        if (!skydiver.getRole().getName().equals("ADMIN") && !skydiver.getRole().getName().equals("MANIFEST")){
+            try{
+                Date departureDate = getDateFromString(departure.getDate(), departure.getTime());
+                Date requestTime = new Date();
+                long distance = (requestTime.getTime() - departureDate.getTime())/3600000;
+                if (distance < 1){
+                    throw new BadRequestException("You can't cancel jump that's less then 1 hour away. Please contact someone from manifest.");
+                }
+            }catch (ParseException ex){
+                throw new BadRequestException("Internal error please try again!");
+            }
+        }
+
+
 
         departure.getDepartureUsers().remove(departureUser);
         departureUserRepository.delete(departureUser);
@@ -250,5 +265,10 @@ public class DepartureService implements IDepartureService {
                 return dep.getSkydiver().getWeight();
             }
         }).sum();
+    }
+
+    private Date getDateFromString(String date, String time) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        return dateFormat.parse(date + " " + time);
     }
 }
