@@ -5,6 +5,7 @@ import { AuthenticationService } from '../authentication.service';
 import { Router} from '@angular/router';
 import { SkydiverInfoModel } from 'src/shared/skydiver';
 import { UserService } from '../user.service';
+import { DataSharingService } from '../data-sharing.service';
 
 @Component({
   selector: 'app-registration-page',
@@ -15,7 +16,7 @@ export class RegistrationPageComponent implements OnInit{
   registrationForm!: FormGroup;
   hide = true;
   approvers: SkydiverInfoModel[] = []; 
-  constructor(private formBuilder: FormBuilder, private auth: AuthenticationService, private router: Router, private userService: UserService){}
+  constructor(private formBuilder: FormBuilder,private sharedDataService: DataSharingService, private auth: AuthenticationService, private router: Router, private userService: UserService){}
   ngOnInit(): void {
     
 
@@ -44,6 +45,7 @@ export class RegistrationPageComponent implements OnInit{
         window.localStorage.setItem('email', data.email);
         window.localStorage.setItem('privileges', data.privileges as string);
         this.router.navigate(['/menu']);
+        this.sharedDataService.userLoggedIn();
       })
     }
 

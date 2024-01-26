@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
+import { DataSharingService } from '../data-sharing.service';
 
 @Component({
   selector: 'app-login-page',
@@ -12,7 +13,7 @@ import { TranslocoService } from '@ngneat/transloco';
 export class LoginPageComponent {
   loginForm!: FormGroup;
   hide = true;
-  constructor(private formBuilder: FormBuilder, private translocoService: TranslocoService, private auth: AuthenticationService, private router: Router){}
+  constructor(private formBuilder: FormBuilder, private sharedDataService: DataSharingService, private translocoService: TranslocoService, private auth: AuthenticationService, private router: Router){}
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       email: ['',[Validators.required, Validators.email]],
@@ -31,6 +32,7 @@ export class LoginPageComponent {
         window.localStorage.setItem('email', data.email);
         window.localStorage.setItem('privileges', data.privileges as string);
         this.router.navigate(['/menu']);
+        this.sharedDataService.userLoggedIn();
       })
       
     }
