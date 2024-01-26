@@ -1,16 +1,31 @@
-<div class="main">
-    <div class="main-container" *transloco="let t">
-        <button class="tile" (click)="navigateTo('/departure-callendar')">
-            <h2>{{t("menu.departures")}}</h2>
-            <img src="/assets/icons/plane.png" alt="plane">
-        </button>
-        <button class="tile" (click)="navigateTo('/profile')">
-            <h2>{{t("menu.profile")}}</h2>
-            <img src="/assets/icons/profile.png" alt="profile">
-        </button>
-        <button class="tile" (click)="navigateTo('/approvals')">Approvals</button>
-        <button class="tile"></button>
+<div class="container-fluid h-100 main" *transloco="let t">
+    <div class="row justify-content-center w-100">
+        <div class="row justify-content-center w-100">
+            <div class="col-sm-3">
+                <button class="tile" (click)="navigateTo('/departure-callendar')">
+                    <h2>{{t("menu.departures")}}</h2>
+                    <img src="/assets/icons/plane.png" alt="plane">
+                </button>
+            </div>
+            <div class="col-sm-3">
+                <button class="tile" (click)="navigateTo('/profile')">
+                    <h2>{{t("menu.profile")}}</h2>
+                    <img src="/assets/icons/profile.png" alt="profile">
+                </button>
+            </div>
+        </div>
+
+        <div class="row justify-content-center w-100">
+            <div class="col-sm-3">
+                <button class="tile" (click)="navigateTo('/approvals')">Approvals</button>
+            </div>
+            <div class="col-sm-3">
+                <button class="tile"></button>
+            </div>
+        </div>
     </div>
-</div>
+</div>   
+        
+
     
 
