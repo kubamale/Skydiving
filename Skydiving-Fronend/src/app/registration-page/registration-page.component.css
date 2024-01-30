@@ -1,40 +1,53 @@
 .main{
-    display: flex;
+    display: inline-flex;
     align-items: center; /* Wyśrodkowanie w pionie */
     justify-content: center; /* Wyśrodkowanie w poziomie */
     height: 90vh;
+    width: 100%;
 }
 
 .main-container{
-    max-width: 30%;
+    max-width: 90%;
     height: fit-content;
     margin: auto;
     display: flex;
     flex-wrap: wrap;
     padding: auto;
-    width: fit-content;
+    width: 60%;
     padding-top: 1%;
     padding-bottom: 1%;
-    border: solid 2px rgb(52, 52, 52);
+    border: solid 2px rgb(11, 94, 215);
+    box-shadow: rgba(11, 94, 215, 0.2) 0px 8px 24px;
+
     border-radius: 10px;
     background-color: rgb(49, 49, 49);
     min-width: 250px;
-   
+    
 }
 
 
-.data{
-    width: 46%;
-    margin-top: 0;
+.data {
+    width: 96%;
+    padding: 0;
+    margin: 0;
+}
+
+.email{
+    width: 98%;
+
+}
+
+mat-form-field{
+    margin: 0 !important;
 }
 
 #password, #register-button{
-    width: 96%;
+    width: 97%;
     margin-top: 0;
 }
 
 #password, #register-button, .data{
-    margin-left: 2%;
+    margin-left: 1%;
     margin-right: 2%;
 
 }
@@ -44,3 +57,23 @@
     background-color: rgb(52, 157, 223);
 }
 
+.my-form{
+    width: 100%;
+}
+
+.test{
+    border: 1px solid red;
+}
+
+.center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+
+.columna{
+    border: 1px solid blue;
+}

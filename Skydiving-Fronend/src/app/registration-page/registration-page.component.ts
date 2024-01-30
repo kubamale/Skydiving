@@ -13,8 +13,9 @@ import { DataSharingService } from '../data-sharing.service';
   styleUrls: ['./registration-page.component.css']
 })
 export class RegistrationPageComponent implements OnInit{
+
   registrationForm!: FormGroup;
-  hide = true;
+  visible = false;
   approvers: SkydiverInfoModel[] = []; 
   constructor(private formBuilder: FormBuilder,private sharedDataService: DataSharingService, private auth: AuthenticationService, private router: Router, private userService: UserService){}
   ngOnInit(): void {
@@ -48,6 +49,9 @@ export class RegistrationPageComponent implements OnInit{
         this.sharedDataService.userLoggedIn();
       })
     }
+  }
 
+  toggle(){
+    this.visible = !this.visible;
   }
 }

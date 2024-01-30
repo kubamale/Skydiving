@@ -1,56 +1,93 @@
 <div class="main">
   <div class="main-container" *transloco="let t">
-    <form class="myForm" [formGroup]="registrationForm" (ngSubmit)="register()">
-        <mat-form-field class="data">
-            <mat-label>{{t("userData.firstName")}}</mat-label>
-            <input matInput formControlName="firstName">
-          </mat-form-field >
-          <mat-form-field class="data">
-            <mat-label>{{t("userData.lastName")}}</mat-label>
-            <input matInput formControlName="lastName">
-          </mat-form-field>
-          <mat-form-field class="data">
-            <mat-label>{{t("userData.email")}}</mat-label>
-            <input matInput  formControlName="email">
-          </mat-form-field>
-          <mat-form-field class="data">
-            <mat-label>{{t("userData.phoneNumber")}}</mat-label>
-            <input matInput formControlName="phone">
-          </mat-form-field>
-          <mat-form-field id="password">
-            <mat-label>{{t("userData.password")}}</mat-label>
-            <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
-            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
-          </mat-form-field>
-          <mat-form-field class="data">
-            <mat-label>{{t("userData.emergencyContact")}}</mat-label>
-            <input matInput formControlName="emergencyPhone">
-          </mat-form-field>
-          <mat-form-field class="data">
-            <mat-label>{{t("userData.weight")}}</mat-label>
-            <input matInput formControlName="weight" type="number">
-          </mat-form-field>
-          <mat-form-field class="data">
-            <mat-label>{{t("userData.license")}}</mat-label>
-            <mat-select formControlName="licence">
-              <mat-option value="AFF">AFF</mat-option>
-              <mat-option value="Student">Student</mat-option>
-              <mat-option value="A">A</mat-option>
-              <mat-option value="B">B</mat-option>
-              <mat-option value="C">C</mat-option>
-              <mat-option value="Coach">Coach</mat-option>
-              <mat-option value="D">D</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field class="data">
-            <mat-label>{{t("userData.approver")}}</mat-label>
-            <mat-select formControlName="approversEmail">
-              <mat-option *ngFor="let app of approvers" [value]="app.email">{{app.firstName}} {{app.lastName}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <button id="register-button" mat-raised-button type="submit">{{t("register")}}</button>
+    <form class="my-form" [formGroup]="registrationForm" (ngSubmit)="register()">
+      <div class="container-fluid ">
+       <div class="row">
+        <div class="col-sm-6 pe-sm-1 pb-2">
+          <div class="input-group">
+            <input type="text" class="form-control" formControlName="firstName" placeholder="{{t('userData.firstName')}}" required>
+          </div>
+        </div>
+        <div class="col-sm-6 ps-sm-1 pb-2">
+          <div class="input-group">
+            <input type="text" class="form-control" formControlName="lastName" placeholder="{{t('userData.lastName')}}" required>
+          </div>
+        </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-sm-6 pe-sm-1 pb-2">
+            <div class="input-group">
+              <input type="text" class="form-control" formControlName="phone" placeholder="{{t('userData.phoneNumber')}}" required>
+            </div>
+          </div>
+          <div class="col-sm-6 ps-sm-1 pb-2">
+            <div class="input-group">
+              <input type="text" class="form-control" formControlName="emergencyPhone" placeholder="{{t('userData.emergencyContact')}}" required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 pb-2">
+            <div class="input-group">
+              <input type="text" class="form-control" formControlName="email" placeholder="{{t('userData.email')}}" required>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-sm-12 pb-2">
+            <div class="input-group">            
+              <span class="input-group-text" (click)="toggle()">
+                <svg *ngIf="!visible" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash-fill" viewBox="0 0 16 16">
+                  <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z"/>
+                  <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z"/>
+                </svg>
+                <svg *ngIf="visible" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                  <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                  <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                </svg>
+              </span>
+              <input class="form-control" formControlName="password" [type]="visible?'text':'password'" placeholder="{{t('userData.password')}}" required>
+          </div>
+        </div>
+
+        </div>
+        <div class="row">
+          <div class="col-sm-4 pe-sm-1 pb-2">
+            <div class="input-group">
+              <span class="input-group-text">{{t('userData.weight')}}</span>
+              <input type="number" class="form-control" formControlName="weight" required>
+            </div>
+          </div>
+          <div class="col-sm-4 ps-sm-1 pe-sm-1 pb-2">
+            <div class="input-group">
+              <span class="input-group-text">{{t('userData.license')}}</span>
+              <select class="form-select" formControlName="licence" required>
+                <option value="AFF">AFF</option>
+                <option value="Student">Student</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="Coach">Coach</option>
+                <option value="D">D</option>
+              </select>
+            </div>
+            
+          </div>
+          <div class="col-sm-4 ps-sm-1 pb-2">
+            <div class="input-group">
+              <span class="input-group-text">{{t("userData.approver")}}</span>
+              <select class="form-select" formControlName="approversEmail">
+                <option *ngFor="let app of approvers" [value]="app.email">{{app.firstName}} {{app.lastName}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary w-100" (click)="register()">{{t("register")}}</button>
+          </div>
+        </div>
+      </div>
       </form>
   </div>
 </div>
