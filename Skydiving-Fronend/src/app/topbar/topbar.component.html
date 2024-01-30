@@ -4,6 +4,12 @@
 <div class="m-4">
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
+            <div>
+                <select class="language" [(ngModel)]="currentLanguage" (change)="changeLanguage($event)">
+                    <option value="pl">PL</option>
+                    <option value="en">EN</option>
+                </select>
+            </div>
             <a href="#" class="navbar-brand">Brand</a>
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>

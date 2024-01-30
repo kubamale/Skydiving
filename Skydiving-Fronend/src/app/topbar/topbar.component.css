@@ -2,3 +2,11 @@
     display: flex;
     justify-content: space-between;
 }
+
+.language{
+    border-radius: 3px;
+    background-color: rgb(40, 40, 40);
+    color: white !important;
+    border-color: transparent;
+    margin-right: 20px;
+}
