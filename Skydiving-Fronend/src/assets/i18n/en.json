@@ -38,6 +38,7 @@
     "noDepMess":"No departures on that day!",
     "close": "close",
     "login": "login",
+    "logout": "Logout",
     "register": "register",
     "delete": "delete",
     "cancel": "cancel",

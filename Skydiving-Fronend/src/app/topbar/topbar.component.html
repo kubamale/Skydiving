@@ -2,7 +2,7 @@
 
 
 <div class="m-4">
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark" *transloco="let t">
         <div class="container-fluid">
             <div>
                 <select class="language" [(ngModel)]="currentLanguage" (change)="changeLanguage($event)">
@@ -18,17 +18,17 @@
                 <div class="navbar-nav">
                     <a href="" class="nav-item nav-link active">Home</a>
                     <a href="menu" class="nav-item nav-link active">Menu</a>
-                    <a href="profile" class="nav-item nav-link active">Profile</a>
+                    <a href="profile" class="nav-item nav-link active">{{t('menu.profile')}}</a>
                 </div>
                 <div class="nav-item dropdown text-white ms-auto" *ngIf="!isUserLoggedIn">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Sign Up</a>
                     <div class="dropdown-menu">
-                        <a href="login" class="dropdown-item">Login</a>
-                        <a href="register" class="dropdown-item">Register</a>
+                        <a href="login" class="dropdown-item">{{t('login')}}</a>
+                        <a href="register" class="dropdown-item">{{t('register')}}</a>
                     </div>
                 </div>
                 <div class="navbar-nav ms-auto" *ngIf="isUserLoggedIn">
-                    <a href="" class="nav-item nav-link" (click)='logout()'>Logout</a>
+                    <a href="" class="nav-item nav-link" (click)='logout()'>{{t('logout')}}</a>
                 </div>
             </div>
         </div>
