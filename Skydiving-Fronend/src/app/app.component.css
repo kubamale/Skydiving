@@ -1,5 +1,12 @@
-.content {
+.center {
+    min-height: 100vh; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.box{
     width: 100%;
-    height: 8%;
-    border: 10px solid red;
+    height: fit-content;
+    padding-top: 56px;
 }
