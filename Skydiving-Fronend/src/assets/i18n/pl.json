@@ -10,7 +10,7 @@
     "license":"Licencja",
     "role": "Rola",
     "jumpType": "Typ Skoku",
-    "approver": "Osoba zatwierdzająca"
+    "approver": "Zatwierdzający"
     },
     "menu":{
         "departures": "Wyloty",
